@@ -8,7 +8,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
@@ -32,7 +31,27 @@ input,textarea,button{font-family:inherit}
 </style>
 </head>
 <body>
-<div id="root"></div>
+<div id="loading" style="min-height:100vh;background:#EDEAE2;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;font-family:Inter,sans-serif;">
+  <div style="width:44px;height:44px;border-radius:10px;background:#487A4C;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff;">GO</div>
+  <div style="font-size:13px;color:#9C9080;">Načítám GOORN…</div>
+</div>
+<div id="root" style="display:none"></div>
+<div id="error-box" style="display:none;min-height:100vh;background:#EDEAE2;align-items:center;justify-content:center;padding:24px;font-family:Inter,sans-serif;">
+  <div style="background:#FAF7F2;border:1px solid #D8D0BE;border-radius:12px;padding:24px;max-width:400px;width:100%">
+    <div style="font-weight:800;color:#B45252;margin-bottom:8px;">Chyba při načítání</div>
+    <div id="error-msg" style="font-size:12px;color:#685E52;line-height:1.6;word-break:break-all;"></div>
+    <button onclick="location.reload()" style="margin-top:14px;padding:8px 16px;background:#487A4C;color:#fff;border:none;border-radius:7px;font-size:13px;cursor:pointer;">Obnovit stránku</button>
+  </div>
+</div>
+<script>
+window.onerror=function(msg,src,line,col,err){
+  document.getElementById('loading').style.display='none';
+  var eb=document.getElementById('error-box');
+  eb.style.display='flex';
+  document.getElementById('error-msg').textContent=(err?err.toString():msg)+' ('+src+':'+line+')';
+  return false;
+};
+</script>
 <script>
 // Firebase init
 const firebaseConfig={
@@ -48,155 +67,406 @@ firebase.initializeApp(firebaseConfig);
 const auth=firebase.auth();
 const db=firebase.firestore();
 </script>
-<script type="text/babel">
-const{useState,useEffect,useRef,useCallback}=React;
+<script>
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+var _excluded = ["size", "color", "strokeWidth", "style"];
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
+function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i.return) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
+function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+var _React = React,
+  useState = _React.useState,
+  useEffect = _React.useEffect,
+  useRef = _React.useRef,
+  useCallback = _React.useCallback;
 
 // ─── DESIGN TOKENS ────────────────────────────────────────────────────────────
-const C={
-  bg:"#EDEAE2",surface:"#F8F5EF",surfaceAlt:"#F2EEE6",
-  border:"#D8D0BE",borderLight:"#E6E0D4",
-  green:"#487A4C",greenPale:"#D4EDD6",
-  greenBright:"#3A7D3E",greenBrightPale:"#BDE8C0",
-  brown:"#7A6249",brownMid:"#A48B6A",brownPale:"#EDE5D4",
-  orange:"#B67248",orangePale:"#F2E6D8",
-  danger:"#B45252",dangerPale:"#F2E4E4",
-  amber:"#8A7040",amberPale:"#F2EAD6",
-  purple:"#7B5EA7",purplePale:"#EDE8F8",
-  text:"#2A2218",textMid:"#685E52",textLight:"#9C9080",
+var C = {
+  bg: "#EDEAE2",
+  surface: "#F8F5EF",
+  surfaceAlt: "#F2EEE6",
+  border: "#D8D0BE",
+  borderLight: "#E6E0D4",
+  green: "#487A4C",
+  greenPale: "#D4EDD6",
+  greenBright: "#3A7D3E",
+  greenBrightPale: "#BDE8C0",
+  brown: "#7A6249",
+  brownMid: "#A48B6A",
+  brownPale: "#EDE5D4",
+  orange: "#B67248",
+  orangePale: "#F2E6D8",
+  danger: "#B45252",
+  dangerPale: "#F2E4E4",
+  amber: "#8A7040",
+  amberPale: "#F2EAD6",
+  purple: "#7B5EA7",
+  purplePale: "#EDE8F8",
+  text: "#2A2218",
+  textMid: "#685E52",
+  textLight: "#9C9080"
 };
 
 // ─── LUCIDE ICONS (inline SVG) ────────────────────────────────────────────────
-const I=(d,extra="")=>({size=16,color="currentColor",strokeWidth=2,style={},...p})=>
-  React.createElement("svg",{xmlns:"http://www.w3.org/2000/svg",width:size,height:size,
-    viewBox:"0 0 24 24",fill:"none",stroke:color,strokeWidth,strokeLinecap:"round",
-    strokeLinejoin:"round",style,...p},
-    ...d.map((x,i)=>React.createElement(...x)));
-
-const Phone=I([["path",{key:0,d:"M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.83a16 16 0 0 0 6.29 6.29l1.93-1.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"}]]);
-const CalendarCheck=I([["rect",{key:0,x:"3",y:"4",width:"18",height:"18",rx:"2",ry:"2"}],["line",{key:1,x1:"16",y1:"2",x2:"16",y2:"6"}],["line",{key:2,x1:"8",y1:"2",x2:"8",y2:"6"}],["line",{key:3,x1:"3",y1:"10",x2:"21",y2:"10"}],["path",{key:4,d:"m9 16 2 2 4-4"}]]);
-const HelpCircle=I([["circle",{key:0,cx:"12",cy:"12",r:"10"}],["path",{key:1,d:"M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"}],["line",{key:2,x1:"12",y1:"17",x2:"12.01",y2:"17"}]]);
-const RefreshCw=I([["polyline",{key:0,points:"23 4 23 10 17 10"}],["polyline",{key:1,points:"1 20 1 14 7 14"}],["path",{key:2,d:"M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"}]]);
-const Wrench=I([["path",{key:0,d:"M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"}]]);
-const UserX=I([["path",{key:0,d:"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"}],["circle",{key:1,cx:"9",cy:"7",r:"4"}],["line",{key:2,x1:"17",y1:"8",x2:"23",y2:"14"}],["line",{key:3,x1:"23",y1:"8",x2:"17",y2:"14"}]]);
-const XCircle=I([["circle",{key:0,cx:"12",cy:"12",r:"10"}],["line",{key:1,x1:"15",y1:"9",x2:"9",y2:"15"}],["line",{key:2,x1:"9",y1:"9",x2:"15",y2:"15"}]]);
-const Ban=I([["circle",{key:0,cx:"12",cy:"12",r:"10"}],["line",{key:1,x1:"4.93",y1:"4.93",x2:"19.07",y2:"19.07"}]]);
-const Clock=I([["circle",{key:0,cx:"12",cy:"12",r:"10"}],["polyline",{key:1,points:"12 6 12 12 16 14"}]]);
-const MoreHorizontal=I([["circle",{key:0,cx:"12",cy:"12",r:"1"}],["circle",{key:1,cx:"19",cy:"12",r:"1"}],["circle",{key:2,cx:"5",cy:"12",r:"1"}]]);
-const Banknote=I([["rect",{key:0,x:"2",y:"6",width:"20",height:"12",rx:"2"}],["circle",{key:1,cx:"12",cy:"12",r:"2"}],["path",{key:2,d:"M6 12h.01M18 12h.01"}]]);
-const DollarSign=I([["line",{key:0,x1:"12",y1:"1",x2:"12",y2:"23"}],["path",{key:1,d:"M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"}]]);
-const BadgeCheck=I([["path",{key:0,d:"M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"}],["path",{key:1,d:"m9 12 2 2 4-4"}]]);
-const Plus=I([["line",{key:0,x1:"12",y1:"5",x2:"12",y2:"19"}],["line",{key:1,x1:"5",y1:"12",x2:"19",y2:"12"}]]);
-const ChevronLeft=I([["polyline",{key:0,points:"15 18 9 12 15 6"}]]);
-const ChevronRight=I([["polyline",{key:0,points:"9 18 15 12 9 6"}]]);
-const ChevronDown=I([["polyline",{key:0,points:"6 9 12 15 18 9"}]]);
-const User=I([["path",{key:0,d:"M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"}],["circle",{key:1,cx:"12",cy:"7",r:"4"}]]);
-const LogOut=I([["path",{key:0,d:"M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"}],["polyline",{key:1,points:"16 17 21 12 16 7"}],["line",{key:2,x1:"21",y1:"12",x2:"9",y2:"12"}]]);
-const Printer=I([["polyline",{key:0,points:"6 9 6 2 18 2 18 9"}],["path",{key:1,d:"M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"}],["rect",{key:2,x:"6",y:"14",width:"12",height:"8"}]]);
-const FileDown=I([["path",{key:0,d:"M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"}],["polyline",{key:1,points:"14 2 14 8 20 8"}],["path",{key:2,d:"M12 18v-6"}],["path",{key:3,d:"m9 15 3 3 3-3"}]]);
-const Cloud=I([["path",{key:0,d:"M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"}]]);
-const Search=I([["circle",{key:0,cx:"11",cy:"11",r:"8"}],["line",{key:1,x1:"21",y1:"21",x2:"16.65",y2:"16.65"}]]);
-const Home=I([["path",{key:0,d:"m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"}],["polyline",{key:1,points:"9 22 9 12 15 12 15 22"}]]);
-const BarChart2=I([["line",{key:0,x1:"18",y1:"20",x2:"18",y2:"10"}],["line",{key:1,x1:"12",y1:"20",x2:"12",y2:"4"}],["line",{key:2,x1:"6",y1:"20",x2:"6",y2:"14"}]]);
-const Package=I([["line",{key:0,x1:"16.5",y1:"9.4",x2:"7.55",y2:"4.24"}],["path",{key:1,d:"M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"}],["polyline",{key:2,points:"3.27 6.96 12 12.01 20.73 6.96"}],["line",{key:3,x1:"12",y1:"22.08",x2:"12",y2:"12"}]]);
-const Settings=I([["circle",{key:0,cx:"12",cy:"12",r:"3"}],["path",{key:1,d:"M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"}]]);
-const Menu=I([["line",{key:0,x1:"3",y1:"12",x2:"21",y2:"12"}],["line",{key:1,x1:"3",y1:"6",x2:"21",y2:"6"}],["line",{key:2,x1:"3",y1:"18",x2:"21",y2:"18"}]]);
-const Edit3=I([["path",{key:0,d:"M12 20h9"}],["path",{key:1,d:"M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"}]]);
-const X=I([["line",{key:0,x1:"18",y1:"6",x2:"6",y2:"18"}],["line",{key:1,x1:"6",y1:"6",x2:"18",y2:"18"}]]);
-const Save=I([["path",{key:0,d:"M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"}],["polyline",{key:1,points:"17 21 17 13 7 13 7 21"}],["polyline",{key:2,points:"7 3 7 8 15 8"}]]);
-const Check=I([["polyline",{key:0,points:"20 6 9 17 4 12"}]]);
-const Target=I([["circle",{key:0,cx:"12",cy:"12",r:"10"}],["circle",{key:1,cx:"12",cy:"12",r:"6"}],["circle",{key:2,cx:"12",cy:"12",r:"2"}]]);
-const TrendingUp=I([["polyline",{key:0,points:"23 6 13.5 15.5 8.5 10.5 1 18"}],["polyline",{key:1,points:"17 6 23 6 23 12"}]]);
-const CheckCircle2=I([["circle",{key:0,cx:"12",cy:"12",r:"10"}],["path",{key:1,d:"m9 12 2 2 4-4"}]]);
-const AlertTriangle=I([["path",{key:0,d:"m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"}],["line",{key:1,x1:"12",y1:"9",x2:"12",y2:"13"}],["line",{key:2,x1:"12",y1:"17",x2:"12.01",y2:"17"}]]);
-const CalendarPlus=I([["rect",{key:0,x:"3",y:"4",width:"18",height:"18",rx:"2",ry:"2"}],["line",{key:1,x1:"16",y1:"2",x2:"16",y2:"6"}],["line",{key:2,x1:"8",y1:"2",x2:"8",y2:"6"}],["line",{key:3,x1:"3",y1:"10",x2:"21",y2:"10"}],["line",{key:4,x1:"12",y1:"15",x2:"12",y2:"19"}],["line",{key:5,x1:"10",y1:"17",x2:"14",y2:"17"}]]);
-const CalendarOff=I([["path",{key:0,d:"M4.18 4.18A2 2 0 0 0 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 1.82-1.18"}],["path",{key:1,d:"M21 15.5V6a2 2 0 0 0-2-2H9.5"}],["path",{key:2,d:"M16 2v4"}],["path",{key:3,d:"M3 10h7"}],["path",{key:4,d:"M21 10h-5.5"}],["line",{key:5,x1:"2",y1:"2",x2:"22",y2:"22"}]]);
-
-// ─── STATUS CONFIG ────────────────────────────────────────────────────────────
-const PROC=[
-  {id:"call",      label:"Zavolat",                icon:Phone,         color:C.orange,        pale:C.orangePale},
-  {id:"agreed",    label:"Domluvený termín",       icon:CalendarCheck, color:C.green,         pale:C.greenPale},
-  {id:"thinking",  label:"Přemýšlí",               icon:HelpCircle,    color:C.brownMid,      pale:C.brownPale},
-  {id:"followup",  label:"Follow-up",              icon:RefreshCw,     color:C.amber,         pale:C.amberPale},
-  {id:"real",      label:"Realizace",              icon:Wrench,        color:C.greenBright,   pale:C.greenBrightPale},
-  {id:"done",      label:"Ukončeno",               icon:UserX,         color:C.purple,        pale:C.purplePale},
-  {id:"cancelled", label:"Zrušeno",                icon:XCircle,       color:C.danger,        pale:C.dangerPale},
-  {id:"cancelledR",label:"Zrušená realizace",      icon:Ban,           color:"#C0502A",       pale:"#F5E0D8"},
-  {id:"future",    label:"Ozvat se v budoucnosti", icon:Clock,         color:C.brownMid,      pale:C.brownPale},
-  {id:"other",     label:"Jiné",                   icon:MoreHorizontal,color:C.textLight,     pale:C.surfaceAlt},
-];
-const REAL=[
-  {id:null,       label:"—",               icon:null,    color:C.textLight,   pale:C.surfaceAlt},
-  {id:"realized", label:"Instalováno",     icon:Wrench,  color:C.greenBright, pale:C.greenBrightPale},
-  {id:"notdone",  label:"Nenainstalováno", icon:XCircle, color:C.danger,      pale:C.dangerPale},
-];
-const FIN=[
-  {id:null,   label:"—",                   icon:null,       color:C.textLight, pale:C.surfaceAlt},
-  {id:"comm1",label:"1. část provize",     icon:Banknote,   color:C.orange,    pale:C.orangePale},
-  {id:"comm2",label:"2. část provize",     icon:DollarSign, color:C.brown,     pale:C.brownPale},
-  {id:"paid", label:"Kompletně zaplaceno", icon:BadgeCheck, color:C.green,     pale:C.greenPale},
-];
-const procById=Object.fromEntries(PROC.map(s=>[s.id,s]));
-const finById=Object.fromEntries(FIN.map(s=>[s.id,s]));
-const uid=()=>`${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
-const fmtDate=(d,t)=>{if(!d)return "";const dt=new Date(d+"T00:00:00");return `${dt.getDate()}.${dt.getMonth()+1}.${t?" "+t:""}`;};
-const MONTHS=["Led","Úno","Bře","Dub","Kvě","Čvn","Čvc","Srp","Zář","Říj","Lis","Pro"];
-
-
-// ─── GOOGLE CALENDAR API ──────────────────────────────────────────────────────
-const CAL_SCOPE='https://www.googleapis.com/auth/calendar.events';
-const CAL_BASE='https://www.googleapis.com/calendar/v3/calendars/primary/events';
-const addHour=t=>{const[h,m]=t.split(':').map(Number);return `${String((h+1)%24).padStart(2,'0')}:${String(m).padStart(2,'0')}`;};
-const makeCalEvent=order=>{
-  const proc=procById[order.processStatus]||PROC[0];
-  const hasTime=!!order.visitTime;
-  return{
-    summary:`GOORN: ${order.name} – ${order.city}`,
-    description:['Prezentace přístroje osmotického odvlhčování zdiva',`Status: ${proc.label}`,order.notes?`Poznámka: ${order.notes}`:''].filter(Boolean).join('\n'),
-    start:hasTime?{dateTime:`${order.visitDate}T${order.visitTime}:00`,timeZone:'Europe/Prague'}:{date:order.visitDate},
-    end:hasTime?{dateTime:`${order.visitDate}T${addHour(order.visitTime)}:00`,timeZone:'Europe/Prague'}:{date:order.visitDate},
-    colorId:'2',
-    reminders:{useDefault:false,overrides:[{method:'popup',minutes:1440},{method:'popup',minutes:120},{method:'popup',minutes:30}]},
+var I = function I(d) {
+  var extra = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
+  return function (_ref) {
+    var _React2;
+    var _ref$size = _ref.size,
+      size = _ref$size === void 0 ? 16 : _ref$size,
+      _ref$color = _ref.color,
+      color = _ref$color === void 0 ? "currentColor" : _ref$color,
+      _ref$strokeWidth = _ref.strokeWidth,
+      strokeWidth = _ref$strokeWidth === void 0 ? 2 : _ref$strokeWidth,
+      _ref$style = _ref.style,
+      style = _ref$style === void 0 ? {} : _ref$style,
+      p = _objectWithoutProperties(_ref, _excluded);
+    return (_React2 = React).createElement.apply(_React2, ["svg", _objectSpread({
+      xmlns: "http://www.w3.org/2000/svg",
+      width: size,
+      height: size,
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: color,
+      strokeWidth: strokeWidth,
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      style: style
+    }, p)].concat(_toConsumableArray(d.map(function (x, i) {
+      var _React3;
+      return (_React3 = React).createElement.apply(_React3, _toConsumableArray(x));
+    }))));
   };
 };
-const calApi={
-  create:async(order,token)=>{
-    const r=await fetch(CAL_BASE,{method:'POST',headers:{'Authorization':`Bearer ${token}`,'Content-Type':'application/json'},body:JSON.stringify(makeCalEvent(order))});
-    if(r.status===401)return{error:'auth'};return r.json();
-  },
-  update:async(eventId,order,token)=>{
-    const r=await fetch(`${CAL_BASE}/${eventId}`,{method:'PUT',headers:{'Authorization':`Bearer ${token}`,'Content-Type':'application/json'},body:JSON.stringify(makeCalEvent(order))});
-    if(r.status===401)return{error:'auth'};if(r.status===404)return{error:'notfound'};return r.json();
-  },
-  del:async(eventId,token)=>{
-    const r=await fetch(`${CAL_BASE}/${eventId}`,{method:'DELETE',headers:{'Authorization':`Bearer ${token}`}});
-    if(r.status===401)return{error:'auth'};return{ok:true};
-  },
-};
-
-// ─── COMPLETE DATASET ─────────────────────────────────────────────────────────
-const INITIAL_DATA=[
-  // ══ 2026 ══════════════════════════════════════════════════════════════════
-  {id:uid(),year:2026,num:1, name:"Lhotská",          city:"Sadová",              visitDate:"2026-01-07",visitTime:"",     processStatus:"future",    realStatus:null,       finStatus:null,   notes:"Zájem – zavolat červen 2026"},
-  {id:uid(),year:2026,num:2, name:"Bohadlová",         city:"N.Město p.Smr.",      visitDate:"2026-01-09",visitTime:"",     processStatus:"cancelled", realStatus:null,       finStatus:null,   notes:"Dotace – zakázána"},
-  {id:uid(),year:2026,num:3, name:"Cink",              city:"Svatý Petr",          visitDate:"2026-01-15",visitTime:"",     processStatus:"real",      realStatus:"realized", finStatus:"paid", notes:"Instalace 12.2"},
-  {id:uid(),year:2026,num:4, name:"Hovorková",         city:"Vlkov",               visitDate:"2026-01-16",visitTime:"",     processStatus:"cancelled", realStatus:null,       finStatus:null,   notes:"Zaslán e-mail"},
-  {id:uid(),year:2026,num:5, name:"Krtička",           city:"Turnov / 2 domy",     visitDate:"2026-01-23",visitTime:"",     processStatus:"thinking",  realStatus:null,       finStatus:null,   notes:"📞 čeká zákazník – on zavolá"},
-  {id:uid(),year:2026,num:6, name:"Pírko",             city:"Roudnice",            visitDate:"2026-01-20",visitTime:"",     processStatus:"cancelled", realStatus:null,       finStatus:null,   notes:"Zrušeno (bylo domluveno)"},
-  {id:uid(),year:2026,num:7, name:"Šimková",           city:"Nymburk",             visitDate:"2026-01-23",visitTime:"",     processStatus:"real",      realStatus:"realized", finStatus:"paid", notes:"Instalace 28.1"},
-  {id:uid(),year:2026,num:8, name:"Svatoň",            city:"Smržov / Smiřice",    visitDate:"2026-01-20",visitTime:"",     processStatus:"done",      realStatus:null,       finStatus:null,   notes:"📞 10.2 – bez odezvy, ukončeno"},
-  {id:uid(),year:2026,num:9, name:"Bužiková",          city:"Smidary",             visitDate:"2026-01-27",visitTime:"",     processStatus:"cancelled", realStatus:null,       finStatus:null,   notes:""},
-  {id:uid(),year:2026,num:10,name:"Jeřábková",         city:"Stará Paka",          visitDate:"2026-02-03",visitTime:"",     processStatus:"real",      realStatus:"realized", finStatus:"paid", notes:"Instalace 12.2"},
-  {id:uid(),year:2026,num:11,name:"Zörner",            city:"Předměřice n/L",      visitDate:"2026-02-04",visitTime:"",     processStatus:"followup",  realStatus:null,       finStatus:null,   notes:"Zavolat červen 2026 – já iniciuji"},
-  {id:uid(),year:2026,num:12,name:"Kaplan",            city:"Maršov / Úpice",      visitDate:"2026-04-13",visitTime:"",     processStatus:"call",      realStatus:null,       finStatus:null,   notes:"☎ 13.4 pondělí – urgentní!"},
-  {id:uid(),year:2026,num:13,name:"Dlab",              city:"D.Javoří (L.Běl.)",   visitDate:"2026-02-26",visitTime:"",     processStatus:"cancelled", realStatus:null,       finStatus:null,   notes:""},
-  {id:uid(),year:2026,num:14,name:"Němec",             city:"Česká Lípa",          visitDate:"2026-03-02",visitTime:"",     processStatus:"cancelled", realStatus:null,       finStatus:null,   notes:""},
-  {id:uid(),year:2026,num:15,name:"Milde",             city:"Sosnová / ČL",        visitDate:"2026-03-02",visitTime:"",     processStatus:"cancelled", realStatus:null,       finStatus:null,   notes:""},
-  {id:uid(),year:2026,num:16,name:"Horčička",          city:"Hodkovice n.Moh.",    visitDate:"2026-03-05",visitTime:"",     processStatus:"cancelled", realStatus:null,       finStatus:null,   notes:""},
-  {id:uid(),year:2026,num:17,name:"Andrš",             city:"Frýdlant v Č.",       visitDate:"2026-03-05",visitTime:"",     processStatus:"cancelled", realStatus:null,       finStatus:null,   notes:""},
-  {id:uid(),year:2026,num:18,name:"Čermáková",         city:"Bílý Kostel n/N",     visitDate:"2026-03-06",visitTime:"",     processStatus:"real",      realStatus:null,       finStatus:"comm1",notes:"Reference"},
-  {id:uid(),year:2026,num:19,name:"Paroulek",          city:"Janov n/N",           visitDate:"2026-03-06",visitTime:"",     processStatus:"real",      realStatus:null,       finStatus:"comm1",notes:"Faktura +30 dní"},
-  {id:uid(),year:2026,num:20,name:"Hnilička",          city:"Benecko",             visitDate:"2026-03-24",visitTime:"",     processStatus:"future",    realStatus:null,       finStatus:null,   notes:"Odkládá na 09/2026"},
-  {id:uid(),year:2026,num:21,name:"Hanuš",             city:"Víchová n.J.",         visitDate:"",          visitTime:"",     processStatus:"call",      realStatus:null,       finStatus:null,   notes:"Poslat SMS! – urgentní"},
-  {id:uid(),year:2026,num:22,name:"Pelanta",           city:"Stráž n/Nisou",       visitDate:"2026-04-10",visitTime:"",     processStatus:"thinking",  realStatus:null,       finStatus:null,   notes:"Konec dubna – zavolat, urgentní"},
-  {id:uid(),year:2026,num:23,name:"Pokorná",           city:"Železný Brod",        visitDate:"2026-04-10",visitTime:"",     processStatus:"real",      realStatus:"realized", finStatus:"paid", notes:"Instalace (datum ?)"},
-  {id:uid(),year:2026,num:0, name:"Urbancová (XX)",    city:"Zásada",              visitDate:"2026-04-10",visitTime:"",     processStatus:"cancelledR",realStatus:null,       finStatus:null,   notes:"Zrušena prohlídka – ne
+var Phone = I([["path", {
+  key: 0,
+  d: "M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.83a16 16 0 0 0 6.29 6.29l1.93-1.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"
+}]]);
+var CalendarCheck = I([["rect", {
+  key: 0,
+  x: "3",
+  y: "4",
+  width: "18",
+  height: "18",
+  rx: "2",
+  ry: "2"
+}], ["line", {
+  key: 1,
+  x1: "16",
+  y1: "2",
+  x2: "16",
+  y2: "6"
+}], ["line", {
+  key: 2,
+  x1: "8",
+  y1: "2",
+  x2: "8",
+  y2: "6"
+}], ["line", {
+  key: 3,
+  x1: "3",
+  y1: "10",
+  x2: "21",
+  y2: "10"
+}], ["path", {
+  key: 4,
+  d: "m9 16 2 2 4-4"
+}]]);
+var HelpCircle = I([["circle", {
+  key: 0,
+  cx: "12",
+  cy: "12",
+  r: "10"
+}], ["path", {
+  key: 1,
+  d: "M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"
+}], ["line", {
+  key: 2,
+  x1: "12",
+  y1: "17",
+  x2: "12.01",
+  y2: "17"
+}]]);
+var RefreshCw = I([["polyline", {
+  key: 0,
+  points: "23 4 23 10 17 10"
+}], ["polyline", {
+  key: 1,
+  points: "1 20 1 14 7 14"
+}], ["path", {
+  key: 2,
+  d: "M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"
+}]]);
+var Wrench = I([["path", {
+  key: 0,
+  d: "M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"
+}]]);
+var UserX = I([["path", {
+  key: 0,
+  d: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"
+}], ["circle", {
+  key: 1,
+  cx: "9",
+  cy: "7",
+  r: "4"
+}], ["line", {
+  key: 2,
+  x1: "17",
+  y1: "8",
+  x2: "23",
+  y2: "14"
+}], ["line", {
+  key: 3,
+  x1: "23",
+  y1: "8",
+  x2: "17",
+  y2: "14"
+}]]);
+var XCircle = I([["circle", {
+  key: 0,
+  cx: "12",
+  cy: "12",
+  r: "10"
+}], ["line", {
+  key: 1,
+  x1: "15",
+  y1: "9",
+  x2: "9",
+  y2: "15"
+}], ["line", {
+  key: 2,
+  x1: "9",
+  y1: "9",
+  x2: "15",
+  y2: "15"
+}]]);
+var Ban = I([["circle", {
+  key: 0,
+  cx: "12",
+  cy: "12",
+  r: "10"
+}], ["line", {
+  key: 1,
+  x1: "4.93",
+  y1: "4.93",
+  x2: "19.07",
+  y2: "19.07"
+}]]);
+var Clock = I([["circle", {
+  key: 0,
+  cx: "12",
+  cy: "12",
+  r: "10"
+}], ["polyline", {
+  key: 1,
+  points: "12 6 12 12 16 14"
+}]]);
+var MoreHorizontal = I([["circle", {
+  key: 0,
+  cx: "12",
+  cy: "12",
+  r: "1"
+}], ["circle", {
+  key: 1,
+  cx: "19",
+  cy: "12",
+  r: "1"
+}], ["circle", {
+  key: 2,
+  cx: "5",
+  cy: "12",
+  r: "1"
+}]]);
+var Banknote = I([["rect", {
+  key: 0,
+  x: "2",
+  y: "6",
+  width: "20",
+  height: "12",
+  rx: "2"
+}], ["circle", {
+  key: 1,
+  cx: "12",
+  cy: "12",
+  r: "2"
+}], ["path", {
+  key: 2,
+  d: "M6 12h.01M18 12h.01"
+}]]);
+var DollarSign = I([["line", {
+  key: 0,
+  x1: "12",
+  y1: "1",
+  x2: "12",
+  y2: "23"
+}], ["path", {
+  key: 1,
+  d: "M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"
+}]]);
+var BadgeCheck = I([["path", {
+  key: 0,
+  d: "M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"
+}], ["path", {
+  key: 1,
+  d: "m9 12 2 2 4-4"
+}]]);
+var Plus = I([["line", {
+  key: 0,
+  x1: "12",
+  y1: "5",
+  x2: "12",
+  y2: "19"
+}], ["line", {
+  key: 1,
+  x1: "5",
+  y1: "12",
+  x2: "19",
+  y2: "12"
+}]]);
+var ChevronLeft = I([["polyline", {
+  key: 0,
+  points: "15 18 9 12 15 6"
+}]]);
+var ChevronRight = I([["polyline", {
+  key: 0,
+  points: "9 18 15 12 9 6"
+}]]);
+var ChevronDown = I([["polyline", {
+  key: 0,
+  points: "6 9 12 15 18 9"
+}]]);
+var User = I([["path", {
+  key: 0,
+  d: "M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
+}], ["circle", {
+  key: 1,
+  cx: "12",
+  cy: "7",
+  r: "4"
+}]]);
+var LogOut = I([["path", {
+  key: 0,
+  d: "M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"
+}], ["polyline", {
+  key: 1,
+  points: "16 17 21 12 16 7"
+}], ["line", {
+  key: 2,
+  x1: "21",
+  y1: "12",
+  x2: "9",
+  y2: "12"
+}]]);
+var Printer = I([["polyline", {
+  key: 0,
+  points: "6 9 6 2 18 2 18 9"
+}], ["path", {
+  key: 1,
+  d: "M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"
+}], ["rect", {
+  key: 2,
+  x: "6",
+  y: "14",
+  width: "12",
+  height: "8"
+}]]);
+var FileDown = I([["path", {
+  key: 0,
+  d: "M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"
+}], ["polyline", {
+  key: 1,
+  points: "14 2 14 8 20 8"
+}], ["path", {
+  key: 2,
+  d: "M12 18v-6"
+}], ["path", {
+  key: 3,
+  d: "m9 15 3 3 3-3"
+}]]);
+var Cloud = I([["path", {
+  key: 0,
+  d: "M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"
+}]]);
+var Search = I([["circle", {
+  key: 0,
+  cx: "11",
+  cy: "11",
+  r: "8"
+}], ["line", {
+  key: 1,
+  x1: "21",
+  y1: "21",
+  x2: "16.65",
+  y2: "16.65"
+}]]);
+var Home = I([["path", {
+  key: 0,
+  d: "m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
+}], ["polyline", {
+  key: 1,
+  points: "9 22 9 12 15 12 15 22"
+}]]);
+var BarChart2 = I([["line", {
+  key: 0,
+  x1: "18",
+  y1: "20",
+  x2: "18",
+  y2: "10"
+}], ["line", {
+  key: 1,
+  x1: "12",
+  y1: "20",
+  x2: "12",
+  y2: "4"
+}], ["line", {
+  key: 2,
+  x1: "6",
+  y1: "20",
+  x2: "6",
+  y2: "14"
+}]]);
+var Package = I([["line", {
+  key: 0,
+  x1: "16.5",
+  y1: "9.4",
+  x2: "7.55",
+  y2: "4.24"
+}], ["path", {
+  key: 1,
+  d: "M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"
+}], ["polyline", {
+  key: 2,
+  points: "3.27 6.96 12 12.01 20.73 6.96"
+}], ["line", {
+  key: 3,
+  x1: "12",
+  y1: "22.08",
+  x2: "12",
+  y2: "12"
+}]]);
+var Settings = I([["circle", {
+  key: 0,
+  cx: "12",
+  cy: "12",
+  r: "3"
+}], ["path", {
+  key: 1,
+  d: "M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a
