@@ -68,38 +68,20 @@ const auth=firebase.auth();
 const db=firebase.firestore();
 </script>
 <script>
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-var _excluded = ["size", "color", "strokeWidth", "style"];
+(function(){
+"use strict";
+"use strict";
+
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
-function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i.return) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
-function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
-function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
-function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
-function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
-function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
-function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
-function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
-function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
-function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
-var _React = React,
-  useState = _React.useState,
-  useEffect = _React.useEffect,
-  useRef = _React.useRef,
-  useCallback = _React.useCallback;
+const {
+  useState,
+  useEffect,
+  useRef,
+  useCallback
+} = React;
 
 // ─── DESIGN TOKENS ────────────────────────────────────────────────────────────
-var C = {
+const C = {
   bg: "#EDEAE2",
   surface: "#F8F5EF",
   surfaceAlt: "#F2EEE6",
@@ -126,41 +108,30 @@ var C = {
 };
 
 // ─── LUCIDE ICONS (inline SVG) ────────────────────────────────────────────────
-var I = function I(d) {
-  var extra = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
-  return function (_ref) {
-    var _React2;
-    var _ref$size = _ref.size,
-      size = _ref$size === void 0 ? 16 : _ref$size,
-      _ref$color = _ref.color,
-      color = _ref$color === void 0 ? "currentColor" : _ref$color,
-      _ref$strokeWidth = _ref.strokeWidth,
-      strokeWidth = _ref$strokeWidth === void 0 ? 2 : _ref$strokeWidth,
-      _ref$style = _ref.style,
-      style = _ref$style === void 0 ? {} : _ref$style,
-      p = _objectWithoutProperties(_ref, _excluded);
-    return (_React2 = React).createElement.apply(_React2, ["svg", _objectSpread({
-      xmlns: "http://www.w3.org/2000/svg",
-      width: size,
-      height: size,
-      viewBox: "0 0 24 24",
-      fill: "none",
-      stroke: color,
-      strokeWidth: strokeWidth,
-      strokeLinecap: "round",
-      strokeLinejoin: "round",
-      style: style
-    }, p)].concat(_toConsumableArray(d.map(function (x, i) {
-      var _React3;
-      return (_React3 = React).createElement.apply(_React3, _toConsumableArray(x));
-    }))));
-  };
-};
-var Phone = I([["path", {
+const I = (d, extra = "") => ({
+  size = 16,
+  color = "currentColor",
+  strokeWidth = 2,
+  style = {},
+  ...p
+}) => React.createElement("svg", {
+  xmlns: "http://www.w3.org/2000/svg",
+  width: size,
+  height: size,
+  viewBox: "0 0 24 24",
+  fill: "none",
+  stroke: color,
+  strokeWidth,
+  strokeLinecap: "round",
+  strokeLinejoin: "round",
+  style,
+  ...p
+}, ...d.map((x, i) => React.createElement(...x)));
+const Phone = I([["path", {
   key: 0,
   d: "M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.83a16 16 0 0 0 6.29 6.29l1.93-1.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"
 }]]);
-var CalendarCheck = I([["rect", {
+const CalendarCheck = I([["rect", {
   key: 0,
   x: "3",
   y: "4",
@@ -190,7 +161,7 @@ var CalendarCheck = I([["rect", {
   key: 4,
   d: "m9 16 2 2 4-4"
 }]]);
-var HelpCircle = I([["circle", {
+const HelpCircle = I([["circle", {
   key: 0,
   cx: "12",
   cy: "12",
@@ -205,7 +176,7 @@ var HelpCircle = I([["circle", {
   x2: "12.01",
   y2: "17"
 }]]);
-var RefreshCw = I([["polyline", {
+const RefreshCw = I([["polyline", {
   key: 0,
   points: "23 4 23 10 17 10"
 }], ["polyline", {
@@ -215,11 +186,11 @@ var RefreshCw = I([["polyline", {
   key: 2,
   d: "M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"
 }]]);
-var Wrench = I([["path", {
+const Wrench = I([["path", {
   key: 0,
   d: "M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"
 }]]);
-var UserX = I([["path", {
+const UserX = I([["path", {
   key: 0,
   d: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"
 }], ["circle", {
@@ -240,7 +211,7 @@ var UserX = I([["path", {
   x2: "17",
   y2: "14"
 }]]);
-var XCircle = I([["circle", {
+const XCircle = I([["circle", {
   key: 0,
   cx: "12",
   cy: "12",
@@ -258,7 +229,7 @@ var XCircle = I([["circle", {
   x2: "15",
   y2: "15"
 }]]);
-var Ban = I([["circle", {
+const Ban = I([["circle", {
   key: 0,
   cx: "12",
   cy: "12",
@@ -270,7 +241,7 @@ var Ban = I([["circle", {
   x2: "19.07",
   y2: "19.07"
 }]]);
-var Clock = I([["circle", {
+const Clock = I([["circle", {
   key: 0,
   cx: "12",
   cy: "12",
@@ -279,7 +250,7 @@ var Clock = I([["circle", {
   key: 1,
   points: "12 6 12 12 16 14"
 }]]);
-var MoreHorizontal = I([["circle", {
+const MoreHorizontal = I([["circle", {
   key: 0,
   cx: "12",
   cy: "12",
@@ -295,7 +266,7 @@ var MoreHorizontal = I([["circle", {
   cy: "12",
   r: "1"
 }]]);
-var Banknote = I([["rect", {
+const Banknote = I([["rect", {
   key: 0,
   x: "2",
   y: "6",
@@ -311,7 +282,7 @@ var Banknote = I([["rect", {
   key: 2,
   d: "M6 12h.01M18 12h.01"
 }]]);
-var DollarSign = I([["line", {
+const DollarSign = I([["line", {
   key: 0,
   x1: "12",
   y1: "1",
@@ -321,14 +292,14 @@ var DollarSign = I([["line", {
   key: 1,
   d: "M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"
 }]]);
-var BadgeCheck = I([["path", {
+const BadgeCheck = I([["path", {
   key: 0,
   d: "M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"
 }], ["path", {
   key: 1,
   d: "m9 12 2 2 4-4"
 }]]);
-var Plus = I([["line", {
+const Plus = I([["line", {
   key: 0,
   x1: "12",
   y1: "5",
@@ -341,19 +312,19 @@ var Plus = I([["line", {
   x2: "19",
   y2: "12"
 }]]);
-var ChevronLeft = I([["polyline", {
+const ChevronLeft = I([["polyline", {
   key: 0,
   points: "15 18 9 12 15 6"
 }]]);
-var ChevronRight = I([["polyline", {
+const ChevronRight = I([["polyline", {
   key: 0,
   points: "9 18 15 12 9 6"
 }]]);
-var ChevronDown = I([["polyline", {
+const ChevronDown = I([["polyline", {
   key: 0,
   points: "6 9 12 15 18 9"
 }]]);
-var User = I([["path", {
+const User = I([["path", {
   key: 0,
   d: "M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
 }], ["circle", {
@@ -362,7 +333,7 @@ var User = I([["path", {
   cy: "7",
   r: "4"
 }]]);
-var LogOut = I([["path", {
+const LogOut = I([["path", {
   key: 0,
   d: "M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"
 }], ["polyline", {
@@ -375,7 +346,7 @@ var LogOut = I([["path", {
   x2: "9",
   y2: "12"
 }]]);
-var Printer = I([["polyline", {
+const Printer = I([["polyline", {
   key: 0,
   points: "6 9 6 2 18 2 18 9"
 }], ["path", {
@@ -388,7 +359,7 @@ var Printer = I([["polyline", {
   width: "12",
   height: "8"
 }]]);
-var FileDown = I([["path", {
+const FileDown = I([["path", {
   key: 0,
   d: "M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"
 }], ["polyline", {
@@ -401,11 +372,11 @@ var FileDown = I([["path", {
   key: 3,
   d: "m9 15 3 3 3-3"
 }]]);
-var Cloud = I([["path", {
+const Cloud = I([["path", {
   key: 0,
   d: "M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"
 }]]);
-var Search = I([["circle", {
+const Search = I([["circle", {
   key: 0,
   cx: "11",
   cy: "11",
@@ -417,14 +388,14 @@ var Search = I([["circle", {
   x2: "16.65",
   y2: "16.65"
 }]]);
-var Home = I([["path", {
+const Home = I([["path", {
   key: 0,
   d: "m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
 }], ["polyline", {
   key: 1,
   points: "9 22 9 12 15 12 15 22"
 }]]);
-var BarChart2 = I([["line", {
+const BarChart2 = I([["line", {
   key: 0,
   x1: "18",
   y1: "20",
@@ -443,7 +414,7 @@ var BarChart2 = I([["line", {
   x2: "6",
   y2: "14"
 }]]);
-var Package = I([["line", {
+const Package = I([["line", {
   key: 0,
   x1: "16.5",
   y1: "9.4",
@@ -462,11 +433,4173 @@ var Package = I([["line", {
   x2: "12",
   y2: "12"
 }]]);
-var Settings = I([["circle", {
+const Settings = I([["circle", {
   key: 0,
   cx: "12",
   cy: "12",
   r: "3"
 }], ["path", {
   key: 1,
-  d: "M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a
+  d: "M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"
+}]]);
+const Menu = I([["line", {
+  key: 0,
+  x1: "3",
+  y1: "12",
+  x2: "21",
+  y2: "12"
+}], ["line", {
+  key: 1,
+  x1: "3",
+  y1: "6",
+  x2: "21",
+  y2: "6"
+}], ["line", {
+  key: 2,
+  x1: "3",
+  y1: "18",
+  x2: "21",
+  y2: "18"
+}]]);
+const Edit3 = I([["path", {
+  key: 0,
+  d: "M12 20h9"
+}], ["path", {
+  key: 1,
+  d: "M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"
+}]]);
+const X = I([["line", {
+  key: 0,
+  x1: "18",
+  y1: "6",
+  x2: "6",
+  y2: "18"
+}], ["line", {
+  key: 1,
+  x1: "6",
+  y1: "6",
+  x2: "18",
+  y2: "18"
+}]]);
+const Save = I([["path", {
+  key: 0,
+  d: "M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"
+}], ["polyline", {
+  key: 1,
+  points: "17 21 17 13 7 13 7 21"
+}], ["polyline", {
+  key: 2,
+  points: "7 3 7 8 15 8"
+}]]);
+const Check = I([["polyline", {
+  key: 0,
+  points: "20 6 9 17 4 12"
+}]]);
+const Target = I([["circle", {
+  key: 0,
+  cx: "12",
+  cy: "12",
+  r: "10"
+}], ["circle", {
+  key: 1,
+  cx: "12",
+  cy: "12",
+  r: "6"
+}], ["circle", {
+  key: 2,
+  cx: "12",
+  cy: "12",
+  r: "2"
+}]]);
+const TrendingUp = I([["polyline", {
+  key: 0,
+  points: "23 6 13.5 15.5 8.5 10.5 1 18"
+}], ["polyline", {
+  key: 1,
+  points: "17 6 23 6 23 12"
+}]]);
+const CheckCircle2 = I([["circle", {
+  key: 0,
+  cx: "12",
+  cy: "12",
+  r: "10"
+}], ["path", {
+  key: 1,
+  d: "m9 12 2 2 4-4"
+}]]);
+const AlertTriangle = I([["path", {
+  key: 0,
+  d: "m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"
+}], ["line", {
+  key: 1,
+  x1: "12",
+  y1: "9",
+  x2: "12",
+  y2: "13"
+}], ["line", {
+  key: 2,
+  x1: "12",
+  y1: "17",
+  x2: "12.01",
+  y2: "17"
+}]]);
+const CalendarPlus = I([["rect", {
+  key: 0,
+  x: "3",
+  y: "4",
+  width: "18",
+  height: "18",
+  rx: "2",
+  ry: "2"
+}], ["line", {
+  key: 1,
+  x1: "16",
+  y1: "2",
+  x2: "16",
+  y2: "6"
+}], ["line", {
+  key: 2,
+  x1: "8",
+  y1: "2",
+  x2: "8",
+  y2: "6"
+}], ["line", {
+  key: 3,
+  x1: "3",
+  y1: "10",
+  x2: "21",
+  y2: "10"
+}], ["line", {
+  key: 4,
+  x1: "12",
+  y1: "15",
+  x2: "12",
+  y2: "19"
+}], ["line", {
+  key: 5,
+  x1: "10",
+  y1: "17",
+  x2: "14",
+  y2: "17"
+}]]);
+const CalendarOff = I([["path", {
+  key: 0,
+  d: "M4.18 4.18A2 2 0 0 0 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 1.82-1.18"
+}], ["path", {
+  key: 1,
+  d: "M21 15.5V6a2 2 0 0 0-2-2H9.5"
+}], ["path", {
+  key: 2,
+  d: "M16 2v4"
+}], ["path", {
+  key: 3,
+  d: "M3 10h7"
+}], ["path", {
+  key: 4,
+  d: "M21 10h-5.5"
+}], ["line", {
+  key: 5,
+  x1: "2",
+  y1: "2",
+  x2: "22",
+  y2: "22"
+}]]);
+
+// ─── STATUS CONFIG ────────────────────────────────────────────────────────────
+const PROC = [{
+  id: "call",
+  label: "Zavolat",
+  icon: Phone,
+  color: C.orange,
+  pale: C.orangePale
+}, {
+  id: "agreed",
+  label: "Domluvený termín",
+  icon: CalendarCheck,
+  color: C.green,
+  pale: C.greenPale
+}, {
+  id: "thinking",
+  label: "Přemýšlí",
+  icon: HelpCircle,
+  color: C.brownMid,
+  pale: C.brownPale
+}, {
+  id: "followup",
+  label: "Follow-up",
+  icon: RefreshCw,
+  color: C.amber,
+  pale: C.amberPale
+}, {
+  id: "real",
+  label: "Realizace",
+  icon: Wrench,
+  color: C.greenBright,
+  pale: C.greenBrightPale
+}, {
+  id: "done",
+  label: "Ukončeno",
+  icon: UserX,
+  color: C.purple,
+  pale: C.purplePale
+}, {
+  id: "cancelled",
+  label: "Zrušeno",
+  icon: XCircle,
+  color: C.danger,
+  pale: C.dangerPale
+}, {
+  id: "cancelledR",
+  label: "Zrušená realizace",
+  icon: Ban,
+  color: "#C0502A",
+  pale: "#F5E0D8"
+}, {
+  id: "future",
+  label: "Ozvat se v budoucnosti",
+  icon: Clock,
+  color: C.brownMid,
+  pale: C.brownPale
+}, {
+  id: "other",
+  label: "Jiné",
+  icon: MoreHorizontal,
+  color: C.textLight,
+  pale: C.surfaceAlt
+}];
+const REAL = [{
+  id: null,
+  label: "—",
+  icon: null,
+  color: C.textLight,
+  pale: C.surfaceAlt
+}, {
+  id: "realized",
+  label: "Instalováno",
+  icon: Wrench,
+  color: C.greenBright,
+  pale: C.greenBrightPale
+}, {
+  id: "notdone",
+  label: "Nenainstalováno",
+  icon: XCircle,
+  color: C.danger,
+  pale: C.dangerPale
+}];
+const FIN = [{
+  id: null,
+  label: "—",
+  icon: null,
+  color: C.textLight,
+  pale: C.surfaceAlt
+}, {
+  id: "comm1",
+  label: "1. část provize",
+  icon: Banknote,
+  color: C.orange,
+  pale: C.orangePale
+}, {
+  id: "comm2",
+  label: "2. část provize",
+  icon: DollarSign,
+  color: C.brown,
+  pale: C.brownPale
+}, {
+  id: "paid",
+  label: "Kompletně zaplaceno",
+  icon: BadgeCheck,
+  color: C.green,
+  pale: C.greenPale
+}];
+const procById = Object.fromEntries(PROC.map(s => [s.id, s]));
+const finById = Object.fromEntries(FIN.map(s => [s.id, s]));
+const uid = () => `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+const fmtDate = (d, t) => {
+  if (!d) return "";
+  const dt = new Date(d + "T00:00:00");
+  return `${dt.getDate()}.${dt.getMonth() + 1}.${t ? " " + t : ""}`;
+};
+const MONTHS = ["Led", "Úno", "Bře", "Dub", "Kvě", "Čvn", "Čvc", "Srp", "Zář", "Říj", "Lis", "Pro"];
+
+// ─── GOOGLE CALENDAR API ──────────────────────────────────────────────────────
+const CAL_SCOPE = 'https://www.googleapis.com/auth/calendar.events';
+const CAL_BASE = 'https://www.googleapis.com/calendar/v3/calendars/primary/events';
+const addHour = t => {
+  const [h, m] = t.split(':').map(Number);
+  return `${String((h + 1) % 24).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+};
+const makeCalEvent = order => {
+  const proc = procById[order.processStatus] || PROC[0];
+  const hasTime = !!order.visitTime;
+  return {
+    summary: `GOORN: ${order.name} – ${order.city}`,
+    description: ['Prezentace přístroje osmotického odvlhčování zdiva', `Status: ${proc.label}`, order.notes ? `Poznámka: ${order.notes}` : ''].filter(Boolean).join('\n'),
+    start: hasTime ? {
+      dateTime: `${order.visitDate}T${order.visitTime}:00`,
+      timeZone: 'Europe/Prague'
+    } : {
+      date: order.visitDate
+    },
+    end: hasTime ? {
+      dateTime: `${order.visitDate}T${addHour(order.visitTime)}:00`,
+      timeZone: 'Europe/Prague'
+    } : {
+      date: order.visitDate
+    },
+    colorId: '2',
+    reminders: {
+      useDefault: false,
+      overrides: [{
+        method: 'popup',
+        minutes: 1440
+      }, {
+        method: 'popup',
+        minutes: 120
+      }, {
+        method: 'popup',
+        minutes: 30
+      }]
+    }
+  };
+};
+const calApi = {
+  create: async (order, token) => {
+    const r = await fetch(CAL_BASE, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(makeCalEvent(order))
+    });
+    if (r.status === 401) return {
+      error: 'auth'
+    };
+    return r.json();
+  },
+  update: async (eventId, order, token) => {
+    const r = await fetch(`${CAL_BASE}/${eventId}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(makeCalEvent(order))
+    });
+    if (r.status === 401) return {
+      error: 'auth'
+    };
+    if (r.status === 404) return {
+      error: 'notfound'
+    };
+    return r.json();
+  },
+  del: async (eventId, token) => {
+    const r = await fetch(`${CAL_BASE}/${eventId}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    if (r.status === 401) return {
+      error: 'auth'
+    };
+    return {
+      ok: true
+    };
+  }
+};
+
+// ─── COMPLETE DATASET ─────────────────────────────────────────────────────────
+const INITIAL_DATA = [
+// ══ 2026 ══════════════════════════════════════════════════════════════════
+{
+  id: uid(),
+  year: 2026,
+  num: 1,
+  name: "Lhotská",
+  city: "Sadová",
+  visitDate: "2026-01-07",
+  visitTime: "",
+  processStatus: "future",
+  realStatus: null,
+  finStatus: null,
+  notes: "Zájem – zavolat červen 2026"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 2,
+  name: "Bohadlová",
+  city: "N.Město p.Smr.",
+  visitDate: "2026-01-09",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: "Dotace – zakázána"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 3,
+  name: "Cink",
+  city: "Svatý Petr",
+  visitDate: "2026-01-15",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: "paid",
+  notes: "Instalace 12.2"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 4,
+  name: "Hovorková",
+  city: "Vlkov",
+  visitDate: "2026-01-16",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: "Zaslán e-mail"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 5,
+  name: "Krtička",
+  city: "Turnov / 2 domy",
+  visitDate: "2026-01-23",
+  visitTime: "",
+  processStatus: "thinking",
+  realStatus: null,
+  finStatus: null,
+  notes: "📞 čeká zákazník – on zavolá"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 6,
+  name: "Pírko",
+  city: "Roudnice",
+  visitDate: "2026-01-20",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: "Zrušeno (bylo domluveno)"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 7,
+  name: "Šimková",
+  city: "Nymburk",
+  visitDate: "2026-01-23",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: "paid",
+  notes: "Instalace 28.1"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 8,
+  name: "Svatoň",
+  city: "Smržov / Smiřice",
+  visitDate: "2026-01-20",
+  visitTime: "",
+  processStatus: "done",
+  realStatus: null,
+  finStatus: null,
+  notes: "📞 10.2 – bez odezvy, ukončeno"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 9,
+  name: "Bužiková",
+  city: "Smidary",
+  visitDate: "2026-01-27",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2026,
+  num: 10,
+  name: "Jeřábková",
+  city: "Stará Paka",
+  visitDate: "2026-02-03",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: "paid",
+  notes: "Instalace 12.2"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 11,
+  name: "Zörner",
+  city: "Předměřice n/L",
+  visitDate: "2026-02-04",
+  visitTime: "",
+  processStatus: "followup",
+  realStatus: null,
+  finStatus: null,
+  notes: "Zavolat červen 2026 – já iniciuji"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 12,
+  name: "Kaplan",
+  city: "Maršov / Úpice",
+  visitDate: "2026-04-13",
+  visitTime: "",
+  processStatus: "call",
+  realStatus: null,
+  finStatus: null,
+  notes: "☎ 13.4 pondělí – urgentní!"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 13,
+  name: "Dlab",
+  city: "D.Javoří (L.Běl.)",
+  visitDate: "2026-02-26",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2026,
+  num: 14,
+  name: "Němec",
+  city: "Česká Lípa",
+  visitDate: "2026-03-02",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2026,
+  num: 15,
+  name: "Milde",
+  city: "Sosnová / ČL",
+  visitDate: "2026-03-02",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2026,
+  num: 16,
+  name: "Horčička",
+  city: "Hodkovice n.Moh.",
+  visitDate: "2026-03-05",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2026,
+  num: 17,
+  name: "Andrš",
+  city: "Frýdlant v Č.",
+  visitDate: "2026-03-05",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2026,
+  num: 18,
+  name: "Čermáková",
+  city: "Bílý Kostel n/N",
+  visitDate: "2026-03-06",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: null,
+  finStatus: "comm1",
+  notes: "Reference"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 19,
+  name: "Paroulek",
+  city: "Janov n/N",
+  visitDate: "2026-03-06",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: null,
+  finStatus: "comm1",
+  notes: "Faktura +30 dní"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 20,
+  name: "Hnilička",
+  city: "Benecko",
+  visitDate: "2026-03-24",
+  visitTime: "",
+  processStatus: "future",
+  realStatus: null,
+  finStatus: null,
+  notes: "Odkládá na 09/2026"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 21,
+  name: "Hanuš",
+  city: "Víchová n.J.",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "call",
+  realStatus: null,
+  finStatus: null,
+  notes: "Poslat SMS! – urgentní"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 22,
+  name: "Pelanta",
+  city: "Stráž n/Nisou",
+  visitDate: "2026-04-10",
+  visitTime: "",
+  processStatus: "thinking",
+  realStatus: null,
+  finStatus: null,
+  notes: "Konec dubna – zavolat, urgentní"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 23,
+  name: "Pokorná",
+  city: "Železný Brod",
+  visitDate: "2026-04-10",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: "paid",
+  notes: "Instalace (datum ?)"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 0,
+  name: "Urbancová (XX)",
+  city: "Zásada",
+  visitDate: "2026-04-10",
+  visitTime: "",
+  processStatus: "cancelledR",
+  realStatus: null,
+  finStatus: null,
+  notes: "Zrušena prohlídka – nečíslovaná zakázka"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 24,
+  name: "Belda",
+  city: "Tanvald",
+  visitDate: "2026-04-10",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2026,
+  num: 25,
+  name: "Stébelský",
+  city: "Rynoltice",
+  visitDate: "2026-04-24",
+  visitTime: "15:30",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: "comm1",
+  notes: ""
+}, {
+  id: uid(),
+  year: 2026,
+  num: 26,
+  name: "Lacman",
+  city: "Kamenický Šenov",
+  visitDate: "2026-04-24",
+  visitTime: "",
+  processStatus: "thinking",
+  realStatus: null,
+  finStatus: null,
+  notes: "Janatová-hospoda – čeká na manžela"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 27,
+  name: "Diabola",
+  city: "Vrchlabí",
+  visitDate: "2026-04-17",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: "paid",
+  notes: "Instalace 22.4"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 28,
+  name: "Dr. Macenauerová",
+  city: "Liberec",
+  visitDate: "2026-04-24",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: "Původní přístroj"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 29,
+  name: "Pitrman",
+  city: "Třebechovice p.O.",
+  visitDate: "2026-04-27",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: "comm1",
+  notes: ""
+}, {
+  id: uid(),
+  year: 2026,
+  num: 30,
+  name: "Dvořák",
+  city: "Turnov",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "call",
+  realStatus: null,
+  finStatus: null,
+  notes: "Domluvit termín – urgentní!"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 31,
+  name: "Pospíšilová",
+  city: "SVJ Trutnov",
+  visitDate: "2026-05-04",
+  visitTime: "",
+  processStatus: "thinking",
+  realStatus: null,
+  finStatus: null,
+  notes: "Souhlasí, ještě předsedkyně SVJ"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 32,
+  name: "Zíchová",
+  city: "Trutnov",
+  visitDate: "2026-05-04",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: "Zákaznice zrušila"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 33,
+  name: "Kvášovský",
+  city: "Dvůr Králové n/L",
+  visitDate: "2026-05-05",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2026,
+  num: 34,
+  name: "Koňáková",
+  city: "Trutnov",
+  visitDate: "2026-05-06",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2026,
+  num: 35,
+  name: "Maleček",
+  city: "Trutnov",
+  visitDate: "2026-05-11",
+  visitTime: "15:00",
+  processStatus: "agreed",
+  realStatus: null,
+  finStatus: null,
+  notes: "Potvrdit den předem"
+},
+// ══ 2025 ══════════════════════════════════════════════════════════════════
+{
+  id: uid(),
+  year: 2025,
+  num: 1,
+  name: "Dvořák",
+  city: "D.Rokytnice",
+  visitDate: "2025-01-16",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 2,
+  name: "Valenta",
+  city: "HK Plotiště",
+  visitDate: "2025-01-24",
+  visitTime: "",
+  processStatus: "thinking",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 3,
+  name: "Hlušička",
+  city: "HK Plotiště",
+  visitDate: "2025-01-24",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 4,
+  name: "Drapelová",
+  city: "Librantice",
+  visitDate: "2025-01-23",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "notdone",
+  finStatus: null,
+  notes: "Prezentace OK, instalace zrušena"
+}, {
+  id: uid(),
+  year: 2025,
+  num: 5,
+  name: "Krejčí",
+  city: "Volavec",
+  visitDate: "2025-01-31",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 6,
+  name: "Václavík",
+  city: "Rusek",
+  visitDate: "2025-01-23",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: "☎ konec roku"
+}, {
+  id: uid(),
+  year: 2025,
+  num: 7,
+  name: "Kalvodová",
+  city: "Sloupno",
+  visitDate: "2025-02-13",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 8,
+  name: "Kohout",
+  city: "Lužec n/Cidl.",
+  visitDate: "2025-02-19",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 9,
+  name: "Fejfar",
+  city: "Dolní Přím",
+  visitDate: "2025-02-18",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 10,
+  name: "Polášek",
+  city: "Lípa n/Orl.",
+  visitDate: "2025-03-19",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 11,
+  name: "Kyselová",
+  city: "Lukavice",
+  visitDate: "2025-03-19",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 12,
+  name: "Malý",
+  city: "Slatina n/Zd.",
+  visitDate: "2025-03-19",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 13,
+  name: "Holec",
+  city: "Javornice",
+  visitDate: "2025-03-19",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 14,
+  name: "Cablk",
+  city: "Lípa n/Orl.",
+  visitDate: "2025-03-19",
+  visitTime: "",
+  processStatus: "thinking",
+  realStatus: null,
+  finStatus: null,
+  notes: "Zavolat půl června"
+}, {
+  id: uid(),
+  year: 2025,
+  num: 15,
+  name: "Sojka",
+  city: "Nový Hrádek",
+  visitDate: "2025-04-04",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: null,
+  notes: "📞 24-25.7"
+}, {
+  id: uid(),
+  year: 2025,
+  num: 16,
+  name: "Vaňková",
+  city: "Jezbiny / Jaroměř",
+  visitDate: "2025-04-07",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: "📞 půl 06"
+}, {
+  id: uid(),
+  year: 2025,
+  num: 17,
+  name: "Kučera",
+  city: "Žacléř",
+  visitDate: "2025-04-10",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: "Posl. 📧 12.5"
+}, {
+  id: uid(),
+  year: 2025,
+  num: 18,
+  name: "Hrnčíř",
+  city: "Bohuslavice",
+  visitDate: "2025-04-14",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 19,
+  name: "Zmrzlíková",
+  city: "Náchod",
+  visitDate: "2025-04-07",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: "📞 půlka 05"
+}, {
+  id: uid(),
+  year: 2025,
+  num: 20,
+  name: "Rokošová",
+  city: "Náchod",
+  visitDate: "2025-04-08",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 21,
+  name: "Martinec",
+  city: "D.Radechová",
+  visitDate: "2025-04-24",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 22,
+  name: "Friebelová",
+  city: "Libňatov",
+  visitDate: "2025-05-14",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 23,
+  name: "Malkovský",
+  city: "Dolní Dvůr",
+  visitDate: "2025-05-14",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 24,
+  name: "Hlavatý",
+  city: "Doubravice",
+  visitDate: "2025-05-15",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 25,
+  name: "Stehlík",
+  city: "Lázně Bělohrad",
+  visitDate: "2025-06-13",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 26,
+  name: "Čekan",
+  city: "Prachov",
+  visitDate: "2025-06-13",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "notdone",
+  finStatus: null,
+  notes: "Prezentace OK, instalace zrušena"
+}, {
+  id: uid(),
+  year: 2025,
+  num: 27,
+  name: "Rejha",
+  city: "Sobčice",
+  visitDate: "2025-06-18",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 28,
+  name: "Faistauerová",
+  city: "D.Štěpanice",
+  visitDate: "2025-07-17",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "notdone",
+  finStatus: null,
+  notes: "Prezentace OK, instalace zrušena"
+}, {
+  id: uid(),
+  year: 2025,
+  num: 29,
+  name: "Šír",
+  city: "D.Štěpanice",
+  visitDate: "2025-07-17",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 30,
+  name: "Rybák",
+  city: "Skuhrov-Huntířov",
+  visitDate: "2025-07-21",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 31,
+  name: "Herman",
+  city: "Lukavice",
+  visitDate: "2025-08-12",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 32,
+  name: "Janeba",
+  city: "Jaroměř",
+  visitDate: "2025-08-14",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 33,
+  name: "Dvořák",
+  city: "Dobruška",
+  visitDate: "2025-08-18",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: "paid",
+  notes: "Kompletně zaplaceno"
+}, {
+  id: uid(),
+  year: 2025,
+  num: 34,
+  name: "Martinec",
+  city: "Teplice n/Met.",
+  visitDate: "2025-10-27",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 35,
+  name: "Jiroušek",
+  city: "Rtyně v Podkrk.",
+  visitDate: "2025-10-27",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 0,
+  name: "Nývltová (XX)",
+  city: "St.Sedloňov",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "done",
+  realStatus: null,
+  finStatus: null,
+  notes: "NEREAGUJE"
+},
+// ══ 2024 ══════════════════════════════════════════════════════════════════
+{
+  id: uid(),
+  year: 2024,
+  num: 1,
+  name: "Balážová",
+  city: "Lukavec",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 2,
+  name: "Hamák",
+  city: "Hradec Králové",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 3,
+  name: "Cajdam",
+  city: "Ostroměř",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 4,
+  name: "Špinar",
+  city: "Nemyčeves",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 5,
+  name: "Kuhn",
+  city: "Markoušovice",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 6,
+  name: "Michal",
+  city: "Kocbeře",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 7,
+  name: "Součková",
+  city: "Hrobice",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 8,
+  name: "Bulva",
+  city: "Cerekvice",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "notdone",
+  finStatus: null,
+  notes: "Prezentace OK, instalace zrušena"
+}, {
+  id: uid(),
+  year: 2024,
+  num: 9,
+  name: "Loskot",
+  city: "Křičeň",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 10,
+  name: "Karbulka",
+  city: "Svítkov",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 11,
+  name: "Kolman",
+  city: "Sadová",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 12,
+  name: "Maličký",
+  city: "Arnultovice",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 13,
+  name: "Novák",
+  city: "kostel Černčice",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 14,
+  name: "Sobota",
+  city: "Lužany",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 15,
+  name: "Nosek",
+  city: "Studenec",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 16,
+  name: "Vokoun",
+  city: "Běleč nad Orlicí",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 17,
+  name: "Grejcar",
+  city: "Vítězná-Koclířov",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 18,
+  name: "Veselý",
+  city: "Hořice",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 19,
+  name: "Šimková",
+  city: "Lužec nad Cidlinou",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 20,
+  name: "John",
+  city: "Horní Počernice",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 21,
+  name: "Káninská",
+  city: "Opolany",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 22,
+  name: "Kuchařová",
+  city: "Lysá nad Labem",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 23,
+  name: "Fridrich",
+  city: "Křinec",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 24,
+  name: "Hejzlarová",
+  city: "Kratonohy",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 25,
+  name: "Sekera",
+  city: "Opolany",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 26,
+  name: "Hronovský",
+  city: "Rubena Náchod",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 27,
+  name: "Fuzik",
+  city: "Běrunice",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "notdone",
+  finStatus: null,
+  notes: "Prezentace OK, instalace zrušena"
+}, {
+  id: uid(),
+  year: 2024,
+  num: 28,
+  name: "MuDr. Ouzký",
+  city: "Skochovice",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 0,
+  name: "Fejfar (XX)",
+  city: "Hradec Králové",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "other",
+  realStatus: null,
+  finStatus: null,
+  notes: "💬 nečíslovaná zakázka"
+}, {
+  id: uid(),
+  year: 2024,
+  num: 0,
+  name: "Švec (XX)",
+  city: "Kosičky",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "other",
+  realStatus: null,
+  finStatus: null,
+  notes: "💬 nečíslovaná zakázka"
+}];
+
+// ─── FIREBASE DATA LAYER ──────────────────────────────────────────────────────
+function useOrders(userId) {
+  const [orders, setOrders] = useState([]);
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    if (!userId) return;
+    const ref = db.collection("users").doc(userId).collection("orders");
+    const unsub = ref.onSnapshot(snap => {
+      if (snap.empty && !ready) {
+        // First login – import initial data
+        const batch = db.batch();
+        INITIAL_DATA.forEach(o => {
+          const d = ref.doc(o.id);
+          batch.set(d, o);
+        });
+        batch.commit().then(() => setReady(true));
+      } else {
+        setOrders(snap.docs.map(d => d.data()));
+        setReady(true);
+      }
+    });
+    return unsub;
+  }, [userId]);
+  const col = () => db.collection("users").doc(userId).collection("orders");
+  const addOrder = o => col().doc(o.id).set(o);
+  const updateOrder = o => col().doc(o.id).set(o, {
+    merge: true
+  });
+  return {
+    orders,
+    ready,
+    addOrder,
+    updateOrder
+  };
+}
+
+// ─── PDF EXPORT ───────────────────────────────────────────────────────────────
+function exportPDF(orders, year) {
+  const {
+    jsPDF
+  } = window.jspdf;
+  const doc = new jsPDF({
+    orientation: "portrait",
+    unit: "mm",
+    format: "a4"
+  });
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(16);
+  doc.text(`GOORN · Zakázky ${year}`, 14, 16);
+  doc.setFontSize(9);
+  doc.setFont("helvetica", "normal");
+  doc.setTextColor(120, 100, 80);
+  doc.text(`Exportováno ${new Date().toLocaleDateString("cs-CZ")} · Pro GOORN © ⁶⁷〽️`, 14, 22);
+  const yo = orders.filter(o => o.year === year).sort((a, b) => b.num - a.num);
+  const rows = yo.map(o => {
+    const p = procById[o.processStatus] || PROC[0];
+    const f = finById[o.finStatus];
+    const r = REAL.find(x => x.id === o.realStatus);
+    return [o.num === 0 ? "XX" : String(o.num), o.name || "—", o.city || "—", fmtDate(o.visitDate, o.visitTime) || "—", p.label, r && r.id ? r.label : "—", f && f.id ? f.label : "—", o.notes || ""];
+  });
+  doc.autoTable({
+    startY: 28,
+    head: [["#", "Zákazník", "Město", "Datum", "Procesní status", "Instalace", "Provize", "Poznámky"]],
+    body: rows,
+    styles: {
+      fontSize: 7.5,
+      cellPadding: 2,
+      font: "helvetica"
+    },
+    headStyles: {
+      fillColor: [72, 122, 76],
+      textColor: 255,
+      fontStyle: "bold"
+    },
+    alternateRowStyles: {
+      fillColor: [245, 240, 232]
+    },
+    columnStyles: {
+      0: {
+        cellWidth: 8
+      },
+      7: {
+        cellWidth: 35
+      }
+    },
+    margin: {
+      left: 8,
+      right: 8
+    }
+  });
+  const total = yo.length;
+  const real = yo.filter(o => o.processStatus === "real").length;
+  const finalY = doc.lastAutoTable.finalY + 8;
+  doc.setFontSize(8);
+  doc.setTextColor(80, 60, 40);
+  doc.text(`Celkem: ${total}  |  Realizace: ${real}  |  Úspěšnost: ${total > 0 ? Math.round(real / total * 100) : 0} %`, 14, finalY);
+  doc.save(`GOORN_${year}_zakazky.pdf`);
+}
+
+// ─── PROCESS STATUS PICKER ────────────────────────────────────────────────────
+function ProcPicker({
+  current,
+  onChange,
+  onClose
+}) {
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "fixed",
+      inset: 0,
+      background: "rgba(20,15,8,.45)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      zIndex: 400,
+      padding: 16
+    },
+    onClick: onClose
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.surface,
+      borderRadius: 14,
+      padding: 18,
+      width: "100%",
+      maxWidth: 340,
+      boxShadow: "0 12px 40px rgba(0,0,0,.22)"
+    },
+    onClick: e => e.stopPropagation()
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      fontWeight: 700,
+      color: C.textLight,
+      textTransform: "uppercase",
+      letterSpacing: ".6px",
+      marginBottom: 12
+    }
+  }, "Procesn\xED status zak\xE1zky"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "repeat(2,1fr)",
+      gap: 6
+    }
+  }, PROC.map(s => {
+    const Icon = s.icon;
+    const active = s.id === current;
+    return /*#__PURE__*/React.createElement("button", {
+      key: s.id,
+      onClick: () => {
+        onChange(s.id);
+        onClose();
+      },
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 8,
+        padding: "9px 10px",
+        borderRadius: 8,
+        cursor: "pointer",
+        background: active ? s.pale : C.surfaceAlt,
+        border: `1.5px solid ${active ? s.color : C.borderLight}`,
+        color: active ? s.color : C.textMid,
+        fontWeight: active ? 700 : 500,
+        fontSize: 12,
+        textAlign: "left"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 26,
+        height: 26,
+        borderRadius: 6,
+        background: `${s.color}28`,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexShrink: 0
+      }
+    }, /*#__PURE__*/React.createElement(Icon, {
+      size: 13,
+      color: s.color,
+      strokeWidth: 2
+    })), s.label, active && /*#__PURE__*/React.createElement(Check, {
+      size: 11,
+      color: s.color,
+      style: {
+        marginLeft: "auto"
+      }
+    }));
+  })), /*#__PURE__*/React.createElement("button", {
+    onClick: onClose,
+    style: {
+      width: "100%",
+      marginTop: 10,
+      padding: "9px",
+      borderRadius: 8,
+      border: `1px solid ${C.border}`,
+      background: C.surfaceAlt,
+      color: C.textMid,
+      fontSize: 12,
+      fontWeight: 600,
+      cursor: "pointer"
+    }
+  }, "Zav\u0159\xEDt")));
+}
+
+// ─── CYCLE BUTTON ─────────────────────────────────────────────────────────────
+function CycleBtn({
+  statuses,
+  value,
+  onChange,
+  size = 28
+}) {
+  const [tip, setTip] = useState(false);
+  const idx = statuses.findIndex(s => s.id === value);
+  const cur = statuses[Math.max(0, idx)];
+  const Icon = cur.icon;
+  const click = e => {
+    e.stopPropagation();
+    onChange(statuses[(idx + 1) % statuses.length].id);
+    setTip(true);
+    setTimeout(() => setTip(false), 1400);
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "relative",
+      flexShrink: 0
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: click,
+    title: cur.label,
+    style: {
+      width: size,
+      height: size,
+      borderRadius: 6,
+      background: cur.pale,
+      border: `1.5px solid ${cur.color}55`,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      cursor: "pointer",
+      transition: "box-shadow .1s"
+    },
+    onMouseEnter: e => e.currentTarget.style.boxShadow = `0 2px 8px ${cur.color}40`,
+    onMouseLeave: e => e.currentTarget.style.boxShadow = "none"
+  }, Icon ? /*#__PURE__*/React.createElement(Icon, {
+    size: size * .43,
+    color: cur.color,
+    strokeWidth: 2
+  }) : /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.textLight,
+      fontSize: 9,
+      fontWeight: 700
+    }
+  }, "\u2014")), tip && /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "absolute",
+      bottom: "115%",
+      left: "50%",
+      transform: "translateX(-50%)",
+      background: C.text,
+      color: "#fff",
+      borderRadius: 6,
+      padding: "3px 8px",
+      fontSize: 10,
+      fontWeight: 600,
+      whiteSpace: "nowrap",
+      zIndex: 500,
+      pointerEvents: "none"
+    }
+  }, cur.label));
+}
+
+// ─── STATUS TILE ─────────────────────────────────────────────────────────────
+function Tile({
+  status,
+  count,
+  active,
+  onClick
+}) {
+  const Icon = status.icon;
+  return /*#__PURE__*/React.createElement("button", {
+    onClick: onClick,
+    style: {
+      flex: 1,
+      minWidth: 70,
+      maxWidth: 90,
+      background: active ? status.pale : C.surface,
+      border: `1.5px solid ${active ? status.color : C.border}`,
+      borderRadius: 10,
+      padding: "8px 4px 7px",
+      cursor: "pointer",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      gap: 3,
+      boxShadow: active ? `0 0 0 2px ${status.color}30` : "none",
+      transition: "all .15s"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 30,
+      height: 30,
+      borderRadius: 7,
+      background: `${status.color}38`,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center"
+    }
+  }, /*#__PURE__*/React.createElement(Icon, {
+    size: 15,
+    color: status.color,
+    strokeWidth: 2
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 19,
+      fontWeight: 800,
+      color: active ? status.color : C.text,
+      lineHeight: 1
+    }
+  }, count), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 8,
+      color: active ? status.color : C.textLight,
+      textAlign: "center",
+      lineHeight: 1.25,
+      fontWeight: active ? 700 : 500,
+      padding: "0 2px"
+    }
+  }, status.label));
+}
+
+// ─── ORDER ROW ────────────────────────────────────────────────────────────────
+function OrderRow({
+  order,
+  onUpdate,
+  calToken,
+  onConnectCal
+}) {
+  const [open, setOpen] = useState(false);
+  const [showPicker, setPicker] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [draft, setDraft] = useState({});
+  const [notes, setNotes] = useState(order.notes || "");
+  const [calBusy, setCalBusy] = useState(false);
+  const [calMsg, setCalMsg] = useState('');
+  const timer = useRef(null);
+  const procSt = procById[order.processStatus] || PROC[0];
+  const PIcon = procSt.icon;
+  const dateStr = fmtDate(order.visitDate, order.visitTime);
+  const hasNotes = notes.trim().length > 0;
+  const onNotes = v => {
+    setNotes(v);
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => onUpdate({
+      ...order,
+      notes: v
+    }), 800);
+  };
+  const startEdit = e => {
+    e.stopPropagation();
+    setDraft({
+      name: order.name || "",
+      city: order.city || "",
+      visitDate: order.visitDate || "",
+      visitTime: order.visitTime || ""
+    });
+    setEditMode(true);
+    setOpen(true);
+  };
+  const saveEdit = () => {
+    onUpdate({
+      ...order,
+      ...draft
+    });
+    setEditMode(false);
+  };
+  const syncCal = async e => {
+    e.stopPropagation();
+    if (!calToken) {
+      onConnectCal();
+      return;
+    }
+    setCalBusy(true);
+    setCalMsg('');
+    try {
+      let res;
+      if (order.calendarEventId) {
+        res = await calApi.update(order.calendarEventId, order, calToken);
+        if (res.error === 'notfound') res = await calApi.create(order, calToken);
+      } else {
+        res = await calApi.create(order, calToken);
+      }
+      if (res.error === 'auth') {
+        onConnectCal();
+        setCalMsg('Znovu připojit Google Kalendář');
+      } else if (res.id) {
+        onUpdate({
+          ...order,
+          calendarEventId: res.id
+        });
+        setCalMsg('Synchronizováno!');
+      } else setCalMsg('Chyba – zkus znovu');
+    } catch {
+      setCalMsg('Chyba připojení');
+    }
+    setCalBusy(false);
+    setTimeout(() => setCalMsg(''), 3000);
+  };
+  const removeCal = async e => {
+    e.stopPropagation();
+    if (!order.calendarEventId || !calToken) return;
+    setCalBusy(true);
+    await calApi.del(order.calendarEventId, calToken);
+    onUpdate({
+      ...order,
+      calendarEventId: null
+    });
+    setCalMsg('Odebráno z kalendáře');
+    setCalBusy(false);
+    setTimeout(() => setCalMsg(''), 3000);
+  };
+  const numLabel = order.num === 0 ? "XX" : order.num;
+  const inp = {
+    border: `1px solid ${C.border}`,
+    borderRadius: 6,
+    padding: "6px 8px",
+    fontSize: 12,
+    color: C.text,
+    background: C.surface,
+    fontFamily: "inherit",
+    outline: "none",
+    width: "100%",
+    boxSizing: "border-box"
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    className: "order-row",
+    style: {
+      background: C.surface,
+      border: `1px solid ${C.border}`,
+      borderRadius: 10,
+      overflow: "hidden",
+      borderLeft: `3px solid ${procSt.color}`,
+      marginBottom: 4
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    onClick: () => setOpen(o => !o),
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 6,
+      padding: "8px 10px",
+      cursor: "pointer",
+      userSelect: "none"
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      width: 26,
+      textAlign: "right",
+      fontSize: 11,
+      fontWeight: 700,
+      color: order.num === 0 ? "#C0502A" : C.textLight,
+      flexShrink: 0
+    }
+  }, numLabel), /*#__PURE__*/React.createElement("button", {
+    onClick: e => {
+      e.stopPropagation();
+      setPicker(true);
+    },
+    title: procSt.label,
+    style: {
+      width: 28,
+      height: 28,
+      borderRadius: 6,
+      background: procSt.pale,
+      border: `1.5px solid ${procSt.color}55`,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      cursor: "pointer",
+      flexShrink: 0
+    },
+    onMouseEnter: e => e.currentTarget.style.boxShadow = `0 2px 8px ${procSt.color}40`,
+    onMouseLeave: e => e.currentTarget.style.boxShadow = "none"
+  }, /*#__PURE__*/React.createElement(PIcon, {
+    size: 12,
+    color: procSt.color,
+    strokeWidth: 2
+  })), /*#__PURE__*/React.createElement("span", {
+    style: {
+      flex: 2,
+      minWidth: 60,
+      fontSize: 13,
+      fontWeight: 600,
+      color: C.text,
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      whiteSpace: "nowrap"
+    }
+  }, order.name || "—"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      flex: 1.5,
+      minWidth: 50,
+      fontSize: 11,
+      color: C.textMid,
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      whiteSpace: "nowrap"
+    }
+  }, order.city || ""), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 11,
+      color: C.textLight,
+      flexShrink: 0,
+      minWidth: 52,
+      textAlign: "center",
+      fontWeight: 500
+    }
+  }, dateStr || "—"), order.visitDate && /*#__PURE__*/React.createElement("button", {
+    onClick: syncCal,
+    disabled: calBusy,
+    title: order.calendarEventId ? "Aktualizovat v kalendáři" : "Přidat do Google Kalendáře",
+    style: {
+      width: 28,
+      height: 28,
+      borderRadius: 6,
+      flexShrink: 0,
+      background: order.calendarEventId ? C.greenBrightPale : C.surfaceAlt,
+      border: `1.5px solid ${order.calendarEventId ? C.greenBright : C.border}`,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      cursor: calBusy ? "wait" : "pointer",
+      opacity: calBusy ? .6 : 1,
+      transition: "all .15s"
+    }
+  }, order.calendarEventId ? /*#__PURE__*/React.createElement(CalendarCheck, {
+    size: 12,
+    color: C.greenBright,
+    strokeWidth: 2
+  }) : /*#__PURE__*/React.createElement(CalendarPlus, {
+    size: 12,
+    color: C.textLight,
+    strokeWidth: 2
+  })), /*#__PURE__*/React.createElement(CycleBtn, {
+    statuses: REAL,
+    value: order.realStatus,
+    onChange: v => onUpdate({
+      ...order,
+      realStatus: v
+    })
+  }), /*#__PURE__*/React.createElement(CycleBtn, {
+    statuses: FIN,
+    value: order.finStatus,
+    onChange: v => onUpdate({
+      ...order,
+      finStatus: v
+    })
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 18,
+      flexShrink: 0,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center"
+    }
+  }, hasNotes && /*#__PURE__*/React.createElement(Edit3, {
+    size: 11,
+    color: C.brownMid
+  })), /*#__PURE__*/React.createElement(ChevronDown, {
+    size: 12,
+    color: C.textLight,
+    style: {
+      transition: "transform .2s",
+      transform: open ? "rotate(180deg)" : "rotate(0)",
+      flexShrink: 0
+    }
+  })), open && /*#__PURE__*/React.createElement("div", {
+    style: {
+      borderTop: `1px solid ${C.borderLight}`,
+      padding: "12px 12px 14px",
+      background: C.surfaceAlt
+    }
+  }, editMode ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: 10
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      fontWeight: 700,
+      color: C.textLight,
+      textTransform: "uppercase",
+      letterSpacing: ".6px"
+    }
+  }, "Upravit z\xE1znam"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 8
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 2
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      color: C.textLight,
+      fontWeight: 700,
+      textTransform: "uppercase",
+      letterSpacing: ".5px",
+      marginBottom: 3
+    }
+  }, "Z\xE1kazn\xEDk"), /*#__PURE__*/React.createElement("input", {
+    value: draft.name,
+    onChange: e => setDraft(d => ({
+      ...d,
+      name: e.target.value
+    })),
+    style: inp,
+    onClick: e => e.stopPropagation()
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 2
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      color: C.textLight,
+      fontWeight: 700,
+      textTransform: "uppercase",
+      letterSpacing: ".5px",
+      marginBottom: 3
+    }
+  }, "M\u011Bsto / Adresa"), /*#__PURE__*/React.createElement("input", {
+    value: draft.city,
+    onChange: e => setDraft(d => ({
+      ...d,
+      city: e.target.value
+    })),
+    style: inp,
+    onClick: e => e.stopPropagation()
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 8
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      color: C.textLight,
+      fontWeight: 700,
+      textTransform: "uppercase",
+      letterSpacing: ".5px",
+      marginBottom: 3
+    }
+  }, "Datum n\xE1v\u0161t\u011Bvy"), /*#__PURE__*/React.createElement("input", {
+    type: "date",
+    value: draft.visitDate,
+    onChange: e => setDraft(d => ({
+      ...d,
+      visitDate: e.target.value
+    })),
+    style: inp,
+    onClick: e => e.stopPropagation()
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      color: C.textLight,
+      fontWeight: 700,
+      textTransform: "uppercase",
+      letterSpacing: ".5px",
+      marginBottom: 3
+    }
+  }, "\u010Cas"), /*#__PURE__*/React.createElement("input", {
+    type: "time",
+    value: draft.visitTime,
+    onChange: e => setDraft(d => ({
+      ...d,
+      visitTime: e.target.value
+    })),
+    style: inp,
+    onClick: e => e.stopPropagation()
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 8,
+      marginTop: 2
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: e => {
+      e.stopPropagation();
+      saveEdit();
+    },
+    style: {
+      flex: 2,
+      padding: "8px",
+      borderRadius: 7,
+      border: "none",
+      background: C.green,
+      color: "#fff",
+      fontSize: 12,
+      fontWeight: 700,
+      cursor: "pointer",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: 5
+    }
+  }, /*#__PURE__*/React.createElement(Save, {
+    size: 12
+  }), " Ulo\u017Eit zm\u011Bny"), /*#__PURE__*/React.createElement("button", {
+    onClick: e => {
+      e.stopPropagation();
+      setEditMode(false);
+    },
+    style: {
+      flex: 1,
+      padding: "8px",
+      borderRadius: 7,
+      border: `1px solid ${C.border}`,
+      background: C.surface,
+      color: C.textMid,
+      fontSize: 12,
+      cursor: "pointer"
+    }
+  }, "Zru\u0161it"))) : /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "flex-start",
+      marginBottom: 10,
+      gap: 8
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexWrap: "wrap",
+      gap: 5
+    }
+  }, /*#__PURE__*/React.createElement(StatusChip, {
+    s: procSt
+  })), /*#__PURE__*/React.createElement("button", {
+    onClick: e => startEdit(e),
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 5,
+      padding: "5px 10px",
+      borderRadius: 6,
+      border: `1px solid ${C.border}`,
+      background: C.surface,
+      color: C.textMid,
+      fontSize: 11,
+      fontWeight: 600,
+      cursor: "pointer",
+      flexShrink: 0
+    }
+  }, /*#__PURE__*/React.createElement(Edit3, {
+    size: 11
+  }), " Upravit")), !editMode && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      fontWeight: 700,
+      color: C.textLight,
+      textTransform: "uppercase",
+      letterSpacing: ".6px",
+      marginBottom: 5
+    }
+  }, "Pozn\xE1mky"), /*#__PURE__*/React.createElement("textarea", {
+    value: notes,
+    onChange: e => onNotes(e.target.value),
+    onClick: e => e.stopPropagation(),
+    placeholder: "P\u0159idejte pozn\xE1mku\u2026",
+    rows: 3,
+    style: {
+      width: "100%",
+      resize: "vertical",
+      fontFamily: "inherit",
+      border: `1px solid ${C.border}`,
+      borderRadius: 7,
+      padding: "8px 10px",
+      fontSize: 12.5,
+      color: C.text,
+      background: C.surface,
+      outline: "none",
+      lineHeight: 1.55,
+      boxSizing: "border-box"
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9.5,
+      color: C.textLight,
+      marginTop: 3
+    }
+  }, "Ulo\u017Eeno automaticky do Firestore"), calMsg && /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 6,
+      fontSize: 11,
+      fontWeight: 600,
+      color: calMsg.includes('!') || calMsg.includes('Odebrán') ? C.greenBright : C.orange,
+      padding: "4px 8px",
+      borderRadius: 5,
+      background: C.surfaceAlt
+    }
+  }, calMsg), order.calendarEventId && !calBusy && /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 8,
+      display: "flex",
+      alignItems: "center",
+      gap: 8
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: C.greenBright,
+      display: "flex",
+      alignItems: "center",
+      gap: 4
+    }
+  }, /*#__PURE__*/React.createElement(CalendarCheck, {
+    size: 11,
+    color: C.greenBright,
+    strokeWidth: 2
+  }), "Synchronizov\xE1no s Google Kalend\xE1\u0159em"), /*#__PURE__*/React.createElement("button", {
+    onClick: removeCal,
+    style: {
+      fontSize: 10,
+      color: C.danger,
+      border: `1px solid ${C.danger}33`,
+      borderRadius: 5,
+      padding: "2px 7px",
+      background: C.dangerPale,
+      cursor: "pointer"
+    }
+  }, /*#__PURE__*/React.createElement(CalendarOff, {
+    size: 10,
+    color: C.danger,
+    strokeWidth: 2
+  }), " Odebrat")))), showPicker && /*#__PURE__*/React.createElement(ProcPicker, {
+    current: order.processStatus,
+    onChange: v => onUpdate({
+      ...order,
+      processStatus: v
+    }),
+    onClose: () => setPicker(false)
+  }));
+}
+function StatusChip({
+  s
+}) {
+  const Icon = s.icon;
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: s.pale,
+      border: `1px solid ${s.color}44`,
+      borderRadius: 20,
+      padding: "3px 9px",
+      display: "flex",
+      alignItems: "center",
+      gap: 5,
+      fontSize: 11,
+      color: s.color,
+      fontWeight: 600
+    }
+  }, /*#__PURE__*/React.createElement(Icon, {
+    size: 10,
+    strokeWidth: 2
+  }), " ", s.label);
+}
+
+// ─── ADD ORDER MODAL ──────────────────────────────────────────────────────────
+function AddModal({
+  year,
+  maxNum,
+  onAdd,
+  onClose
+}) {
+  const [f, setF] = useState({
+    name: "",
+    city: "",
+    visitDate: "",
+    visitTime: "",
+    processStatus: "call",
+    notes: ""
+  });
+  const set = (k, v) => setF(p => ({
+    ...p,
+    [k]: v
+  }));
+  const save = () => {
+    if (!f.name.trim()) return;
+    onAdd({
+      id: uid(),
+      year,
+      num: maxNum + 1,
+      name: f.name.trim(),
+      city: f.city.trim(),
+      visitDate: f.visitDate,
+      visitTime: f.visitTime,
+      processStatus: f.processStatus,
+      realStatus: null,
+      finStatus: null,
+      notes: f.notes,
+      createdAt: new Date().toISOString()
+    });
+    onClose();
+  };
+  const inp = {
+    width: "100%",
+    border: `1px solid ${C.border}`,
+    borderRadius: 7,
+    padding: "8px 10px",
+    fontSize: 13,
+    color: C.text,
+    background: C.surface,
+    fontFamily: "inherit",
+    outline: "none",
+    boxSizing: "border-box"
+  };
+  const lbl = {
+    display: "block",
+    fontSize: 9,
+    fontWeight: 700,
+    color: C.textLight,
+    textTransform: "uppercase",
+    letterSpacing: ".6px",
+    marginBottom: 4
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "fixed",
+      inset: 0,
+      background: "rgba(20,15,8,.5)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      zIndex: 300,
+      padding: 16
+    },
+    onClick: onClose
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.surface,
+      borderRadius: 14,
+      padding: 24,
+      width: "100%",
+      maxWidth: 420,
+      maxHeight: "92vh",
+      overflowY: "auto",
+      boxShadow: "0 12px 48px rgba(0,0,0,.25)"
+    },
+    onClick: e => e.stopPropagation()
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      marginBottom: 18
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 15,
+      fontWeight: 800,
+      color: C.text
+    }
+  }, "Nov\xE1 zak\xE1zka"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: C.textLight
+    }
+  }, "#", maxNum + 1, " \xB7 rok ", year)), /*#__PURE__*/React.createElement("button", {
+    onClick: onClose,
+    style: {
+      width: 28,
+      height: 28,
+      borderRadius: 6,
+      border: `1px solid ${C.border}`,
+      background: C.surfaceAlt,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      cursor: "pointer"
+    }
+  }, /*#__PURE__*/React.createElement(X, {
+    size: 13,
+    color: C.textMid
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: 13
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
+    style: lbl
+  }, "Z\xE1kazn\xEDk *"), /*#__PURE__*/React.createElement("input", {
+    value: f.name,
+    onChange: e => set("name", e.target.value),
+    placeholder: "P\u0159\xEDjmen\xED, Jm\xE9no",
+    style: inp,
+    onKeyDown: e => e.key === "Enter" && save()
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
+    style: lbl
+  }, "M\u011Bsto / Adresa"), /*#__PURE__*/React.createElement("input", {
+    value: f.city,
+    onChange: e => set("city", e.target.value),
+    placeholder: "Trutnov",
+    style: inp
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 10
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: lbl
+  }, "Datum n\xE1v\u0161t\u011Bvy"), /*#__PURE__*/React.createElement("input", {
+    type: "date",
+    value: f.visitDate,
+    onChange: e => set("visitDate", e.target.value),
+    style: inp
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: lbl
+  }, "\u010Cas"), /*#__PURE__*/React.createElement("input", {
+    type: "time",
+    value: f.visitTime,
+    onChange: e => set("visitTime", e.target.value),
+    style: inp
+  }))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
+    style: lbl
+  }, "Po\u010D\xE1te\u010Dn\xED status"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexWrap: "wrap",
+      gap: 5,
+      marginTop: 2
+    }
+  }, PROC.slice(0, 5).map(s => {
+    const Icon = s.icon;
+    const active = f.processStatus === s.id;
+    return /*#__PURE__*/React.createElement("button", {
+      key: s.id,
+      onClick: () => set("processStatus", s.id),
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 4,
+        padding: "4px 9px",
+        borderRadius: 6,
+        cursor: "pointer",
+        fontSize: 11,
+        background: active ? s.pale : C.surfaceAlt,
+        border: `1px solid ${active ? s.color : C.border}`,
+        color: active ? s.color : C.textMid,
+        fontWeight: active ? 700 : 500
+      }
+    }, /*#__PURE__*/React.createElement(Icon, {
+      size: 10,
+      strokeWidth: 2
+    }), s.label);
+  }))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
+    style: lbl
+  }, "Pozn\xE1mky"), /*#__PURE__*/React.createElement("textarea", {
+    value: f.notes,
+    onChange: e => set("notes", e.target.value),
+    placeholder: "Voliteln\xE9\u2026",
+    rows: 2,
+    style: {
+      ...inp,
+      resize: "vertical",
+      lineHeight: 1.5
+    }
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 8,
+      marginTop: 18
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: onClose,
+    style: {
+      flex: 1,
+      padding: "10px",
+      borderRadius: 8,
+      border: `1px solid ${C.border}`,
+      background: C.surfaceAlt,
+      color: C.textMid,
+      fontSize: 13,
+      fontWeight: 600,
+      cursor: "pointer"
+    }
+  }, "Zru\u0161it"), /*#__PURE__*/React.createElement("button", {
+    onClick: save,
+    style: {
+      flex: 2,
+      padding: "10px",
+      borderRadius: 8,
+      border: "none",
+      background: f.name.trim() ? C.green : "#aaa",
+      color: "#fff",
+      fontSize: 13,
+      fontWeight: 700,
+      cursor: "pointer"
+    }
+  }, "+ P\u0159idat #", maxNum + 1))));
+}
+
+// ─── DASHBOARD ────────────────────────────────────────────────────────────────
+function Dashboard({
+  orders,
+  year,
+  filter,
+  onFilter
+}) {
+  const yo = orders.filter(o => o.year === year);
+  const total = yo.length;
+  const real = yo.filter(o => o.processStatus === "real").length;
+  const actv = yo.filter(o => !["done", "cancelled", "cancelledR"].includes(o.processStatus)).length;
+  const procC = Object.fromEntries(PROC.map(s => [s.id, yo.filter(o => o.processStatus === s.id).length]));
+  const finC = Object.fromEntries(FIN.slice(1).map(s => [s.id, orders.filter(o => o.finStatus === s.id).length]));
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: 18,
+      display: "flex",
+      flexDirection: "column",
+      gap: 14
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 8,
+      flexWrap: "wrap"
+    }
+  }, [{
+    label: "Celkem",
+    value: total,
+    color: C.brown
+  }, {
+    label: "Aktivní",
+    value: actv,
+    color: C.orange
+  }, {
+    label: "Realizace",
+    value: real,
+    color: C.greenBright
+  }, ...(total > 0 ? [{
+    label: "Úspěšnost",
+    value: `${Math.round(real / total * 100)} %`,
+    color: C.greenBright
+  }] : [])].map(({
+    label,
+    value,
+    color
+  }) => /*#__PURE__*/React.createElement("div", {
+    key: label,
+    style: {
+      flex: 1,
+      minWidth: 80,
+      background: C.surface,
+      border: `1px solid ${C.border}`,
+      borderRadius: 10,
+      padding: "10px 12px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      color: C.textLight,
+      fontWeight: 700,
+      textTransform: "uppercase",
+      letterSpacing: ".5px",
+      marginBottom: 2
+    }
+  }, label), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 22,
+      fontWeight: 800,
+      color,
+      lineHeight: 1
+    }
+  }, value)))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.surface,
+      border: `1px solid ${C.border}`,
+      borderRadius: 12,
+      padding: 12
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      fontWeight: 700,
+      color: C.textLight,
+      textTransform: "uppercase",
+      letterSpacing: ".6px",
+      marginBottom: 10
+    }
+  }, "Procesn\xED statusy \xB7 ", year), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 5,
+      flexWrap: "wrap"
+    }
+  }, PROC.map(s => /*#__PURE__*/React.createElement(Tile, {
+    key: s.id,
+    status: s,
+    count: procC[s.id] || 0,
+    active: filter === s.id,
+    onClick: () => onFilter(filter === s.id ? null : s.id)
+  })))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.surface,
+      border: `1px solid ${C.border}`,
+      borderRadius: 12,
+      padding: 12
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      fontWeight: 700,
+      color: C.textLight,
+      textTransform: "uppercase",
+      letterSpacing: ".6px",
+      marginBottom: 10
+    }
+  }, "Finan\u010Dn\xED p\u0159ehled \xB7 ", /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.orange
+    }
+  }, "v\u0161echny roky")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 5
+    }
+  }, FIN.slice(1).map(s => /*#__PURE__*/React.createElement(Tile, {
+    key: s.id,
+    status: s,
+    count: finC[s.id] || 0,
+    active: filter === `fin-${s.id}`,
+    onClick: () => onFilter(filter === `fin-${s.id}` ? null : `fin-${s.id}`)
+  })))));
+}
+
+// ─── ORDERS VIEW ─────────────────────────────────────────────────────────────
+function OrdersView({
+  orders,
+  year,
+  filter,
+  onFilter,
+  onUpdate,
+  onAdd,
+  calToken,
+  onConnectCal
+}) {
+  const [search, setSearch] = useState("");
+  const [showAdd, setShowAdd] = useState(false);
+  let list = orders.filter(o => o.year === year);
+  if (filter && !filter.startsWith("fin-")) list = list.filter(o => o.processStatus === filter);
+  if (filter && filter.startsWith("fin-")) list = list.filter(o => o.finStatus === filter.replace("fin-", ""));
+  if (search.trim()) {
+    const q = search.toLowerCase();
+    list = list.filter(o => o.name?.toLowerCase().includes(q) || o.city?.toLowerCase().includes(q));
+  }
+  list = list.sort((a, b) => b.num - a.num);
+  const maxNum = Math.max(0, ...orders.filter(o => o.year === year).map(o => o.num));
+  const activeFilter = filter && !filter.startsWith("fin-") ? procById[filter] : filter?.startsWith("fin-") ? finById[filter.replace("fin-", "")] : null;
+  return /*#__PURE__*/React.createElement("div", {
+    id: "print-area",
+    style: {
+      padding: 18,
+      display: "flex",
+      flexDirection: "column",
+      gap: 12
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "no-print",
+    style: {
+      display: "flex",
+      gap: 8,
+      alignItems: "center"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      display: "flex",
+      alignItems: "center",
+      gap: 8,
+      background: C.surface,
+      border: `1px solid ${C.border}`,
+      borderRadius: 8,
+      padding: "8px 12px"
+    }
+  }, /*#__PURE__*/React.createElement(Search, {
+    size: 13,
+    color: C.textLight
+  }), /*#__PURE__*/React.createElement("input", {
+    value: search,
+    onChange: e => setSearch(e.target.value),
+    placeholder: "Jm\xE9no nebo m\u011Bsto\u2026",
+    style: {
+      border: "none",
+      background: "transparent",
+      fontSize: 13,
+      color: C.text,
+      outline: "none",
+      flex: 1,
+      fontFamily: "inherit"
+    }
+  }), search && /*#__PURE__*/React.createElement("button", {
+    onClick: () => setSearch(""),
+    style: {
+      border: "none",
+      background: "none",
+      cursor: "pointer",
+      color: C.textLight
+    }
+  }, /*#__PURE__*/React.createElement(X, {
+    size: 12
+  }))), /*#__PURE__*/React.createElement("button", {
+    onClick: () => setShowAdd(true),
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 6,
+      background: C.green,
+      border: "none",
+      borderRadius: 8,
+      padding: "9px 14px",
+      color: "#fff",
+      fontSize: 13,
+      fontWeight: 700,
+      cursor: "pointer",
+      whiteSpace: "nowrap"
+    }
+  }, /*#__PURE__*/React.createElement(Plus, {
+    size: 14
+  }), "P\u0159idat")), activeFilter && /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 8
+    }
+  }, /*#__PURE__*/React.createElement(StatusChip, {
+    s: activeFilter
+  }), /*#__PURE__*/React.createElement("button", {
+    onClick: () => onFilter(null),
+    style: {
+      border: "none",
+      background: "none",
+      cursor: "pointer",
+      color: C.textLight,
+      display: "flex",
+      alignItems: "center"
+    }
+  }, /*#__PURE__*/React.createElement(X, {
+    size: 12
+  })), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 11,
+      color: C.textLight
+    }
+  }, list.length, " zak\xE1zek")), list.length === 0 ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: 40,
+      textAlign: "center",
+      color: C.textLight,
+      fontSize: 13,
+      background: C.surface,
+      border: `1px solid ${C.border}`,
+      borderRadius: 10
+    }
+  }, orders.filter(o => o.year === year).length === 0 ? `Rok ${year} nemá žádné zakázky.` : "Žádné zakázky odpovídají filtru.") : /*#__PURE__*/React.createElement("div", null, list.map(o => /*#__PURE__*/React.createElement(OrderRow, {
+    key: o.id,
+    order: o,
+    onUpdate: onUpdate,
+    calToken: calToken,
+    onConnectCal: onConnectCal
+  }))), showAdd && /*#__PURE__*/React.createElement(AddModal, {
+    year: year,
+    maxNum: maxNum,
+    onAdd: onAdd,
+    onClose: () => setShowAdd(false)
+  }));
+}
+
+// ─── STATISTICS ───────────────────────────────────────────────────────────────
+function Stats({
+  orders,
+  year
+}) {
+  const yo = orders.filter(o => o.year === year);
+  const total = yo.length;
+  if (total === 0) return /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: 32,
+      textAlign: "center",
+      color: C.textLight,
+      fontSize: 13
+    }
+  }, "Rok ", year, " nem\xE1 \u017E\xE1dn\xE1 data.");
+  const real = yo.filter(o => o.processStatus === "real").length;
+  const cancelled = yo.filter(o => o.processStatus === "cancelled" || o.processStatus === "cancelledR").length;
+  const convRate = Math.round(real / total * 100);
+  const monthly = {};
+  yo.forEach(o => {
+    if (!o.visitDate) return;
+    const m = new Date(o.visitDate + "T00:00:00").getMonth();
+    if (!monthly[m]) monthly[m] = {
+      total: 0,
+      real: 0
+    };
+    monthly[m].total++;
+    if (o.processStatus === "real") monthly[m].real++;
+  });
+  const mKeys = Object.keys(monthly).map(Number).sort((a, b) => a - b);
+  const maxM = Math.max(...mKeys.map(k => monthly[k].total), 1);
+  const procData = PROC.map(s => ({
+    ...s,
+    count: yo.filter(o => o.processStatus === s.id).length
+  })).filter(s => s.count > 0).sort((a, b) => b.count - a.count);
+  const maxP = Math.max(...procData.map(s => s.count), 1);
+  const card = (label, value, color, Icon) => /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      background: C.surface,
+      border: `1px solid ${C.border}`,
+      borderRadius: 10,
+      padding: "12px 14px",
+      display: "flex",
+      alignItems: "center",
+      gap: 10
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 34,
+      height: 34,
+      borderRadius: 8,
+      background: `${color}22`,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      flexShrink: 0
+    }
+  }, /*#__PURE__*/React.createElement(Icon, {
+    size: 16,
+    color: color,
+    strokeWidth: 2
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      color: C.textLight,
+      fontWeight: 700,
+      textTransform: "uppercase",
+      letterSpacing: ".5px"
+    }
+  }, label), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 22,
+      fontWeight: 800,
+      color,
+      lineHeight: 1.1
+    }
+  }, value)));
+  return /*#__PURE__*/React.createElement("div", {
+    id: "print-area",
+    style: {
+      padding: 18,
+      display: "flex",
+      flexDirection: "column",
+      gap: 14
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      fontWeight: 800,
+      color: C.text
+    }
+  }, "Statistiky \xB7 ", year), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 8,
+      flexWrap: "wrap"
+    }
+  }, card("Celkem zakázek", total, C.brown, Target), card("Realizace", real, C.greenBright, CheckCircle2), card("Zrušeno", cancelled, C.danger, XCircle), card("Úspěšnost", `${convRate} %`, C.greenBright, TrendingUp)), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.surface,
+      border: `1px solid ${C.border}`,
+      borderRadius: 12,
+      padding: 16
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      fontWeight: 700,
+      color: C.textLight,
+      textTransform: "uppercase",
+      letterSpacing: ".6px",
+      marginBottom: 14
+    }
+  }, "Distribuce status\u016F"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: 8
+    }
+  }, procData.map(s => {
+    const Icon = s.icon;
+    const pct = Math.round(s.count / maxP * 100);
+    return /*#__PURE__*/React.createElement("div", {
+      key: s.id,
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 10
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 20,
+        height: 20,
+        borderRadius: 5,
+        background: `${s.color}28`,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexShrink: 0
+      }
+    }, /*#__PURE__*/React.createElement(Icon, {
+      size: 11,
+      color: s.color,
+      strokeWidth: 2
+    })), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11,
+        color: C.textMid,
+        width: 130,
+        flexShrink: 0
+      }
+    }, s.label), /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1,
+        height: 18,
+        background: C.surfaceAlt,
+        borderRadius: 4,
+        overflow: "hidden"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: `${pct}%`,
+        height: "100%",
+        background: s.color,
+        borderRadius: 4,
+        opacity: .85
+      }
+    })), /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 28,
+        textAlign: "right",
+        fontSize: 12,
+        fontWeight: 700,
+        color: s.color,
+        flexShrink: 0
+      }
+    }, s.count), /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 36,
+        textAlign: "right",
+        fontSize: 10,
+        color: C.textLight,
+        flexShrink: 0
+      }
+    }, Math.round(s.count / total * 100), " %"));
+  }))), mKeys.length > 0 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.surface,
+      border: `1px solid ${C.border}`,
+      borderRadius: 12,
+      padding: 16
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      fontWeight: 700,
+      color: C.textLight,
+      textTransform: "uppercase",
+      letterSpacing: ".6px",
+      marginBottom: 14
+    }
+  }, "M\u011Bs\xED\u010Dn\xED aktivita \xB7 ", year), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "flex-end",
+      gap: 6,
+      height: 100
+    }
+  }, mKeys.map(m => {
+    const d = monthly[m];
+    const hT = Math.round(d.total / maxM * 80) + 10;
+    const hR = Math.round(d.real / d.total * hT);
+    return /*#__PURE__*/React.createElement("div", {
+      key: m,
+      style: {
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: 4
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        fontWeight: 700,
+        color: C.textMid
+      }
+    }, d.total), /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: "100%",
+        height: hT,
+        borderRadius: "5px 5px 0 0",
+        background: C.greenBrightPale,
+        border: `1px solid ${C.greenBright}33`,
+        position: "relative",
+        overflow: "hidden"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        position: "absolute",
+        bottom: 0,
+        left: 0,
+        right: 0,
+        height: hR > 0 ? `${Math.round(hR / hT * 100)}%` : "0",
+        background: C.greenBright,
+        opacity: .75
+      }
+    })), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 9,
+        color: C.textLight
+      }
+    }, MONTHS[m]));
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 12,
+      marginTop: 10
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 5,
+      fontSize: 10,
+      color: C.textLight
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 10,
+      height: 10,
+      borderRadius: 2,
+      background: C.greenBrightPale,
+      border: `1px solid ${C.greenBright}44`
+    }
+  }), "Celkem"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 5,
+      fontSize: 10,
+      color: C.textLight
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 10,
+      height: 10,
+      borderRadius: 2,
+      background: C.greenBright,
+      opacity: .75
+    }
+  }), "Realizace"))), [year - 1, year - 2].some(y => orders.some(o => o.year === y)) && /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.surface,
+      border: `1px solid ${C.border}`,
+      borderRadius: 12,
+      padding: 16
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      fontWeight: 700,
+      color: C.textLight,
+      textTransform: "uppercase",
+      letterSpacing: ".6px",
+      marginBottom: 12
+    }
+  }, "Porovn\xE1n\xED rok\u016F"), [year - 2, year - 1, year].filter(y => orders.some(o => o.year === y)).map(y => {
+    const d = orders.filter(o => o.year === y);
+    const r = d.filter(o => o.processStatus === "real").length;
+    const t = d.length;
+    const rate = t > 0 ? Math.round(r / t * 100) : 0;
+    return /*#__PURE__*/React.createElement("div", {
+      key: y,
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 10,
+        marginBottom: 8
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 36,
+        fontSize: 11,
+        fontWeight: 700,
+        color: C.text
+      }
+    }, y), /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1,
+        height: 20,
+        background: C.surfaceAlt,
+        borderRadius: 4,
+        overflow: "hidden"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: `${rate}%`,
+        height: "100%",
+        background: C.greenBright,
+        borderRadius: 4,
+        opacity: .8
+      }
+    })), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11,
+        fontWeight: 700,
+        color: C.greenBright,
+        width: 40,
+        textAlign: "right"
+      }
+    }, rate, " %"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        color: C.textLight,
+        width: 60
+      }
+    }, r, "/", t, " real."));
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.surface,
+      border: `1px solid ${C.border}`,
+      borderRadius: 12,
+      padding: 16
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      fontWeight: 700,
+      color: C.textLight,
+      textTransform: "uppercase",
+      letterSpacing: ".6px",
+      marginBottom: 14
+    }
+  }, "Finan\u010Dn\xED stav \xB7 ", /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.orange
+    }
+  }, "v\u0161echny roky")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 10
+    }
+  }, FIN.slice(1).map(s => {
+    const Icon = s.icon;
+    const cnt = orders.filter(o => o.finStatus === s.id).length;
+    return /*#__PURE__*/React.createElement("div", {
+      key: s.id,
+      style: {
+        flex: 1,
+        background: s.pale,
+        border: `1px solid ${s.color}33`,
+        borderRadius: 10,
+        padding: "12px",
+        textAlign: "center"
+      }
+    }, /*#__PURE__*/React.createElement(Icon, {
+      size: 18,
+      color: s.color,
+      strokeWidth: 1.8
+    }), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 20,
+        fontWeight: 800,
+        color: s.color,
+        margin: "4px 0 2px"
+      }
+    }, cnt), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 9,
+        color: s.color,
+        fontWeight: 600,
+        lineHeight: 1.3
+      }
+    }, s.label));
+  }))));
+}
+
+// ─── SETTINGS ────────────────────────────────────────────────────────────────
+function SettingsView({
+  user,
+  calToken,
+  onConnectCal
+}) {
+  const items = [{
+    label: "Google přihlášení",
+    desc: "Aktivní – přihlášen přes Google",
+    ok: true
+  }, {
+    label: "Firebase Firestore",
+    desc: "Data synchronizována v reálném čase",
+    ok: true
+  }, {
+    label: "PDF export",
+    desc: "jsPDF – export do PDF aktivní",
+    ok: true
+  }, {
+    label: "Google Drive export",
+    desc: "Připraveno – vyžaduje Drive API scope",
+    ok: false
+  }];
+  const calConnected = !!calToken;
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: 18
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.surface,
+      border: `1px solid ${C.border}`,
+      borderRadius: 12,
+      padding: 18,
+      marginBottom: 14
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      fontWeight: 700,
+      color: C.text,
+      marginBottom: 6
+    }
+  }, "P\u0159ihl\xE1\u0161en\xFD \xFA\u010Det"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 12
+    }
+  }, user.photoURL && /*#__PURE__*/React.createElement("img", {
+    src: user.photoURL,
+    style: {
+      width: 40,
+      height: 40,
+      borderRadius: "50%"
+    },
+    alt: ""
+  }), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      fontWeight: 600,
+      color: C.text
+    }
+  }, user.displayName), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: C.textLight
+    }
+  }, user.email)))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.surface,
+      border: `1px solid ${C.border}`,
+      borderRadius: 12,
+      padding: 18
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      fontWeight: 700,
+      color: C.textLight,
+      textTransform: "uppercase",
+      letterSpacing: ".6px",
+      marginBottom: 14
+    }
+  }, "Stav funkc\xED"), items.map((item, i) => /*#__PURE__*/React.createElement("div", {
+    key: i,
+    style: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      padding: "12px 0",
+      borderBottom: i < items.length - 1 ? `1px solid ${C.borderLight}` : "none"
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      fontWeight: 600,
+      color: C.text
+    }
+  }, item.label), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: C.textLight
+    }
+  }, item.desc)), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      fontWeight: 700,
+      color: item.ok ? C.greenBright : C.amber,
+      background: item.ok ? C.greenBrightPale : C.amberPale,
+      border: `1px solid ${item.ok ? C.greenBright : C.amber}44`,
+      borderRadius: 20,
+      padding: "3px 10px"
+    }
+  }, item.ok ? "Aktivní" : "Připraveno")))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.surface,
+      border: `1px solid ${C.border}`,
+      borderRadius: 12,
+      padding: 18,
+      marginTop: 14
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      marginBottom: 14
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      fontWeight: 700,
+      color: C.text
+    }
+  }, "Google Kalend\xE1\u0159"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: C.textLight,
+      marginTop: 2
+    }
+  }, calConnected ? "Připojeno – tlačítko 📅 v každé zakázce" : "Nepřipojeno – klikni pro povolení přístupu")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      fontWeight: 700,
+      color: calConnected ? C.greenBright : C.amber,
+      background: calConnected ? C.greenBrightPale : C.amberPale,
+      border: `1px solid ${calConnected ? C.greenBright : C.amber}44`,
+      borderRadius: 20,
+      padding: "3px 10px"
+    }
+  }, calConnected ? "Aktivní" : "Nepřipojeno")), !calConnected && /*#__PURE__*/React.createElement("button", {
+    onClick: onConnectCal,
+    style: {
+      width: "100%",
+      padding: "11px",
+      borderRadius: 8,
+      border: "none",
+      background: C.green,
+      color: "#fff",
+      fontSize: 13,
+      fontWeight: 700,
+      cursor: "pointer",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: 8
+    }
+  }, /*#__PURE__*/React.createElement(CalendarPlus, {
+    size: 15,
+    color: "#fff",
+    strokeWidth: 2
+  }), "P\u0159ipojit Google Kalend\xE1\u0159"), calConnected && /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      color: C.textMid,
+      lineHeight: 1.6
+    }
+  }, "\u2713 Kliknut\xEDm na ikonu ", /*#__PURE__*/React.createElement(CalendarPlus, {
+    size: 11,
+    color: C.greenBright,
+    strokeWidth: 2
+  }), " v \u0159\xE1dku zak\xE1zky p\u0159id\xE1\u0161 term\xEDn do Google Kalend\xE1\u0159e", /*#__PURE__*/React.createElement("br", null), "\u2713 Automatick\xE9 p\u0159ipom\xEDnky: 1 den, 2 hodiny a 30 minut p\u0159ed term\xEDnem", /*#__PURE__*/React.createElement("br", null), "\u2713 Barva ud\xE1lost\xED: \u0161alv\u011Bjov\xE1 zelen\xE1")));
+}
+
+// ─── HEADER ──────────────────────────────────────────────────────────────────
+function Header({
+  year,
+  onYear,
+  onMenu,
+  user,
+  orders
+}) {
+  const doPrint = () => window.print();
+  const doPDF = () => exportPDF(orders, year);
+  const doSync = () => alert("Data jsou synchronizována automaticky přes Firebase Firestore v reálném čase.");
+  const doSignOut = () => auth.signOut();
+  const hBtn = {
+    width: 30,
+    height: 30,
+    borderRadius: 6,
+    background: C.surfaceAlt,
+    border: `1px solid ${C.border}`,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    cursor: "pointer"
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    className: "no-print",
+    style: {
+      height: 52,
+      background: C.surface,
+      borderBottom: `1px solid ${C.border}`,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      padding: "0 14px",
+      gap: 12,
+      flexShrink: 0
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 10
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: onMenu,
+    style: hBtn
+  }, /*#__PURE__*/React.createElement(Menu, {
+    size: 14,
+    color: C.textMid
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 2,
+      background: C.surfaceAlt,
+      border: `1px solid ${C.border}`,
+      borderRadius: 20,
+      padding: "2px 4px"
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: () => onYear(-1),
+    style: {
+      width: 22,
+      height: 22,
+      borderRadius: 11,
+      border: "none",
+      background: "transparent",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      cursor: "pointer",
+      color: C.textMid
+    }
+  }, /*#__PURE__*/React.createElement(ChevronLeft, {
+    size: 13
+  })), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontWeight: 800,
+      fontSize: 14,
+      color: C.text,
+      minWidth: 32,
+      textAlign: "center"
+    }
+  }, year), /*#__PURE__*/React.createElement("button", {
+    onClick: () => onYear(1),
+    style: {
+      width: 22,
+      height: 22,
+      borderRadius: 11,
+      border: "none",
+      background: "transparent",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      cursor: "pointer",
+      color: C.textMid
+    }
+  }, /*#__PURE__*/React.createElement(ChevronRight, {
+    size: 13
+  })))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 6
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    title: "Tisk",
+    style: hBtn,
+    onClick: doPrint
+  }, /*#__PURE__*/React.createElement(Printer, {
+    size: 13,
+    color: C.textMid
+  })), /*#__PURE__*/React.createElement("button", {
+    title: "St\xE1hnout PDF",
+    style: hBtn,
+    onClick: doPDF
+  }, /*#__PURE__*/React.createElement(FileDown, {
+    size: 13,
+    color: C.textMid
+  })), /*#__PURE__*/React.createElement("button", {
+    title: "Firestore sync \u2013 aktivn\xED",
+    style: hBtn,
+    onClick: doSync
+  }, /*#__PURE__*/React.createElement(Cloud, {
+    size: 13,
+    color: C.greenBright
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 6,
+      marginLeft: 4,
+      background: C.surfaceAlt,
+      border: `1px solid ${C.border}`,
+      borderRadius: 20,
+      padding: "3px 4px 3px 4px",
+      cursor: "pointer"
+    },
+    onClick: doSignOut,
+    title: "Odhl\xE1sit se"
+  }, user.photoURL ? /*#__PURE__*/React.createElement("img", {
+    src: user.photoURL,
+    style: {
+      width: 22,
+      height: 22,
+      borderRadius: "50%"
+    },
+    alt: ""
+  }) : /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 22,
+      height: 22,
+      borderRadius: "50%",
+      background: C.green,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center"
+    }
+  }, /*#__PURE__*/React.createElement(User, {
+    size: 11,
+    color: "#fff"
+  })), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 12,
+      fontWeight: 600,
+      color: C.text,
+      paddingRight: 6
+    }
+  }, user.displayName?.split(" ")[0] || "Uživatel"), /*#__PURE__*/React.createElement(LogOut, {
+    size: 12,
+    color: C.textLight
+  }))));
+}
+
+// ─── SIDEBAR ─────────────────────────────────────────────────────────────────
+const NAV = [{
+  id: "dashboard",
+  label: "Přehled",
+  icon: Home
+}, {
+  id: "orders",
+  label: "Zakázky",
+  icon: Package
+}, {
+  id: "stats",
+  label: "Statistiky",
+  icon: BarChart2
+}, {
+  id: "settings",
+  label: "Nastavení",
+  icon: Settings
+}];
+function Sidebar({
+  active,
+  onChange,
+  open
+}) {
+  return /*#__PURE__*/React.createElement("div", {
+    className: "no-print",
+    style: {
+      width: open ? 190 : 50,
+      flexShrink: 0,
+      background: C.surface,
+      borderRight: `1px solid ${C.border}`,
+      display: "flex",
+      flexDirection: "column",
+      transition: "width .2s",
+      overflow: "hidden"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: open ? "13px 12px 9px" : "13px 10px 9px",
+      display: "flex",
+      alignItems: "center",
+      gap: 9
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 30,
+      height: 30,
+      borderRadius: 7,
+      background: C.green,
+      flexShrink: 0,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      fontSize: 10,
+      fontWeight: 800,
+      color: "#fff",
+      letterSpacing: "-0.5px"
+    }
+  }, "GO"), open && /*#__PURE__*/React.createElement("div", {
+    style: {
+      lineHeight: 1.15
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontWeight: 800,
+      fontSize: 13,
+      color: C.text,
+      whiteSpace: "nowrap"
+    }
+  }, "GOORN"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      color: C.textLight,
+      fontWeight: 500,
+      letterSpacing: ".3px"
+    }
+  }, "Souhrn"))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      height: 1,
+      background: C.borderLight,
+      margin: "0 8px 6px"
+    }
+  }), NAV.map(({
+    id,
+    label,
+    icon: Icon
+  }) => /*#__PURE__*/React.createElement("button", {
+    key: id,
+    onClick: () => onChange(id),
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 9,
+      padding: open ? "9px 12px" : "9px 10px",
+      background: active === id ? C.greenPale : "transparent",
+      border: "none",
+      borderLeft: `3px solid ${active === id ? C.green : "transparent"}`,
+      color: active === id ? C.green : C.textMid,
+      cursor: "pointer",
+      fontSize: 12,
+      fontWeight: active === id ? 700 : 500,
+      transition: "all .12s",
+      width: "100%",
+      textAlign: "left"
+    }
+  }, /*#__PURE__*/React.createElement(Icon, {
+    size: 15,
+    strokeWidth: 1.8,
+    style: {
+      flexShrink: 0
+    }
+  }), open && /*#__PURE__*/React.createElement("span", {
+    style: {
+      whiteSpace: "nowrap"
+    }
+  }, label))), open && /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: "auto",
+      padding: "12px 12px 14px",
+      borderTop: `1px solid ${C.borderLight}`,
+      fontSize: 9,
+      color: C.textLight,
+      lineHeight: 1.7,
+      textAlign: "center"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontWeight: 700,
+      color: C.brownMid,
+      fontSize: 10
+    }
+  }, "Pro GOORN"), /*#__PURE__*/React.createElement("div", null, "\xA9 \u2076\u2077\u303D\uFE0F 2026")));
+}
+
+// ─── LOGIN SCREEN ─────────────────────────────────────────────────────────────
+function LoginScreen({
+  onLogin,
+  error
+}) {
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      minHeight: "100vh",
+      background: C.bg,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: 24
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.surface,
+      borderRadius: 16,
+      padding: 40,
+      width: "100%",
+      maxWidth: 360,
+      boxShadow: "0 8px 32px rgba(0,0,0,0.12)",
+      textAlign: "center"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 52,
+      height: 52,
+      borderRadius: 12,
+      background: C.green,
+      margin: "0 auto 16px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      fontSize: 18,
+      fontWeight: 800,
+      color: "#fff",
+      letterSpacing: "-1px"
+    }
+  }, "GO"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontWeight: 800,
+      fontSize: 22,
+      color: C.text,
+      marginBottom: 4
+    }
+  }, "GOORN"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      color: C.textLight,
+      marginBottom: 28
+    }
+  }, "Prodejn\xED p\u0159ehled zak\xE1zek"), error && /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.dangerPale,
+      border: `1px solid ${C.danger}44`,
+      borderRadius: 8,
+      padding: "8px 12px",
+      fontSize: 12,
+      color: C.danger,
+      marginBottom: 16
+    }
+  }, error), /*#__PURE__*/React.createElement("button", {
+    onClick: onLogin,
+    style: {
+      width: "100%",
+      padding: "12px",
+      borderRadius: 10,
+      border: "none",
+      background: C.green,
+      color: "#fff",
+      fontSize: 14,
+      fontWeight: 700,
+      cursor: "pointer",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: 10,
+      marginBottom: 12,
+      boxShadow: `0 3px 12px ${C.green}44`
+    }
+  }, /*#__PURE__*/React.createElement("svg", {
+    width: "18",
+    height: "18",
+    viewBox: "0 0 18 18"
+  }, /*#__PURE__*/React.createElement("path", {
+    fill: "#fff",
+    d: "M9 3.48c1.69 0 2.83.73 3.48 1.34l2.54-2.48C13.46.89 11.43 0 9 0 5.48 0 2.44 2.02.96 4.96l2.91 2.26C4.6 5.05 6.62 3.48 9 3.48z"
+  }), /*#__PURE__*/React.createElement("path", {
+    fill: "#fff",
+    d: "M17.64 9.2c0-.74-.06-1.28-.19-1.84H9v3.34h4.96c-.1.83-.64 2.08-1.84 2.92l2.84 2.2c1.7-1.57 2.68-3.88 2.68-6.62z"
+  }), /*#__PURE__*/React.createElement("path", {
+    fill: "#fff",
+    d: "M3.88 10.78A5.54 5.54 0 0 1 3.58 9c0-.62.11-1.22.29-1.78L.96 4.96A9 9 0 0 0 0 9c0 1.45.35 2.82.96 4.04l2.92-2.26z"
+  }), /*#__PURE__*/React.createElement("path", {
+    fill: "#fff",
+    d: "M9 18c2.43 0 4.47-.8 5.96-2.18l-2.84-2.2c-.76.53-1.78.9-3.12.9-2.38 0-4.4-1.57-5.12-3.74L.96 13.04C2.44 15.98 5.48 18 9 18z"
+  })), "P\u0159ihl\xE1sit se p\u0159es Google"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: C.textLight,
+      lineHeight: 1.6
+    }
+  }, "Data jsou bezpe\u010Dn\u011B ulo\u017Eena ve Firebase Firestore", /*#__PURE__*/React.createElement("br", null), "Synchronizace v re\xE1ln\xE9m \u010Dase \xB7 Pro GOORN \xA9 \u2076\u2077\u303D\uFE0F")));
+}
+
+// ─── ROOT ─────────────────────────────────────────────────────────────────────
+function App() {
+  const [user, setUser] = useState(null);
+  const [authLoading, setAuthLoading] = useState(true);
+  const [authError, setAuthError] = useState(null);
+  const [year, setYear] = useState(2026);
+  const [view, setView] = useState("dashboard");
+  const [sidebar, setSidebar] = useState(true);
+  const [filter, setFilter] = useState(null);
+  const [calToken, setCalToken] = useState(() => sessionStorage.getItem('goorn_cal_tok') || null);
+  useEffect(() => {
+    const unsub = auth.onAuthStateChanged(u => {
+      setUser(u);
+      setAuthLoading(false);
+    });
+    return unsub;
+  }, []);
+  const {
+    orders,
+    ready,
+    addOrder,
+    updateOrder
+  } = useOrders(user?.uid);
+  const signIn = () => {
+    setAuthError(null);
+    const provider = new firebase.auth.GoogleAuthProvider();
+    auth.signInWithPopup(provider).catch(e => setAuthError(e.message));
+  };
+  const connectCalendar = async () => {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    provider.addScope(CAL_SCOPE);
+    try {
+      const result = await auth.signInWithPopup(provider);
+      const tok = result.credential?.accessToken;
+      if (tok) {
+        sessionStorage.setItem('goorn_cal_tok', tok);
+        setCalToken(tok);
+      }
+    } catch (e) {
+      alert('Nepodařilo se připojit Google Kalendář: ' + e.message);
+    }
+  };
+  const handleFilter = f => {
+    setFilter(f);
+    if (f !== null) setView("orders");
+  };
+  const handleNav = v => {
+    setView(v);
+    if (v !== "orders") setFilter(null);
+  };
+  const shared = {
+    orders,
+    year,
+    filter,
+    onFilter: handleFilter
+  };
+  if (authLoading) return /*#__PURE__*/React.createElement("div", {
+    style: {
+      minHeight: "100vh",
+      background: C.bg,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 14,
+      color: C.textLight
+    }
+  }, "Na\u010D\xEDt\xE1m\u2026"));
+  if (!user) return /*#__PURE__*/React.createElement(LoginScreen, {
+    onLogin: signIn,
+    error: authError
+  });
+  if (!ready) return /*#__PURE__*/React.createElement("div", {
+    style: {
+      minHeight: "100vh",
+      background: C.bg,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 14,
+      color: C.textLight
+    }
+  }, "Synchronizuji data\u2026"));
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+    className: "print-header"
+  }, "GOORN \xB7 Zak\xE1zky ", year), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: "inherit",
+      background: C.bg,
+      minHeight: "100vh",
+      display: "flex",
+      flexDirection: "column",
+      color: C.text
+    }
+  }, /*#__PURE__*/React.createElement(Header, {
+    year: year,
+    onYear: d => setYear(y => y + d),
+    onMenu: () => setSidebar(s => !s),
+    user: user,
+    orders: orders
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flex: 1,
+      overflow: "hidden",
+      minHeight: "calc(100vh - 52px)"
+    }
+  }, /*#__PURE__*/React.createElement(Sidebar, {
+    active: view,
+    onChange: handleNav,
+    open: sidebar
+  }), /*#__PURE__*/React.createElement("main", {
+    style: {
+      flex: 1,
+      overflowY: "auto"
+    }
+  }, view === "dashboard" && /*#__PURE__*/React.createElement(Dashboard, shared), view === "orders" && /*#__PURE__*/React.createElement(OrdersView, _extends({}, shared, {
+    onUpdate: updateOrder,
+    onAdd: addOrder,
+    calToken: calToken,
+    onConnectCal: connectCalendar
+  })), view === "stats" && /*#__PURE__*/React.createElement(Stats, {
+    orders: orders,
+    year: year
+  }), view === "settings" && /*#__PURE__*/React.createElement(SettingsView, {
+    user: user,
+    calToken: calToken,
+    onConnectCal: connectCalendar
+  })))));
+}
+
+// Show app after React hydrates
+const rootEl = document.getElementById("root");
+rootEl.style.display = "block";
+document.getElementById("loading").style.display = "none";
+ReactDOM.createRoot(rootEl).render(/*#__PURE__*/React.createElement(App, null));
+})();
+</script>
+</body>
+</html>
