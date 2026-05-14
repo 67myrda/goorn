@@ -72,16 +72,38 @@ const db=firebase.firestore();
 "use strict";
 "use strict";
 
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+var _excluded = ["size", "color", "strokeWidth", "style"];
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
-const {
-  useState,
-  useEffect,
-  useRef,
-  useCallback
-} = React;
+function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i.return) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
+function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+var _React = React,
+  useState = _React.useState,
+  useEffect = _React.useEffect,
+  useRef = _React.useRef,
+  useCallback = _React.useCallback;
 
 // ─── DESIGN TOKENS ────────────────────────────────────────────────────────────
-const C = {
+var C = {
   bg: "#EDEAE2",
   surface: "#F8F5EF",
   surfaceAlt: "#F2EEE6",
@@ -108,30 +130,41 @@ const C = {
 };
 
 // ─── LUCIDE ICONS (inline SVG) ────────────────────────────────────────────────
-const I = (d, extra = "") => ({
-  size = 16,
-  color = "currentColor",
-  strokeWidth = 2,
-  style = {},
-  ...p
-}) => React.createElement("svg", {
-  xmlns: "http://www.w3.org/2000/svg",
-  width: size,
-  height: size,
-  viewBox: "0 0 24 24",
-  fill: "none",
-  stroke: color,
-  strokeWidth,
-  strokeLinecap: "round",
-  strokeLinejoin: "round",
-  style,
-  ...p
-}, ...d.map((x, i) => React.createElement(...x)));
-const Phone = I([["path", {
+var I = function I(d) {
+  var extra = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
+  return function (_ref) {
+    var _React2;
+    var _ref$size = _ref.size,
+      size = _ref$size === void 0 ? 16 : _ref$size,
+      _ref$color = _ref.color,
+      color = _ref$color === void 0 ? "currentColor" : _ref$color,
+      _ref$strokeWidth = _ref.strokeWidth,
+      strokeWidth = _ref$strokeWidth === void 0 ? 2 : _ref$strokeWidth,
+      _ref$style = _ref.style,
+      style = _ref$style === void 0 ? {} : _ref$style,
+      p = _objectWithoutProperties(_ref, _excluded);
+    return (_React2 = React).createElement.apply(_React2, ["svg", _objectSpread({
+      xmlns: "http://www.w3.org/2000/svg",
+      width: size,
+      height: size,
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: color,
+      strokeWidth: strokeWidth,
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      style: style
+    }, p)].concat(_toConsumableArray(d.map(function (x, i) {
+      var _React3;
+      return (_React3 = React).createElement.apply(_React3, _toConsumableArray(x));
+    }))));
+  };
+};
+var Phone = I([["path", {
   key: 0,
   d: "M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.83a16 16 0 0 0 6.29 6.29l1.93-1.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"
 }]]);
-const CalendarCheck = I([["rect", {
+var CalendarCheck = I([["rect", {
   key: 0,
   x: "3",
   y: "4",
@@ -161,7 +194,7 @@ const CalendarCheck = I([["rect", {
   key: 4,
   d: "m9 16 2 2 4-4"
 }]]);
-const HelpCircle = I([["circle", {
+var HelpCircle = I([["circle", {
   key: 0,
   cx: "12",
   cy: "12",
@@ -176,7 +209,7 @@ const HelpCircle = I([["circle", {
   x2: "12.01",
   y2: "17"
 }]]);
-const RefreshCw = I([["polyline", {
+var RefreshCw = I([["polyline", {
   key: 0,
   points: "23 4 23 10 17 10"
 }], ["polyline", {
@@ -186,11 +219,11 @@ const RefreshCw = I([["polyline", {
   key: 2,
   d: "M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"
 }]]);
-const Wrench = I([["path", {
+var Wrench = I([["path", {
   key: 0,
   d: "M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"
 }]]);
-const UserX = I([["path", {
+var UserX = I([["path", {
   key: 0,
   d: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"
 }], ["circle", {
@@ -211,7 +244,7 @@ const UserX = I([["path", {
   x2: "17",
   y2: "14"
 }]]);
-const XCircle = I([["circle", {
+var XCircle = I([["circle", {
   key: 0,
   cx: "12",
   cy: "12",
@@ -229,7 +262,7 @@ const XCircle = I([["circle", {
   x2: "15",
   y2: "15"
 }]]);
-const Ban = I([["circle", {
+var Ban = I([["circle", {
   key: 0,
   cx: "12",
   cy: "12",
@@ -241,7 +274,7 @@ const Ban = I([["circle", {
   x2: "19.07",
   y2: "19.07"
 }]]);
-const Clock = I([["circle", {
+var Clock = I([["circle", {
   key: 0,
   cx: "12",
   cy: "12",
@@ -250,7 +283,7 @@ const Clock = I([["circle", {
   key: 1,
   points: "12 6 12 12 16 14"
 }]]);
-const MoreHorizontal = I([["circle", {
+var MoreHorizontal = I([["circle", {
   key: 0,
   cx: "12",
   cy: "12",
@@ -266,7 +299,7 @@ const MoreHorizontal = I([["circle", {
   cy: "12",
   r: "1"
 }]]);
-const Banknote = I([["rect", {
+var Banknote = I([["rect", {
   key: 0,
   x: "2",
   y: "6",
@@ -282,7 +315,7 @@ const Banknote = I([["rect", {
   key: 2,
   d: "M6 12h.01M18 12h.01"
 }]]);
-const DollarSign = I([["line", {
+var DollarSign = I([["line", {
   key: 0,
   x1: "12",
   y1: "1",
@@ -292,14 +325,14 @@ const DollarSign = I([["line", {
   key: 1,
   d: "M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"
 }]]);
-const BadgeCheck = I([["path", {
+var BadgeCheck = I([["path", {
   key: 0,
   d: "M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"
 }], ["path", {
   key: 1,
   d: "m9 12 2 2 4-4"
 }]]);
-const Plus = I([["line", {
+var Plus = I([["line", {
   key: 0,
   x1: "12",
   y1: "5",
@@ -312,19 +345,19 @@ const Plus = I([["line", {
   x2: "19",
   y2: "12"
 }]]);
-const ChevronLeft = I([["polyline", {
+var ChevronLeft = I([["polyline", {
   key: 0,
   points: "15 18 9 12 15 6"
 }]]);
-const ChevronRight = I([["polyline", {
+var ChevronRight = I([["polyline", {
   key: 0,
   points: "9 18 15 12 9 6"
 }]]);
-const ChevronDown = I([["polyline", {
+var ChevronDown = I([["polyline", {
   key: 0,
   points: "6 9 12 15 18 9"
 }]]);
-const User = I([["path", {
+var User = I([["path", {
   key: 0,
   d: "M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
 }], ["circle", {
@@ -333,7 +366,7 @@ const User = I([["path", {
   cy: "7",
   r: "4"
 }]]);
-const LogOut = I([["path", {
+var LogOut = I([["path", {
   key: 0,
   d: "M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"
 }], ["polyline", {
@@ -346,7 +379,7 @@ const LogOut = I([["path", {
   x2: "9",
   y2: "12"
 }]]);
-const Printer = I([["polyline", {
+var Printer = I([["polyline", {
   key: 0,
   points: "6 9 6 2 18 2 18 9"
 }], ["path", {
@@ -359,7 +392,7 @@ const Printer = I([["polyline", {
   width: "12",
   height: "8"
 }]]);
-const FileDown = I([["path", {
+var FileDown = I([["path", {
   key: 0,
   d: "M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"
 }], ["polyline", {
@@ -372,11 +405,11 @@ const FileDown = I([["path", {
   key: 3,
   d: "m9 15 3 3 3-3"
 }]]);
-const Cloud = I([["path", {
+var Cloud = I([["path", {
   key: 0,
   d: "M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"
 }]]);
-const Search = I([["circle", {
+var Search = I([["circle", {
   key: 0,
   cx: "11",
   cy: "11",
@@ -388,14 +421,14 @@ const Search = I([["circle", {
   x2: "16.65",
   y2: "16.65"
 }]]);
-const Home = I([["path", {
+var Home = I([["path", {
   key: 0,
   d: "m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
 }], ["polyline", {
   key: 1,
   points: "9 22 9 12 15 12 15 22"
 }]]);
-const BarChart2 = I([["line", {
+var BarChart2 = I([["line", {
   key: 0,
   x1: "18",
   y1: "20",
@@ -414,7 +447,7 @@ const BarChart2 = I([["line", {
   x2: "6",
   y2: "14"
 }]]);
-const Package = I([["line", {
+var Package = I([["line", {
   key: 0,
   x1: "16.5",
   y1: "9.4",
@@ -433,7 +466,7 @@ const Package = I([["line", {
   x2: "12",
   y2: "12"
 }]]);
-const Settings = I([["circle", {
+var Settings = I([["circle", {
   key: 0,
   cx: "12",
   cy: "12",
@@ -442,7 +475,7 @@ const Settings = I([["circle", {
   key: 1,
   d: "M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"
 }]]);
-const Menu = I([["line", {
+var Menu = I([["line", {
   key: 0,
   x1: "3",
   y1: "12",
@@ -461,14 +494,14 @@ const Menu = I([["line", {
   x2: "21",
   y2: "18"
 }]]);
-const Edit3 = I([["path", {
+var Edit3 = I([["path", {
   key: 0,
   d: "M12 20h9"
 }], ["path", {
   key: 1,
   d: "M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"
 }]]);
-const X = I([["line", {
+var X = I([["line", {
   key: 0,
   x1: "18",
   y1: "6",
@@ -481,7 +514,7 @@ const X = I([["line", {
   x2: "18",
   y2: "18"
 }]]);
-const Save = I([["path", {
+var Save = I([["path", {
   key: 0,
   d: "M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"
 }], ["polyline", {
@@ -491,11 +524,11 @@ const Save = I([["path", {
   key: 2,
   points: "7 3 7 8 15 8"
 }]]);
-const Check = I([["polyline", {
+var Check = I([["polyline", {
   key: 0,
   points: "20 6 9 17 4 12"
 }]]);
-const Target = I([["circle", {
+var Target = I([["circle", {
   key: 0,
   cx: "12",
   cy: "12",
@@ -511,14 +544,14 @@ const Target = I([["circle", {
   cy: "12",
   r: "2"
 }]]);
-const TrendingUp = I([["polyline", {
+var TrendingUp = I([["polyline", {
   key: 0,
   points: "23 6 13.5 15.5 8.5 10.5 1 18"
 }], ["polyline", {
   key: 1,
   points: "17 6 23 6 23 12"
 }]]);
-const CheckCircle2 = I([["circle", {
+var CheckCircle2 = I([["circle", {
   key: 0,
   cx: "12",
   cy: "12",
@@ -527,7 +560,7 @@ const CheckCircle2 = I([["circle", {
   key: 1,
   d: "m9 12 2 2 4-4"
 }]]);
-const AlertTriangle = I([["path", {
+var AlertTriangle = I([["path", {
   key: 0,
   d: "m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"
 }], ["line", {
@@ -543,7 +576,7 @@ const AlertTriangle = I([["path", {
   x2: "12.01",
   y2: "17"
 }]]);
-const CalendarPlus = I([["rect", {
+var CalendarPlus = I([["rect", {
   key: 0,
   x: "3",
   y: "4",
@@ -582,7 +615,7 @@ const CalendarPlus = I([["rect", {
   x2: "14",
   y2: "17"
 }]]);
-const CalendarOff = I([["path", {
+var CalendarOff = I([["path", {
   key: 0,
   d: "M4.18 4.18A2 2 0 0 0 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 1.82-1.18"
 }], ["path", {
@@ -606,7 +639,7 @@ const CalendarOff = I([["path", {
 }]]);
 
 // ─── STATUS CONFIG ────────────────────────────────────────────────────────────
-const PROC = [{
+var PROC = [{
   id: "call",
   label: "Zavolat",
   icon: Phone,
@@ -667,7 +700,7 @@ const PROC = [{
   color: C.textLight,
   pale: C.surfaceAlt
 }];
-const REAL = [{
+var REAL = [{
   id: null,
   label: "—",
   icon: null,
@@ -686,62 +719,79 @@ const REAL = [{
   color: C.danger,
   pale: C.dangerPale
 }];
-const FIN = [{
+var DEVICE_COUNTS = [1, 2, 3, 4, 5];
+var fmtKc = function fmtKc(n) {
+  return n.toLocaleString('cs-CZ') + " Kč";
+};
+var FIN = [{
   id: null,
   label: "—",
   icon: null,
   color: C.textLight,
-  pale: C.surfaceAlt
+  pale: C.surfaceAlt,
+  value: 0
 }, {
   id: "comm1",
   label: "1. část provize",
   icon: Banknote,
   color: C.orange,
-  pale: C.orangePale
+  pale: C.orangePale,
+  value: 3190
 }, {
   id: "comm2",
   label: "2. část provize",
   icon: DollarSign,
   color: C.brown,
-  pale: C.brownPale
+  pale: C.brownPale,
+  value: 2530
 }, {
   id: "paid",
   label: "Kompletně zaplaceno",
   icon: BadgeCheck,
   color: C.green,
-  pale: C.greenPale
+  pale: C.greenPale,
+  value: 5720
 }];
-const procById = Object.fromEntries(PROC.map(s => [s.id, s]));
-const finById = Object.fromEntries(FIN.map(s => [s.id, s]));
-const uid = () => `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-const fmtDate = (d, t) => {
-  if (!d) return "";
-  const dt = new Date(d + "T00:00:00");
-  return `${dt.getDate()}.${dt.getMonth() + 1}.${t ? " " + t : ""}`;
+var procById = Object.fromEntries(PROC.map(function (s) {
+  return [s.id, s];
+}));
+var finById = Object.fromEntries(FIN.map(function (s) {
+  return [s.id, s];
+}));
+var uid = function uid() {
+  return "".concat(Date.now(), "-").concat(Math.random().toString(36).slice(2, 8));
 };
-const MONTHS = ["Led", "Úno", "Bře", "Dub", "Kvě", "Čvn", "Čvc", "Srp", "Zář", "Říj", "Lis", "Pro"];
+var fmtDate = function fmtDate(d, t) {
+  if (!d) return "";
+  var dt = new Date(d + "T00:00:00");
+  return "".concat(dt.getDate(), ".").concat(dt.getMonth() + 1, ".").concat(t ? " " + t : "");
+};
+var MONTHS = ["Led", "Úno", "Bře", "Dub", "Kvě", "Čvn", "Čvc", "Srp", "Zář", "Říj", "Lis", "Pro"];
 
 // ─── GOOGLE CALENDAR API ──────────────────────────────────────────────────────
-const CAL_SCOPE = 'https://www.googleapis.com/auth/calendar.events';
-const CAL_BASE = 'https://www.googleapis.com/calendar/v3/calendars/primary/events';
-const addHour = t => {
-  const [h, m] = t.split(':').map(Number);
-  return `${String((h + 1) % 24).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+var CAL_SCOPE = 'https://www.googleapis.com/auth/calendar.events';
+var CAL_BASE = 'https://www.googleapis.com/calendar/v3/calendars/primary/events';
+var addHour = function addHour(t) {
+  var _t$split$map = t.split(':').map(Number),
+    _t$split$map2 = _slicedToArray(_t$split$map, 2),
+    h = _t$split$map2[0],
+    m = _t$split$map2[1];
+  return "".concat(String((h + 1) % 24).padStart(2, '0'), ":").concat(String(m).padStart(2, '0'));
 };
-const makeCalEvent = order => {
-  const proc = procById[order.processStatus] || PROC[0];
-  const hasTime = !!order.visitTime;
+var makeCalEvent = function makeCalEvent(order) {
+  var proc = procById[order.processStatus] || PROC[0];
+  var hasTime = !!order.visitTime;
   return {
-    summary: `GOORN: ${order.name} – ${order.city}`,
-    description: ['Prezentace přístroje osmotického odvlhčování zdiva', `Status: ${proc.label}`, order.notes ? `Poznámka: ${order.notes}` : ''].filter(Boolean).join('\n'),
+    summary: "\uD83D\uDFE2 ".concat(order.name, " ").concat(order.city),
+    description: ["\uD83E\uDDF1 \u2022 ".concat(proc.label), order.notes ? order.notes : ''].filter(Boolean).join(' • '),
     start: hasTime ? {
-      dateTime: `${order.visitDate}T${order.visitTime}:00`,
+      dateTime: "".concat(order.visitDate, "T").concat(order.visitTime, ":00"),
       timeZone: 'Europe/Prague'
     } : {
       date: order.visitDate
     },
     end: hasTime ? {
-      dateTime: `${order.visitDate}T${addHour(order.visitTime)}:00`,
+      dateTime: "".concat(order.visitDate, "T").concat(addHour(order.visitTime), ":00"),
       timeZone: 'Europe/Prague'
     } : {
       date: order.visitDate
@@ -762,56 +812,121 @@ const makeCalEvent = order => {
     }
   };
 };
-const calApi = {
-  create: async (order, token) => {
-    const r = await fetch(CAL_BASE, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(makeCalEvent(order))
-    });
-    if (r.status === 401) return {
-      error: 'auth'
-    };
-    return r.json();
-  },
-  update: async (eventId, order, token) => {
-    const r = await fetch(`${CAL_BASE}/${eventId}`, {
-      method: 'PUT',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(makeCalEvent(order))
-    });
-    if (r.status === 401) return {
-      error: 'auth'
-    };
-    if (r.status === 404) return {
-      error: 'notfound'
-    };
-    return r.json();
-  },
-  del: async (eventId, token) => {
-    const r = await fetch(`${CAL_BASE}/${eventId}`, {
-      method: 'DELETE',
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    });
-    if (r.status === 401) return {
-      error: 'auth'
-    };
-    return {
-      ok: true
-    };
-  }
+var calApi = {
+  create: function () {
+    var _create = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee(order, token) {
+      var r;
+      return _regenerator().w(function (_context) {
+        while (1) switch (_context.n) {
+          case 0:
+            _context.n = 1;
+            return fetch(CAL_BASE, {
+              method: 'POST',
+              headers: {
+                'Authorization': "Bearer ".concat(token),
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(makeCalEvent(order))
+            });
+          case 1:
+            r = _context.v;
+            if (!(r.status === 401)) {
+              _context.n = 2;
+              break;
+            }
+            return _context.a(2, {
+              error: 'auth'
+            });
+          case 2:
+            return _context.a(2, r.json());
+        }
+      }, _callee);
+    }));
+    function create(_x, _x2) {
+      return _create.apply(this, arguments);
+    }
+    return create;
+  }(),
+  update: function () {
+    var _update = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2(eventId, order, token) {
+      var r;
+      return _regenerator().w(function (_context2) {
+        while (1) switch (_context2.n) {
+          case 0:
+            _context2.n = 1;
+            return fetch("".concat(CAL_BASE, "/").concat(eventId), {
+              method: 'PUT',
+              headers: {
+                'Authorization': "Bearer ".concat(token),
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(makeCalEvent(order))
+            });
+          case 1:
+            r = _context2.v;
+            if (!(r.status === 401)) {
+              _context2.n = 2;
+              break;
+            }
+            return _context2.a(2, {
+              error: 'auth'
+            });
+          case 2:
+            if (!(r.status === 404)) {
+              _context2.n = 3;
+              break;
+            }
+            return _context2.a(2, {
+              error: 'notfound'
+            });
+          case 3:
+            return _context2.a(2, r.json());
+        }
+      }, _callee2);
+    }));
+    function update(_x3, _x4, _x5) {
+      return _update.apply(this, arguments);
+    }
+    return update;
+  }(),
+  del: function () {
+    var _del = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3(eventId, token) {
+      var r;
+      return _regenerator().w(function (_context3) {
+        while (1) switch (_context3.n) {
+          case 0:
+            _context3.n = 1;
+            return fetch("".concat(CAL_BASE, "/").concat(eventId), {
+              method: 'DELETE',
+              headers: {
+                'Authorization': "Bearer ".concat(token)
+              }
+            });
+          case 1:
+            r = _context3.v;
+            if (!(r.status === 401)) {
+              _context3.n = 2;
+              break;
+            }
+            return _context3.a(2, {
+              error: 'auth'
+            });
+          case 2:
+            return _context3.a(2, {
+              ok: true
+            });
+        }
+      }, _callee3);
+    }));
+    function del(_x6, _x7) {
+      return _del.apply(this, arguments);
+    }
+    return del;
+  }()
 };
 
 // ─── COMPLETE DATASET ─────────────────────────────────────────────────────────
-const INITIAL_DATA = [
+var INITIAL_DATA = [
 // ══ 2026 ══════════════════════════════════════════════════════════════════
 {
   id: uid(),
@@ -2045,62 +2160,82 @@ const INITIAL_DATA = [
 
 // ─── FIREBASE DATA LAYER ──────────────────────────────────────────────────────
 function useOrders(userId) {
-  const [orders, setOrders] = useState([]);
-  const [ready, setReady] = useState(false);
-  useEffect(() => {
+  var _useState = useState([]),
+    _useState2 = _slicedToArray(_useState, 2),
+    orders = _useState2[0],
+    setOrders = _useState2[1];
+  var _useState3 = useState(false),
+    _useState4 = _slicedToArray(_useState3, 2),
+    ready = _useState4[0],
+    setReady = _useState4[1];
+  useEffect(function () {
     if (!userId) return;
-    const ref = db.collection("users").doc(userId).collection("orders");
-    const unsub = ref.onSnapshot(snap => {
+    var ref = db.collection("users").doc(userId).collection("orders");
+    var unsub = ref.onSnapshot(function (snap) {
       if (snap.empty && !ready) {
         // First login – import initial data
-        const batch = db.batch();
-        INITIAL_DATA.forEach(o => {
-          const d = ref.doc(o.id);
+        var batch = db.batch();
+        INITIAL_DATA.forEach(function (o) {
+          var d = ref.doc(o.id);
           batch.set(d, o);
         });
-        batch.commit().then(() => setReady(true));
+        batch.commit().then(function () {
+          return setReady(true);
+        });
       } else {
-        setOrders(snap.docs.map(d => d.data()));
+        setOrders(snap.docs.map(function (d) {
+          return d.data();
+        }));
         setReady(true);
       }
     });
     return unsub;
   }, [userId]);
-  const col = () => db.collection("users").doc(userId).collection("orders");
-  const addOrder = o => col().doc(o.id).set(o);
-  const updateOrder = o => col().doc(o.id).set(o, {
-    merge: true
-  });
+  var col = function col() {
+    return db.collection("users").doc(userId).collection("orders");
+  };
+  var addOrder = function addOrder(o) {
+    return col().doc(o.id).set(o);
+  };
+  var updateOrder = function updateOrder(o) {
+    return col().doc(o.id).set(o, {
+      merge: true
+    });
+  };
   return {
-    orders,
-    ready,
-    addOrder,
-    updateOrder
+    orders: orders,
+    ready: ready,
+    addOrder: addOrder,
+    updateOrder: updateOrder
   };
 }
 
 // ─── PDF EXPORT ───────────────────────────────────────────────────────────────
 function exportPDF(orders, year) {
-  const {
-    jsPDF
-  } = window.jspdf;
-  const doc = new jsPDF({
+  var jsPDF = window.jspdf.jsPDF;
+  var doc = new jsPDF({
     orientation: "portrait",
     unit: "mm",
     format: "a4"
   });
   doc.setFont("helvetica", "bold");
   doc.setFontSize(16);
-  doc.text(`GOORN · Zakázky ${year}`, 14, 16);
+  doc.text("GOORN \xB7 Zak\xE1zky ".concat(year), 14, 16);
   doc.setFontSize(9);
   doc.setFont("helvetica", "normal");
   doc.setTextColor(120, 100, 80);
-  doc.text(`Exportováno ${new Date().toLocaleDateString("cs-CZ")} · Pro GOORN © ⁶⁷〽️`, 14, 22);
-  const yo = orders.filter(o => o.year === year).sort((a, b) => b.num - a.num);
-  const rows = yo.map(o => {
-    const p = procById[o.processStatus] || PROC[0];
-    const f = finById[o.finStatus];
-    const r = REAL.find(x => x.id === o.realStatus);
+  doc.text("Exportov\xE1no ".concat(new Date().toLocaleDateString("cs-CZ"), " \xB7 Pro GOORN \xA9 \u2076\u2077\u303D\uFE0F"), 14, 22);
+  var yo = orders.filter(function (o) {
+    return o.year === year;
+  }).sort(function (a, b) {
+    return b.num - a.num;
+  });
+  var rows = yo.map(function (o) {
+    var p = procById[o.processStatus] || PROC[0];
+    var f = finById[o.finStatus];
+    var r = REAL.find(function (x) {
+      return x.id === o.realStatus;
+    });
     return [o.num === 0 ? "XX" : String(o.num), o.name || "—", o.city || "—", fmtDate(o.visitDate, o.visitTime) || "—", p.label, r && r.id ? r.label : "—", f && f.id ? f.label : "—", o.notes || ""];
   });
   doc.autoTable({
@@ -2133,21 +2268,22 @@ function exportPDF(orders, year) {
       right: 8
     }
   });
-  const total = yo.length;
-  const real = yo.filter(o => o.processStatus === "real").length;
-  const finalY = doc.lastAutoTable.finalY + 8;
+  var total = yo.length;
+  var real = yo.filter(function (o) {
+    return o.processStatus === "real";
+  }).length;
+  var finalY = doc.lastAutoTable.finalY + 8;
   doc.setFontSize(8);
   doc.setTextColor(80, 60, 40);
-  doc.text(`Celkem: ${total}  |  Realizace: ${real}  |  Úspěšnost: ${total > 0 ? Math.round(real / total * 100) : 0} %`, 14, finalY);
-  doc.save(`GOORN_${year}_zakazky.pdf`);
+  doc.text("Celkem: ".concat(total, "  |  Realizace: ").concat(real, "  |  \xDAsp\u011B\u0161nost: ").concat(total > 0 ? Math.round(real / total * 100) : 0, " %"), 14, finalY);
+  doc.save("GOORN_".concat(year, "_zakazky.pdf"));
 }
 
 // ─── PROCESS STATUS PICKER ────────────────────────────────────────────────────
-function ProcPicker({
-  current,
-  onChange,
-  onClose
-}) {
+function ProcPicker(_ref2) {
+  var current = _ref2.current,
+    onChange = _ref2.onChange,
+    onClose = _ref2.onClose;
   return /*#__PURE__*/React.createElement("div", {
     style: {
       position: "fixed",
@@ -2169,7 +2305,9 @@ function ProcPicker({
       maxWidth: 340,
       boxShadow: "0 12px 40px rgba(0,0,0,.22)"
     },
-    onClick: e => e.stopPropagation()
+    onClick: function onClick(e) {
+      return e.stopPropagation();
+    }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 11,
@@ -2185,12 +2323,12 @@ function ProcPicker({
       gridTemplateColumns: "repeat(2,1fr)",
       gap: 6
     }
-  }, PROC.map(s => {
-    const Icon = s.icon;
-    const active = s.id === current;
+  }, PROC.map(function (s) {
+    var Icon = s.icon;
+    var active = s.id === current;
     return /*#__PURE__*/React.createElement("button", {
       key: s.id,
-      onClick: () => {
+      onClick: function onClick() {
         onChange(s.id);
         onClose();
       },
@@ -2202,7 +2340,7 @@ function ProcPicker({
         borderRadius: 8,
         cursor: "pointer",
         background: active ? s.pale : C.surfaceAlt,
-        border: `1.5px solid ${active ? s.color : C.borderLight}`,
+        border: "1.5px solid ".concat(active ? s.color : C.borderLight),
         color: active ? s.color : C.textMid,
         fontWeight: active ? 700 : 500,
         fontSize: 12,
@@ -2213,7 +2351,7 @@ function ProcPicker({
         width: 26,
         height: 26,
         borderRadius: 6,
-        background: `${s.color}28`,
+        background: "".concat(s.color, "28"),
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -2237,7 +2375,7 @@ function ProcPicker({
       marginTop: 10,
       padding: "9px",
       borderRadius: 8,
-      border: `1px solid ${C.border}`,
+      border: "1px solid ".concat(C.border),
       background: C.surfaceAlt,
       color: C.textMid,
       fontSize: 12,
@@ -2248,21 +2386,28 @@ function ProcPicker({
 }
 
 // ─── CYCLE BUTTON ─────────────────────────────────────────────────────────────
-function CycleBtn({
-  statuses,
-  value,
-  onChange,
-  size = 28
-}) {
-  const [tip, setTip] = useState(false);
-  const idx = statuses.findIndex(s => s.id === value);
-  const cur = statuses[Math.max(0, idx)];
-  const Icon = cur.icon;
-  const click = e => {
+function CycleBtn(_ref3) {
+  var statuses = _ref3.statuses,
+    value = _ref3.value,
+    onChange = _ref3.onChange,
+    _ref3$size = _ref3.size,
+    size = _ref3$size === void 0 ? 28 : _ref3$size;
+  var _useState5 = useState(false),
+    _useState6 = _slicedToArray(_useState5, 2),
+    tip = _useState6[0],
+    setTip = _useState6[1];
+  var idx = statuses.findIndex(function (s) {
+    return s.id === value;
+  });
+  var cur = statuses[Math.max(0, idx)];
+  var Icon = cur.icon;
+  var click = function click(e) {
     e.stopPropagation();
     onChange(statuses[(idx + 1) % statuses.length].id);
     setTip(true);
-    setTimeout(() => setTip(false), 1400);
+    setTimeout(function () {
+      return setTip(false);
+    }, 1400);
   };
   return /*#__PURE__*/React.createElement("div", {
     style: {
@@ -2277,15 +2422,19 @@ function CycleBtn({
       height: size,
       borderRadius: 6,
       background: cur.pale,
-      border: `1.5px solid ${cur.color}55`,
+      border: "1.5px solid ".concat(cur.color, "55"),
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
       cursor: "pointer",
       transition: "box-shadow .1s"
     },
-    onMouseEnter: e => e.currentTarget.style.boxShadow = `0 2px 8px ${cur.color}40`,
-    onMouseLeave: e => e.currentTarget.style.boxShadow = "none"
+    onMouseEnter: function onMouseEnter(e) {
+      return e.currentTarget.style.boxShadow = "0 2px 8px ".concat(cur.color, "40");
+    },
+    onMouseLeave: function onMouseLeave(e) {
+      return e.currentTarget.style.boxShadow = "none";
+    }
   }, Icon ? /*#__PURE__*/React.createElement(Icon, {
     size: size * .43,
     color: cur.color,
@@ -2316,21 +2465,21 @@ function CycleBtn({
 }
 
 // ─── STATUS TILE ─────────────────────────────────────────────────────────────
-function Tile({
-  status,
-  count,
-  active,
-  onClick
-}) {
-  const Icon = status.icon;
+function Tile(_ref4) {
+  var status = _ref4.status,
+    count = _ref4.count,
+    active = _ref4.active,
+    onClick = _ref4.onClick,
+    kc = _ref4.kc;
+  var Icon = status.icon;
   return /*#__PURE__*/React.createElement("button", {
     onClick: onClick,
     style: {
       flex: 1,
       minWidth: 70,
-      maxWidth: 90,
+      maxWidth: kc ? 110 : 90,
       background: active ? status.pale : C.surface,
-      border: `1.5px solid ${active ? status.color : C.border}`,
+      border: "1.5px solid ".concat(active ? status.color : C.border),
       borderRadius: 10,
       padding: "8px 4px 7px",
       cursor: "pointer",
@@ -2338,7 +2487,7 @@ function Tile({
       flexDirection: "column",
       alignItems: "center",
       gap: 3,
-      boxShadow: active ? `0 0 0 2px ${status.color}30` : "none",
+      boxShadow: active ? "0 0 0 2px ".concat(status.color, "30") : "none",
       transition: "all .15s"
     }
   }, /*#__PURE__*/React.createElement("div", {
@@ -2346,7 +2495,7 @@ function Tile({
       width: 30,
       height: 30,
       borderRadius: 7,
-      background: `${status.color}38`,
+      background: "".concat(status.color, "38"),
       display: "flex",
       alignItems: "center",
       justifyContent: "center"
@@ -2371,37 +2520,66 @@ function Tile({
       fontWeight: active ? 700 : 500,
       padding: "0 2px"
     }
-  }, status.label));
+  }, status.label), kc != null && /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      fontWeight: 700,
+      color: active ? status.color : C.textMid,
+      marginTop: 1,
+      letterSpacing: "-0.3px"
+    }
+  }, fmtKc(kc)));
 }
 
 // ─── ORDER ROW ────────────────────────────────────────────────────────────────
-function OrderRow({
-  order,
-  onUpdate,
-  calToken,
-  onConnectCal
-}) {
-  const [open, setOpen] = useState(false);
-  const [showPicker, setPicker] = useState(false);
-  const [editMode, setEditMode] = useState(false);
-  const [draft, setDraft] = useState({});
-  const [notes, setNotes] = useState(order.notes || "");
-  const [calBusy, setCalBusy] = useState(false);
-  const [calMsg, setCalMsg] = useState('');
-  const timer = useRef(null);
-  const procSt = procById[order.processStatus] || PROC[0];
-  const PIcon = procSt.icon;
-  const dateStr = fmtDate(order.visitDate, order.visitTime);
-  const hasNotes = notes.trim().length > 0;
-  const onNotes = v => {
+function OrderRow(_ref5) {
+  var order = _ref5.order,
+    onUpdate = _ref5.onUpdate,
+    calToken = _ref5.calToken,
+    onConnectCal = _ref5.onConnectCal;
+  var _useState7 = useState(false),
+    _useState8 = _slicedToArray(_useState7, 2),
+    open = _useState8[0],
+    setOpen = _useState8[1];
+  var _useState9 = useState(false),
+    _useState0 = _slicedToArray(_useState9, 2),
+    showPicker = _useState0[0],
+    setPicker = _useState0[1];
+  var _useState1 = useState(false),
+    _useState10 = _slicedToArray(_useState1, 2),
+    editMode = _useState10[0],
+    setEditMode = _useState10[1];
+  var _useState11 = useState({}),
+    _useState12 = _slicedToArray(_useState11, 2),
+    draft = _useState12[0],
+    setDraft = _useState12[1];
+  var _useState13 = useState(order.notes || ""),
+    _useState14 = _slicedToArray(_useState13, 2),
+    notes = _useState14[0],
+    setNotes = _useState14[1];
+  var _useState15 = useState(false),
+    _useState16 = _slicedToArray(_useState15, 2),
+    calBusy = _useState16[0],
+    setCalBusy = _useState16[1];
+  var _useState17 = useState(''),
+    _useState18 = _slicedToArray(_useState17, 2),
+    calMsg = _useState18[0],
+    setCalMsg = _useState18[1];
+  var timer = useRef(null);
+  var procSt = procById[order.processStatus] || PROC[0];
+  var PIcon = procSt.icon;
+  var dateStr = fmtDate(order.visitDate, order.visitTime);
+  var hasNotes = notes.trim().length > 0;
+  var onNotes = function onNotes(v) {
     setNotes(v);
     clearTimeout(timer.current);
-    timer.current = setTimeout(() => onUpdate({
-      ...order,
-      notes: v
-    }), 800);
+    timer.current = setTimeout(function () {
+      return onUpdate(_objectSpread(_objectSpread({}, order), {}, {
+        notes: v
+      }));
+    }, 800);
   };
-  const startEdit = e => {
+  var startEdit = function startEdit(e) {
     e.stopPropagation();
     setDraft({
       name: order.name || "",
@@ -2412,61 +2590,117 @@ function OrderRow({
     setEditMode(true);
     setOpen(true);
   };
-  const saveEdit = () => {
-    onUpdate({
-      ...order,
-      ...draft
-    });
+  var saveEdit = function saveEdit() {
+    onUpdate(_objectSpread(_objectSpread({}, order), draft));
     setEditMode(false);
   };
-  const syncCal = async e => {
-    e.stopPropagation();
-    if (!calToken) {
-      onConnectCal();
-      return;
-    }
-    setCalBusy(true);
-    setCalMsg('');
-    try {
-      let res;
-      if (order.calendarEventId) {
-        res = await calApi.update(order.calendarEventId, order, calToken);
-        if (res.error === 'notfound') res = await calApi.create(order, calToken);
-      } else {
-        res = await calApi.create(order, calToken);
-      }
-      if (res.error === 'auth') {
-        onConnectCal();
-        setCalMsg('Znovu připojit Google Kalendář');
-      } else if (res.id) {
-        onUpdate({
-          ...order,
-          calendarEventId: res.id
-        });
-        setCalMsg('Synchronizováno!');
-      } else setCalMsg('Chyba – zkus znovu');
-    } catch {
-      setCalMsg('Chyba připojení');
-    }
-    setCalBusy(false);
-    setTimeout(() => setCalMsg(''), 3000);
-  };
-  const removeCal = async e => {
-    e.stopPropagation();
-    if (!order.calendarEventId || !calToken) return;
-    setCalBusy(true);
-    await calApi.del(order.calendarEventId, calToken);
-    onUpdate({
-      ...order,
-      calendarEventId: null
-    });
-    setCalMsg('Odebráno z kalendáře');
-    setCalBusy(false);
-    setTimeout(() => setCalMsg(''), 3000);
-  };
-  const numLabel = order.num === 0 ? "XX" : order.num;
-  const inp = {
-    border: `1px solid ${C.border}`,
+  var syncCal = /*#__PURE__*/function () {
+    var _ref6 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4(e) {
+      var res, _t;
+      return _regenerator().w(function (_context4) {
+        while (1) switch (_context4.p = _context4.n) {
+          case 0:
+            e.stopPropagation();
+            if (calToken) {
+              _context4.n = 1;
+              break;
+            }
+            onConnectCal();
+            return _context4.a(2);
+          case 1:
+            setCalBusy(true);
+            setCalMsg('');
+            _context4.p = 2;
+            if (!order.calendarEventId) {
+              _context4.n = 6;
+              break;
+            }
+            _context4.n = 3;
+            return calApi.update(order.calendarEventId, order, calToken);
+          case 3:
+            res = _context4.v;
+            if (!(res.error === 'notfound')) {
+              _context4.n = 5;
+              break;
+            }
+            _context4.n = 4;
+            return calApi.create(order, calToken);
+          case 4:
+            res = _context4.v;
+          case 5:
+            _context4.n = 8;
+            break;
+          case 6:
+            _context4.n = 7;
+            return calApi.create(order, calToken);
+          case 7:
+            res = _context4.v;
+          case 8:
+            if (res.error === 'auth') {
+              onConnectCal();
+              setCalMsg('Znovu připojit Google Kalendář');
+            } else if (res.id) {
+              onUpdate(_objectSpread(_objectSpread({}, order), {}, {
+                calendarEventId: res.id
+              }));
+              setCalMsg('Synchronizováno!');
+            } else setCalMsg('Chyba – zkus znovu');
+            _context4.n = 10;
+            break;
+          case 9:
+            _context4.p = 9;
+            _t = _context4.v;
+            setCalMsg('Chyba připojení');
+          case 10:
+            setCalBusy(false);
+            setTimeout(function () {
+              return setCalMsg('');
+            }, 3000);
+          case 11:
+            return _context4.a(2);
+        }
+      }, _callee4, null, [[2, 9]]);
+    }));
+    return function syncCal(_x8) {
+      return _ref6.apply(this, arguments);
+    };
+  }();
+  var removeCal = /*#__PURE__*/function () {
+    var _ref7 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5(e) {
+      return _regenerator().w(function (_context5) {
+        while (1) switch (_context5.n) {
+          case 0:
+            e.stopPropagation();
+            if (!(!order.calendarEventId || !calToken)) {
+              _context5.n = 1;
+              break;
+            }
+            return _context5.a(2);
+          case 1:
+            setCalBusy(true);
+            _context5.n = 2;
+            return calApi.del(order.calendarEventId, calToken);
+          case 2:
+            onUpdate(_objectSpread(_objectSpread({}, order), {}, {
+              calendarEventId: null
+            }));
+            setCalMsg('Odebráno z kalendáře');
+            setCalBusy(false);
+            setTimeout(function () {
+              return setCalMsg('');
+            }, 3000);
+          case 3:
+            return _context5.a(2);
+        }
+      }, _callee5);
+    }));
+    return function removeCal(_x9) {
+      return _ref7.apply(this, arguments);
+    };
+  }();
+  var numLabel = order.num === 0 ? "XX" : order.num;
+  var inp = {
+    border: "1px solid ".concat(C.border),
     borderRadius: 6,
     padding: "6px 8px",
     fontSize: 12,
@@ -2481,14 +2715,18 @@ function OrderRow({
     className: "order-row",
     style: {
       background: C.surface,
-      border: `1px solid ${C.border}`,
+      border: "1px solid ".concat(C.border),
       borderRadius: 10,
       overflow: "hidden",
-      borderLeft: `3px solid ${procSt.color}`,
+      borderLeft: "3px solid ".concat(procSt.color),
       marginBottom: 4
     }
   }, /*#__PURE__*/React.createElement("div", {
-    onClick: () => setOpen(o => !o),
+    onClick: function onClick() {
+      return setOpen(function (o) {
+        return !o;
+      });
+    },
     style: {
       display: "flex",
       alignItems: "center",
@@ -2507,7 +2745,7 @@ function OrderRow({
       flexShrink: 0
     }
   }, numLabel), /*#__PURE__*/React.createElement("button", {
-    onClick: e => {
+    onClick: function onClick(e) {
       e.stopPropagation();
       setPicker(true);
     },
@@ -2517,15 +2755,19 @@ function OrderRow({
       height: 28,
       borderRadius: 6,
       background: procSt.pale,
-      border: `1.5px solid ${procSt.color}55`,
+      border: "1.5px solid ".concat(procSt.color, "55"),
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
       cursor: "pointer",
       flexShrink: 0
     },
-    onMouseEnter: e => e.currentTarget.style.boxShadow = `0 2px 8px ${procSt.color}40`,
-    onMouseLeave: e => e.currentTarget.style.boxShadow = "none"
+    onMouseEnter: function onMouseEnter(e) {
+      return e.currentTarget.style.boxShadow = "0 2px 8px ".concat(procSt.color, "40");
+    },
+    onMouseLeave: function onMouseLeave(e) {
+      return e.currentTarget.style.boxShadow = "none";
+    }
   }, /*#__PURE__*/React.createElement(PIcon, {
     size: 12,
     color: procSt.color,
@@ -2560,46 +2802,47 @@ function OrderRow({
       textAlign: "center",
       fontWeight: 500
     }
-  }, dateStr || "—"), order.visitDate && /*#__PURE__*/React.createElement("button", {
-    onClick: syncCal,
-    disabled: calBusy,
-    title: order.calendarEventId ? "Aktualizovat v kalendáři" : "Přidat do Google Kalendáře",
+  }, dateStr || "—"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick(e) {
+      e.stopPropagation();
+      var cur = order.deviceCount || 1;
+      var next = cur >= 5 ? 1 : cur + 1;
+      onUpdate(_objectSpread(_objectSpread({}, order), {}, {
+        deviceCount: next
+      }));
+    },
+    title: "Po\u010Det p\u0159\xEDstroj\u016F: ".concat(order.deviceCount || 1),
     style: {
       width: 28,
       height: 28,
       borderRadius: 6,
       flexShrink: 0,
-      background: order.calendarEventId ? C.greenBrightPale : C.surfaceAlt,
-      border: `1.5px solid ${order.calendarEventId ? C.greenBright : C.border}`,
+      background: order.processStatus === "real" ? C.greenBrightPale : C.surfaceAlt,
+      border: "1.5px solid ".concat(order.processStatus === "real" ? C.greenBright : C.border),
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      cursor: calBusy ? "wait" : "pointer",
-      opacity: calBusy ? .6 : 1,
-      transition: "all .15s"
+      cursor: "pointer",
+      fontSize: 13,
+      fontWeight: 800,
+      color: order.processStatus === "real" ? C.greenBright : C.textLight
     }
-  }, order.calendarEventId ? /*#__PURE__*/React.createElement(CalendarCheck, {
-    size: 12,
-    color: C.greenBright,
-    strokeWidth: 2
-  }) : /*#__PURE__*/React.createElement(CalendarPlus, {
-    size: 12,
-    color: C.textLight,
-    strokeWidth: 2
-  })), /*#__PURE__*/React.createElement(CycleBtn, {
+  }, order.deviceCount || 1), /*#__PURE__*/React.createElement(CycleBtn, {
     statuses: REAL,
     value: order.realStatus,
-    onChange: v => onUpdate({
-      ...order,
-      realStatus: v
-    })
+    onChange: function onChange(v) {
+      return onUpdate(_objectSpread(_objectSpread({}, order), {}, {
+        realStatus: v
+      }));
+    }
   }), /*#__PURE__*/React.createElement(CycleBtn, {
     statuses: FIN,
     value: order.finStatus,
-    onChange: v => onUpdate({
-      ...order,
-      finStatus: v
-    })
+    onChange: function onChange(v) {
+      return onUpdate(_objectSpread(_objectSpread({}, order), {}, {
+        finStatus: v
+      }));
+    }
   }), /*#__PURE__*/React.createElement("div", {
     style: {
       width: 18,
@@ -2621,7 +2864,7 @@ function OrderRow({
     }
   })), open && /*#__PURE__*/React.createElement("div", {
     style: {
-      borderTop: `1px solid ${C.borderLight}`,
+      borderTop: "1px solid ".concat(C.borderLight),
       padding: "12px 12px 14px",
       background: C.surfaceAlt
     }
@@ -2659,12 +2902,17 @@ function OrderRow({
     }
   }, "Z\xE1kazn\xEDk"), /*#__PURE__*/React.createElement("input", {
     value: draft.name,
-    onChange: e => setDraft(d => ({
-      ...d,
-      name: e.target.value
-    })),
+    onChange: function onChange(e) {
+      return setDraft(function (d) {
+        return _objectSpread(_objectSpread({}, d), {}, {
+          name: e.target.value
+        });
+      });
+    },
     style: inp,
-    onClick: e => e.stopPropagation()
+    onClick: function onClick(e) {
+      return e.stopPropagation();
+    }
   })), /*#__PURE__*/React.createElement("div", {
     style: {
       flex: 2
@@ -2680,12 +2928,17 @@ function OrderRow({
     }
   }, "M\u011Bsto / Adresa"), /*#__PURE__*/React.createElement("input", {
     value: draft.city,
-    onChange: e => setDraft(d => ({
-      ...d,
-      city: e.target.value
-    })),
+    onChange: function onChange(e) {
+      return setDraft(function (d) {
+        return _objectSpread(_objectSpread({}, d), {}, {
+          city: e.target.value
+        });
+      });
+    },
     style: inp,
-    onClick: e => e.stopPropagation()
+    onClick: function onClick(e) {
+      return e.stopPropagation();
+    }
   }))), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
@@ -2707,12 +2960,17 @@ function OrderRow({
   }, "Datum n\xE1v\u0161t\u011Bvy"), /*#__PURE__*/React.createElement("input", {
     type: "date",
     value: draft.visitDate,
-    onChange: e => setDraft(d => ({
-      ...d,
-      visitDate: e.target.value
-    })),
+    onChange: function onChange(e) {
+      return setDraft(function (d) {
+        return _objectSpread(_objectSpread({}, d), {}, {
+          visitDate: e.target.value
+        });
+      });
+    },
     style: inp,
-    onClick: e => e.stopPropagation()
+    onClick: function onClick(e) {
+      return e.stopPropagation();
+    }
   })), /*#__PURE__*/React.createElement("div", {
     style: {
       flex: 1
@@ -2729,12 +2987,17 @@ function OrderRow({
   }, "\u010Cas"), /*#__PURE__*/React.createElement("input", {
     type: "time",
     value: draft.visitTime,
-    onChange: e => setDraft(d => ({
-      ...d,
-      visitTime: e.target.value
-    })),
+    onChange: function onChange(e) {
+      return setDraft(function (d) {
+        return _objectSpread(_objectSpread({}, d), {}, {
+          visitTime: e.target.value
+        });
+      });
+    },
     style: inp,
-    onClick: e => e.stopPropagation()
+    onClick: function onClick(e) {
+      return e.stopPropagation();
+    }
   }))), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
@@ -2742,7 +3005,7 @@ function OrderRow({
       marginTop: 2
     }
   }, /*#__PURE__*/React.createElement("button", {
-    onClick: e => {
+    onClick: function onClick(e) {
       e.stopPropagation();
       saveEdit();
     },
@@ -2764,7 +3027,7 @@ function OrderRow({
   }, /*#__PURE__*/React.createElement(Save, {
     size: 12
   }), " Ulo\u017Eit zm\u011Bny"), /*#__PURE__*/React.createElement("button", {
-    onClick: e => {
+    onClick: function onClick(e) {
       e.stopPropagation();
       setEditMode(false);
     },
@@ -2772,7 +3035,7 @@ function OrderRow({
       flex: 1,
       padding: "8px",
       borderRadius: 7,
-      border: `1px solid ${C.border}`,
+      border: "1px solid ".concat(C.border),
       background: C.surface,
       color: C.textMid,
       fontSize: 12,
@@ -2795,14 +3058,16 @@ function OrderRow({
   }, /*#__PURE__*/React.createElement(StatusChip, {
     s: procSt
   })), /*#__PURE__*/React.createElement("button", {
-    onClick: e => startEdit(e),
+    onClick: function onClick(e) {
+      return startEdit(e);
+    },
     style: {
       display: "flex",
       alignItems: "center",
       gap: 5,
       padding: "5px 10px",
       borderRadius: 6,
-      border: `1px solid ${C.border}`,
+      border: "1px solid ".concat(C.border),
       background: C.surface,
       color: C.textMid,
       fontSize: 11,
@@ -2823,15 +3088,19 @@ function OrderRow({
     }
   }, "Pozn\xE1mky"), /*#__PURE__*/React.createElement("textarea", {
     value: notes,
-    onChange: e => onNotes(e.target.value),
-    onClick: e => e.stopPropagation(),
+    onChange: function onChange(e) {
+      return onNotes(e.target.value);
+    },
+    onClick: function onClick(e) {
+      return e.stopPropagation();
+    },
     placeholder: "P\u0159idejte pozn\xE1mku\u2026",
     rows: 3,
     style: {
       width: "100%",
       resize: "vertical",
       fontFamily: "inherit",
-      border: `1px solid ${C.border}`,
+      border: "1px solid ".concat(C.border),
       borderRadius: 7,
       padding: "8px 10px",
       fontSize: 12.5,
@@ -2881,7 +3150,7 @@ function OrderRow({
     style: {
       fontSize: 10,
       color: C.danger,
-      border: `1px solid ${C.danger}33`,
+      border: "1px solid ".concat(C.danger, "33"),
       borderRadius: 5,
       padding: "2px 7px",
       background: C.dangerPale,
@@ -2893,21 +3162,23 @@ function OrderRow({
     strokeWidth: 2
   }), " Odebrat")))), showPicker && /*#__PURE__*/React.createElement(ProcPicker, {
     current: order.processStatus,
-    onChange: v => onUpdate({
-      ...order,
-      processStatus: v
-    }),
-    onClose: () => setPicker(false)
+    onChange: function onChange(v) {
+      return onUpdate(_objectSpread(_objectSpread({}, order), {}, {
+        processStatus: v
+      }));
+    },
+    onClose: function onClose() {
+      return setPicker(false);
+    }
   }));
 }
-function StatusChip({
-  s
-}) {
-  const Icon = s.icon;
+function StatusChip(_ref8) {
+  var s = _ref8.s;
+  var Icon = s.icon;
   return /*#__PURE__*/React.createElement("div", {
     style: {
       background: s.pale,
-      border: `1px solid ${s.color}44`,
+      border: "1px solid ".concat(s.color, "44"),
       borderRadius: 20,
       padding: "3px 9px",
       display: "flex",
@@ -2924,45 +3195,86 @@ function StatusChip({
 }
 
 // ─── ADD ORDER MODAL ──────────────────────────────────────────────────────────
-function AddModal({
-  year,
-  maxNum,
-  onAdd,
-  onClose
-}) {
-  const [f, setF] = useState({
-    name: "",
-    city: "",
-    visitDate: "",
-    visitTime: "",
-    processStatus: "call",
-    notes: ""
-  });
-  const set = (k, v) => setF(p => ({
-    ...p,
-    [k]: v
-  }));
-  const save = () => {
-    if (!f.name.trim()) return;
-    onAdd({
-      id: uid(),
-      year,
-      num: maxNum + 1,
-      name: f.name.trim(),
-      city: f.city.trim(),
-      visitDate: f.visitDate,
-      visitTime: f.visitTime,
-      processStatus: f.processStatus,
-      realStatus: null,
-      finStatus: null,
-      notes: f.notes,
-      createdAt: new Date().toISOString()
+function AddModal(_ref9) {
+  var year = _ref9.year,
+    maxNum = _ref9.maxNum,
+    onAdd = _ref9.onAdd,
+    onClose = _ref9.onClose,
+    calToken = _ref9.calToken,
+    onConnectCal = _ref9.onConnectCal;
+  var _useState19 = useState({
+      name: "",
+      city: "",
+      visitDate: "",
+      visitTime: "",
+      processStatus: "call",
+      notes: ""
+    }),
+    _useState20 = _slicedToArray(_useState19, 2),
+    f = _useState20[0],
+    setF = _useState20[1];
+  var set = function set(k, v) {
+    return setF(function (p) {
+      return _objectSpread(_objectSpread({}, p), {}, _defineProperty({}, k, v));
     });
-    onClose();
   };
-  const inp = {
+  var save = /*#__PURE__*/function () {
+    var _ref0 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee6() {
+      var newOrder, res, _t2;
+      return _regenerator().w(function (_context6) {
+        while (1) switch (_context6.p = _context6.n) {
+          case 0:
+            if (f.name.trim()) {
+              _context6.n = 1;
+              break;
+            }
+            return _context6.a(2);
+          case 1:
+            newOrder = {
+              id: uid(),
+              year: year,
+              num: maxNum + 1,
+              name: f.name.trim(),
+              city: f.city.trim(),
+              visitDate: f.visitDate,
+              visitTime: f.visitTime,
+              processStatus: f.processStatus,
+              realStatus: null,
+              finStatus: null,
+              deviceCount: 1,
+              notes: f.notes,
+              createdAt: new Date().toISOString()
+            }; // Auto-sync to calendar if date set and token available
+            if (!(f.visitDate && calToken)) {
+              _context6.n = 5;
+              break;
+            }
+            _context6.p = 2;
+            _context6.n = 3;
+            return calApi.create(newOrder, calToken);
+          case 3:
+            res = _context6.v;
+            if (res.id) newOrder.calendarEventId = res.id;
+            _context6.n = 5;
+            break;
+          case 4:
+            _context6.p = 4;
+            _t2 = _context6.v;
+          case 5:
+            onAdd(newOrder);
+            onClose();
+          case 6:
+            return _context6.a(2);
+        }
+      }, _callee6, null, [[2, 4]]);
+    }));
+    return function save() {
+      return _ref0.apply(this, arguments);
+    };
+  }();
+  var inp = {
     width: "100%",
-    border: `1px solid ${C.border}`,
+    border: "1px solid ".concat(C.border),
     borderRadius: 7,
     padding: "8px 10px",
     fontSize: 13,
@@ -2972,7 +3284,7 @@ function AddModal({
     outline: "none",
     boxSizing: "border-box"
   };
-  const lbl = {
+  var lbl = {
     display: "block",
     fontSize: 9,
     fontWeight: 700,
@@ -3004,7 +3316,9 @@ function AddModal({
       overflowY: "auto",
       boxShadow: "0 12px 48px rgba(0,0,0,.25)"
     },
-    onClick: e => e.stopPropagation()
+    onClick: function onClick(e) {
+      return e.stopPropagation();
+    }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
@@ -3029,7 +3343,7 @@ function AddModal({
       width: 28,
       height: 28,
       borderRadius: 6,
-      border: `1px solid ${C.border}`,
+      border: "1px solid ".concat(C.border),
       background: C.surfaceAlt,
       display: "flex",
       alignItems: "center",
@@ -3049,15 +3363,21 @@ function AddModal({
     style: lbl
   }, "Z\xE1kazn\xEDk *"), /*#__PURE__*/React.createElement("input", {
     value: f.name,
-    onChange: e => set("name", e.target.value),
+    onChange: function onChange(e) {
+      return set("name", e.target.value);
+    },
     placeholder: "P\u0159\xEDjmen\xED, Jm\xE9no",
     style: inp,
-    onKeyDown: e => e.key === "Enter" && save()
+    onKeyDown: function onKeyDown(e) {
+      return e.key === "Enter" && save();
+    }
   })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
     style: lbl
   }, "M\u011Bsto / Adresa"), /*#__PURE__*/React.createElement("input", {
     value: f.city,
-    onChange: e => set("city", e.target.value),
+    onChange: function onChange(e) {
+      return set("city", e.target.value);
+    },
     placeholder: "Trutnov",
     style: inp
   })), /*#__PURE__*/React.createElement("div", {
@@ -3074,7 +3394,9 @@ function AddModal({
   }, "Datum n\xE1v\u0161t\u011Bvy"), /*#__PURE__*/React.createElement("input", {
     type: "date",
     value: f.visitDate,
-    onChange: e => set("visitDate", e.target.value),
+    onChange: function onChange(e) {
+      return set("visitDate", e.target.value);
+    },
     style: inp
   })), /*#__PURE__*/React.createElement("div", {
     style: {
@@ -3085,7 +3407,9 @@ function AddModal({
   }, "\u010Cas"), /*#__PURE__*/React.createElement("input", {
     type: "time",
     value: f.visitTime,
-    onChange: e => set("visitTime", e.target.value),
+    onChange: function onChange(e) {
+      return set("visitTime", e.target.value);
+    },
     style: inp
   }))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
     style: lbl
@@ -3096,12 +3420,14 @@ function AddModal({
       gap: 5,
       marginTop: 2
     }
-  }, PROC.slice(0, 5).map(s => {
-    const Icon = s.icon;
-    const active = f.processStatus === s.id;
+  }, PROC.slice(0, 5).map(function (s) {
+    var Icon = s.icon;
+    var active = f.processStatus === s.id;
     return /*#__PURE__*/React.createElement("button", {
       key: s.id,
-      onClick: () => set("processStatus", s.id),
+      onClick: function onClick() {
+        return set("processStatus", s.id);
+      },
       style: {
         display: "flex",
         alignItems: "center",
@@ -3111,7 +3437,7 @@ function AddModal({
         cursor: "pointer",
         fontSize: 11,
         background: active ? s.pale : C.surfaceAlt,
-        border: `1px solid ${active ? s.color : C.border}`,
+        border: "1px solid ".concat(active ? s.color : C.border),
         color: active ? s.color : C.textMid,
         fontWeight: active ? 700 : 500
       }
@@ -3123,14 +3449,15 @@ function AddModal({
     style: lbl
   }, "Pozn\xE1mky"), /*#__PURE__*/React.createElement("textarea", {
     value: f.notes,
-    onChange: e => set("notes", e.target.value),
+    onChange: function onChange(e) {
+      return set("notes", e.target.value);
+    },
     placeholder: "Voliteln\xE9\u2026",
     rows: 2,
-    style: {
-      ...inp,
+    style: _objectSpread(_objectSpread({}, inp), {}, {
       resize: "vertical",
       lineHeight: 1.5
-    }
+    })
   }))), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
@@ -3143,7 +3470,7 @@ function AddModal({
       flex: 1,
       padding: "10px",
       borderRadius: 8,
-      border: `1px solid ${C.border}`,
+      border: "1px solid ".concat(C.border),
       background: C.surfaceAlt,
       color: C.textMid,
       fontSize: 13,
@@ -3167,18 +3494,40 @@ function AddModal({
 }
 
 // ─── DASHBOARD ────────────────────────────────────────────────────────────────
-function Dashboard({
-  orders,
-  year,
-  filter,
-  onFilter
-}) {
-  const yo = orders.filter(o => o.year === year);
-  const total = yo.length;
-  const real = yo.filter(o => o.processStatus === "real").length;
-  const actv = yo.filter(o => !["done", "cancelled", "cancelledR"].includes(o.processStatus)).length;
-  const procC = Object.fromEntries(PROC.map(s => [s.id, yo.filter(o => o.processStatus === s.id).length]));
-  const finC = Object.fromEntries(FIN.slice(1).map(s => [s.id, orders.filter(o => o.finStatus === s.id).length]));
+function Dashboard(_ref1) {
+  var orders = _ref1.orders,
+    year = _ref1.year,
+    filter = _ref1.filter,
+    onFilter = _ref1.onFilter;
+  var yo = orders.filter(function (o) {
+    return o.year === year;
+  });
+  var total = yo.length;
+  var real = yo.filter(function (o) {
+    return o.processStatus === "real";
+  }).length;
+  var actv = yo.filter(function (o) {
+    return !["done", "cancelled", "cancelledR"].includes(o.processStatus);
+  }).length;
+  var finished = yo.filter(function (o) {
+    return ["real", "cancelled", "cancelledR"].includes(o.processStatus);
+  }).length;
+  var successRate = finished > 0 ? Math.round(real / finished * 100) : 0;
+  var totalDevices = yo.filter(function (o) {
+    return o.processStatus === "real";
+  }).reduce(function (s, o) {
+    return s + (o.deviceCount || 1);
+  }, 0);
+  var procC = Object.fromEntries(PROC.map(function (s) {
+    return [s.id, yo.filter(function (o) {
+      return o.processStatus === s.id;
+    }).length];
+  }));
+  var finC = Object.fromEntries(FIN.slice(1).map(function (s) {
+    return [s.id, orders.filter(function (o) {
+      return o.finStatus === s.id;
+    }).length];
+  }));
   return /*#__PURE__*/React.createElement("div", {
     style: {
       padding: 18,
@@ -3204,44 +3553,57 @@ function Dashboard({
     label: "Realizace",
     value: real,
     color: C.greenBright
-  }, ...(total > 0 ? [{
+  }, {
+    label: "Přístroje",
+    value: totalDevices,
+    color: C.green
+  }, {
     label: "Úspěšnost",
-    value: `${Math.round(real / total * 100)} %`,
-    color: C.greenBright
-  }] : [])].map(({
-    label,
-    value,
-    color
-  }) => /*#__PURE__*/React.createElement("div", {
-    key: label,
+    value: "".concat(successRate, " %"),
+    color: C.greenBright,
+    sub: "z ".concat(finished, " ukon\u010Den\xFDch")
+  }].map(function (_ref10) {
+    var label = _ref10.label,
+      value = _ref10.value,
+      color = _ref10.color,
+      sub = _ref10.sub;
+    return /*#__PURE__*/React.createElement("div", {
+      key: label,
+      style: {
+        flex: 1,
+        minWidth: 80,
+        background: C.surface,
+        border: "1px solid ".concat(C.border),
+        borderRadius: 10,
+        padding: "10px 12px"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 9,
+        color: C.textLight,
+        fontWeight: 700,
+        textTransform: "uppercase",
+        letterSpacing: ".5px",
+        marginBottom: 2
+      }
+    }, label), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 22,
+        fontWeight: 800,
+        color: color,
+        lineHeight: 1
+      }
+    }, value), sub && /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 8,
+        color: C.textLight,
+        marginTop: 2
+      }
+    }, sub));
+  })), /*#__PURE__*/React.createElement("div", {
     style: {
-      flex: 1,
-      minWidth: 80,
       background: C.surface,
-      border: `1px solid ${C.border}`,
-      borderRadius: 10,
-      padding: "10px 12px"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 9,
-      color: C.textLight,
-      fontWeight: 700,
-      textTransform: "uppercase",
-      letterSpacing: ".5px",
-      marginBottom: 2
-    }
-  }, label), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 22,
-      fontWeight: 800,
-      color,
-      lineHeight: 1
-    }
-  }, value)))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: C.surface,
-      border: `1px solid ${C.border}`,
+      border: "1px solid ".concat(C.border),
       borderRadius: 12,
       padding: 12
     }
@@ -3260,16 +3622,20 @@ function Dashboard({
       gap: 5,
       flexWrap: "wrap"
     }
-  }, PROC.map(s => /*#__PURE__*/React.createElement(Tile, {
-    key: s.id,
-    status: s,
-    count: procC[s.id] || 0,
-    active: filter === s.id,
-    onClick: () => onFilter(filter === s.id ? null : s.id)
-  })))), /*#__PURE__*/React.createElement("div", {
+  }, PROC.map(function (s) {
+    return /*#__PURE__*/React.createElement(Tile, {
+      key: s.id,
+      status: s,
+      count: procC[s.id] || 0,
+      active: filter === s.id,
+      onClick: function onClick() {
+        return onFilter(filter === s.id ? null : s.id);
+      }
+    });
+  }))), /*#__PURE__*/React.createElement("div", {
     style: {
       background: C.surface,
-      border: `1px solid ${C.border}`,
+      border: "1px solid ".concat(C.border),
       borderRadius: 12,
       padding: 12
     }
@@ -3291,38 +3657,63 @@ function Dashboard({
       display: "flex",
       gap: 5
     }
-  }, FIN.slice(1).map(s => /*#__PURE__*/React.createElement(Tile, {
-    key: s.id,
-    status: s,
-    count: finC[s.id] || 0,
-    active: filter === `fin-${s.id}`,
-    onClick: () => onFilter(filter === `fin-${s.id}` ? null : `fin-${s.id}`)
-  })))));
+  }, FIN.slice(1).map(function (s) {
+    return /*#__PURE__*/React.createElement(Tile, {
+      key: s.id,
+      status: s,
+      count: finC[s.id] || 0,
+      active: filter === "fin-".concat(s.id),
+      onClick: function onClick() {
+        return onFilter(filter === "fin-".concat(s.id) ? null : "fin-".concat(s.id));
+      },
+      kc: (finC[s.id] || 0) * s.value
+    });
+  }))));
 }
 
 // ─── ORDERS VIEW ─────────────────────────────────────────────────────────────
-function OrdersView({
-  orders,
-  year,
-  filter,
-  onFilter,
-  onUpdate,
-  onAdd,
-  calToken,
-  onConnectCal
-}) {
-  const [search, setSearch] = useState("");
-  const [showAdd, setShowAdd] = useState(false);
-  let list = orders.filter(o => o.year === year);
-  if (filter && !filter.startsWith("fin-")) list = list.filter(o => o.processStatus === filter);
-  if (filter && filter.startsWith("fin-")) list = list.filter(o => o.finStatus === filter.replace("fin-", ""));
+function OrdersView(_ref11) {
+  var orders = _ref11.orders,
+    year = _ref11.year,
+    filter = _ref11.filter,
+    onFilter = _ref11.onFilter,
+    onUpdate = _ref11.onUpdate,
+    onAdd = _ref11.onAdd,
+    calToken = _ref11.calToken,
+    onConnectCal = _ref11.onConnectCal;
+  var _useState21 = useState(""),
+    _useState22 = _slicedToArray(_useState21, 2),
+    search = _useState22[0],
+    setSearch = _useState22[1];
+  var _useState23 = useState(false),
+    _useState24 = _slicedToArray(_useState23, 2),
+    showAdd = _useState24[0],
+    setShowAdd = _useState24[1];
+  var list = orders.filter(function (o) {
+    return o.year === year;
+  });
+  if (filter && !filter.startsWith("fin-")) list = list.filter(function (o) {
+    return o.processStatus === filter;
+  });
+  if (filter && filter.startsWith("fin-")) list = list.filter(function (o) {
+    return o.finStatus === filter.replace("fin-", "");
+  });
   if (search.trim()) {
-    const q = search.toLowerCase();
-    list = list.filter(o => o.name?.toLowerCase().includes(q) || o.city?.toLowerCase().includes(q));
+    var q = search.toLowerCase();
+    list = list.filter(function (o) {
+      var _o$name, _o$city;
+      return ((_o$name = o.name) === null || _o$name === void 0 ? void 0 : _o$name.toLowerCase().includes(q)) || ((_o$city = o.city) === null || _o$city === void 0 ? void 0 : _o$city.toLowerCase().includes(q));
+    });
   }
-  list = list.sort((a, b) => b.num - a.num);
-  const maxNum = Math.max(0, ...orders.filter(o => o.year === year).map(o => o.num));
-  const activeFilter = filter && !filter.startsWith("fin-") ? procById[filter] : filter?.startsWith("fin-") ? finById[filter.replace("fin-", "")] : null;
+  list = list.sort(function (a, b) {
+    return b.num - a.num;
+  });
+  var maxNum = Math.max.apply(Math, [0].concat(_toConsumableArray(orders.filter(function (o) {
+    return o.year === year;
+  }).map(function (o) {
+    return o.num;
+  }))));
+  var activeFilter = filter && !filter.startsWith("fin-") ? procById[filter] : filter !== null && filter !== void 0 && filter.startsWith("fin-") ? finById[filter.replace("fin-", "")] : null;
   return /*#__PURE__*/React.createElement("div", {
     id: "print-area",
     style: {
@@ -3345,7 +3736,7 @@ function OrdersView({
       alignItems: "center",
       gap: 8,
       background: C.surface,
-      border: `1px solid ${C.border}`,
+      border: "1px solid ".concat(C.border),
       borderRadius: 8,
       padding: "8px 12px"
     }
@@ -3354,7 +3745,9 @@ function OrdersView({
     color: C.textLight
   }), /*#__PURE__*/React.createElement("input", {
     value: search,
-    onChange: e => setSearch(e.target.value),
+    onChange: function onChange(e) {
+      return setSearch(e.target.value);
+    },
     placeholder: "Jm\xE9no nebo m\u011Bsto\u2026",
     style: {
       border: "none",
@@ -3366,7 +3759,9 @@ function OrdersView({
       fontFamily: "inherit"
     }
   }), search && /*#__PURE__*/React.createElement("button", {
-    onClick: () => setSearch(""),
+    onClick: function onClick() {
+      return setSearch("");
+    },
     style: {
       border: "none",
       background: "none",
@@ -3376,7 +3771,9 @@ function OrdersView({
   }, /*#__PURE__*/React.createElement(X, {
     size: 12
   }))), /*#__PURE__*/React.createElement("button", {
-    onClick: () => setShowAdd(true),
+    onClick: function onClick() {
+      return setShowAdd(true);
+    },
     style: {
       display: "flex",
       alignItems: "center",
@@ -3402,7 +3799,9 @@ function OrdersView({
   }, /*#__PURE__*/React.createElement(StatusChip, {
     s: activeFilter
   }), /*#__PURE__*/React.createElement("button", {
-    onClick: () => onFilter(null),
+    onClick: function onClick() {
+      return onFilter(null);
+    },
     style: {
       border: "none",
       background: "none",
@@ -3425,30 +3824,39 @@ function OrdersView({
       color: C.textLight,
       fontSize: 13,
       background: C.surface,
-      border: `1px solid ${C.border}`,
+      border: "1px solid ".concat(C.border),
       borderRadius: 10
     }
-  }, orders.filter(o => o.year === year).length === 0 ? `Rok ${year} nemá žádné zakázky.` : "Žádné zakázky odpovídají filtru.") : /*#__PURE__*/React.createElement("div", null, list.map(o => /*#__PURE__*/React.createElement(OrderRow, {
-    key: o.id,
-    order: o,
-    onUpdate: onUpdate,
-    calToken: calToken,
-    onConnectCal: onConnectCal
-  }))), showAdd && /*#__PURE__*/React.createElement(AddModal, {
+  }, orders.filter(function (o) {
+    return o.year === year;
+  }).length === 0 ? "Rok ".concat(year, " nem\xE1 \u017E\xE1dn\xE9 zak\xE1zky.") : "Žádné zakázky odpovídají filtru.") : /*#__PURE__*/React.createElement("div", null, list.map(function (o) {
+    return /*#__PURE__*/React.createElement(OrderRow, {
+      key: o.id,
+      order: o,
+      onUpdate: onUpdate,
+      calToken: calToken,
+      onConnectCal: onConnectCal
+    });
+  })), showAdd && /*#__PURE__*/React.createElement(AddModal, {
     year: year,
     maxNum: maxNum,
     onAdd: onAdd,
-    onClose: () => setShowAdd(false)
+    onClose: function onClose() {
+      return setShowAdd(false);
+    },
+    calToken: calToken,
+    onConnectCal: onConnectCal
   }));
 }
 
 // ─── STATISTICS ───────────────────────────────────────────────────────────────
-function Stats({
-  orders,
-  year
-}) {
-  const yo = orders.filter(o => o.year === year);
-  const total = yo.length;
+function Stats(_ref12) {
+  var orders = _ref12.orders,
+    year = _ref12.year;
+  var yo = orders.filter(function (o) {
+    return o.year === year;
+  });
+  var total = yo.length;
   if (total === 0) return /*#__PURE__*/React.createElement("div", {
     style: {
       padding: 32,
@@ -3457,13 +3865,23 @@ function Stats({
       fontSize: 13
     }
   }, "Rok ", year, " nem\xE1 \u017E\xE1dn\xE1 data.");
-  const real = yo.filter(o => o.processStatus === "real").length;
-  const cancelled = yo.filter(o => o.processStatus === "cancelled" || o.processStatus === "cancelledR").length;
-  const convRate = Math.round(real / total * 100);
-  const monthly = {};
-  yo.forEach(o => {
+  var real = yo.filter(function (o) {
+    return o.processStatus === "real";
+  }).length;
+  var cancelled = yo.filter(function (o) {
+    return o.processStatus === "cancelled" || o.processStatus === "cancelledR";
+  }).length;
+  var finished = real + cancelled;
+  var convRate = finished > 0 ? Math.round(real / finished * 100) : 0;
+  var totalDevices = yo.filter(function (o) {
+    return o.processStatus === "real";
+  }).reduce(function (s, o) {
+    return s + (o.deviceCount || 1);
+  }, 0);
+  var monthly = {};
+  yo.forEach(function (o) {
     if (!o.visitDate) return;
-    const m = new Date(o.visitDate + "T00:00:00").getMonth();
+    var m = new Date(o.visitDate + "T00:00:00").getMonth();
     if (!monthly[m]) monthly[m] = {
       total: 0,
       real: 0
@@ -3471,55 +3889,70 @@ function Stats({
     monthly[m].total++;
     if (o.processStatus === "real") monthly[m].real++;
   });
-  const mKeys = Object.keys(monthly).map(Number).sort((a, b) => a - b);
-  const maxM = Math.max(...mKeys.map(k => monthly[k].total), 1);
-  const procData = PROC.map(s => ({
-    ...s,
-    count: yo.filter(o => o.processStatus === s.id).length
-  })).filter(s => s.count > 0).sort((a, b) => b.count - a.count);
-  const maxP = Math.max(...procData.map(s => s.count), 1);
-  const card = (label, value, color, Icon) => /*#__PURE__*/React.createElement("div", {
-    style: {
-      flex: 1,
-      background: C.surface,
-      border: `1px solid ${C.border}`,
-      borderRadius: 10,
-      padding: "12px 14px",
-      display: "flex",
-      alignItems: "center",
-      gap: 10
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      width: 34,
-      height: 34,
-      borderRadius: 8,
-      background: `${color}22`,
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      flexShrink: 0
-    }
-  }, /*#__PURE__*/React.createElement(Icon, {
-    size: 16,
-    color: color,
-    strokeWidth: 2
-  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 9,
-      color: C.textLight,
-      fontWeight: 700,
-      textTransform: "uppercase",
-      letterSpacing: ".5px"
-    }
-  }, label), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 22,
-      fontWeight: 800,
-      color,
-      lineHeight: 1.1
-    }
-  }, value)));
+  var mKeys = Object.keys(monthly).map(Number).sort(function (a, b) {
+    return a - b;
+  });
+  var maxM = Math.max.apply(Math, _toConsumableArray(mKeys.map(function (k) {
+    return monthly[k].total;
+  })).concat([1]));
+  var procData = PROC.map(function (s) {
+    return _objectSpread(_objectSpread({}, s), {}, {
+      count: yo.filter(function (o) {
+        return o.processStatus === s.id;
+      }).length
+    });
+  }).filter(function (s) {
+    return s.count > 0;
+  }).sort(function (a, b) {
+    return b.count - a.count;
+  });
+  var maxP = Math.max.apply(Math, _toConsumableArray(procData.map(function (s) {
+    return s.count;
+  })).concat([1]));
+  var card = function card(label, value, color, Icon) {
+    return /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1,
+        background: C.surface,
+        border: "1px solid ".concat(C.border),
+        borderRadius: 10,
+        padding: "12px 14px",
+        display: "flex",
+        alignItems: "center",
+        gap: 10
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 34,
+        height: 34,
+        borderRadius: 8,
+        background: "".concat(color, "22"),
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexShrink: 0
+      }
+    }, /*#__PURE__*/React.createElement(Icon, {
+      size: 16,
+      color: color,
+      strokeWidth: 2
+    })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 9,
+        color: C.textLight,
+        fontWeight: 700,
+        textTransform: "uppercase",
+        letterSpacing: ".5px"
+      }
+    }, label), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 22,
+        fontWeight: 800,
+        color: color,
+        lineHeight: 1.1
+      }
+    }, value)));
+  };
   return /*#__PURE__*/React.createElement("div", {
     id: "print-area",
     style: {
@@ -3540,10 +3973,10 @@ function Stats({
       gap: 8,
       flexWrap: "wrap"
     }
-  }, card("Celkem zakázek", total, C.brown, Target), card("Realizace", real, C.greenBright, CheckCircle2), card("Zrušeno", cancelled, C.danger, XCircle), card("Úspěšnost", `${convRate} %`, C.greenBright, TrendingUp)), /*#__PURE__*/React.createElement("div", {
+  }, card("Celkem zakázek", total, C.brown, Target), card("Realizace", real, C.greenBright, CheckCircle2), card("P\u0159\xEDstroje celkem", totalDevices, C.green, Wrench), card("Zrušeno", cancelled, C.danger, XCircle), card("\xDAsp\u011B\u0161nost (z ".concat(finished, ")"), "".concat(convRate, " %"), C.greenBright, TrendingUp)), /*#__PURE__*/React.createElement("div", {
     style: {
       background: C.surface,
-      border: `1px solid ${C.border}`,
+      border: "1px solid ".concat(C.border),
       borderRadius: 12,
       padding: 16
     }
@@ -3562,9 +3995,9 @@ function Stats({
       flexDirection: "column",
       gap: 8
     }
-  }, procData.map(s => {
-    const Icon = s.icon;
-    const pct = Math.round(s.count / maxP * 100);
+  }, procData.map(function (s) {
+    var Icon = s.icon;
+    var pct = Math.round(s.count / maxP * 100);
     return /*#__PURE__*/React.createElement("div", {
       key: s.id,
       style: {
@@ -3577,7 +4010,7 @@ function Stats({
         width: 20,
         height: 20,
         borderRadius: 5,
-        background: `${s.color}28`,
+        background: "".concat(s.color, "28"),
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -3604,7 +4037,7 @@ function Stats({
       }
     }, /*#__PURE__*/React.createElement("div", {
       style: {
-        width: `${pct}%`,
+        width: "".concat(pct, "%"),
         height: "100%",
         background: s.color,
         borderRadius: 4,
@@ -3631,7 +4064,7 @@ function Stats({
   }))), mKeys.length > 0 && /*#__PURE__*/React.createElement("div", {
     style: {
       background: C.surface,
-      border: `1px solid ${C.border}`,
+      border: "1px solid ".concat(C.border),
       borderRadius: 12,
       padding: 16
     }
@@ -3651,10 +4084,10 @@ function Stats({
       gap: 6,
       height: 100
     }
-  }, mKeys.map(m => {
-    const d = monthly[m];
-    const hT = Math.round(d.total / maxM * 80) + 10;
-    const hR = Math.round(d.real / d.total * hT);
+  }, mKeys.map(function (m) {
+    var d = monthly[m];
+    var hT = Math.round(d.total / maxM * 80) + 10;
+    var hR = Math.round(d.real / d.total * hT);
     return /*#__PURE__*/React.createElement("div", {
       key: m,
       style: {
@@ -3676,7 +4109,7 @@ function Stats({
         height: hT,
         borderRadius: "5px 5px 0 0",
         background: C.greenBrightPale,
-        border: `1px solid ${C.greenBright}33`,
+        border: "1px solid ".concat(C.greenBright, "33"),
         position: "relative",
         overflow: "hidden"
       }
@@ -3686,7 +4119,7 @@ function Stats({
         bottom: 0,
         left: 0,
         right: 0,
-        height: hR > 0 ? `${Math.round(hR / hT * 100)}%` : "0",
+        height: hR > 0 ? "".concat(Math.round(hR / hT * 100), "%") : "0",
         background: C.greenBright,
         opacity: .75
       }
@@ -3716,7 +4149,7 @@ function Stats({
       height: 10,
       borderRadius: 2,
       background: C.greenBrightPale,
-      border: `1px solid ${C.greenBright}44`
+      border: "1px solid ".concat(C.greenBright, "44")
     }
   }), "Celkem"), /*#__PURE__*/React.createElement("div", {
     style: {
@@ -3734,10 +4167,14 @@ function Stats({
       background: C.greenBright,
       opacity: .75
     }
-  }), "Realizace"))), [year - 1, year - 2].some(y => orders.some(o => o.year === y)) && /*#__PURE__*/React.createElement("div", {
+  }), "Realizace"))), [year - 1, year - 2].some(function (y) {
+    return orders.some(function (o) {
+      return o.year === y;
+    });
+  }) && /*#__PURE__*/React.createElement("div", {
     style: {
       background: C.surface,
-      border: `1px solid ${C.border}`,
+      border: "1px solid ".concat(C.border),
       borderRadius: 12,
       padding: 16
     }
@@ -3750,11 +4187,19 @@ function Stats({
       letterSpacing: ".6px",
       marginBottom: 12
     }
-  }, "Porovn\xE1n\xED rok\u016F"), [year - 2, year - 1, year].filter(y => orders.some(o => o.year === y)).map(y => {
-    const d = orders.filter(o => o.year === y);
-    const r = d.filter(o => o.processStatus === "real").length;
-    const t = d.length;
-    const rate = t > 0 ? Math.round(r / t * 100) : 0;
+  }, "Porovn\xE1n\xED rok\u016F"), [year - 2, year - 1, year].filter(function (y) {
+    return orders.some(function (o) {
+      return o.year === y;
+    });
+  }).map(function (y) {
+    var d = orders.filter(function (o) {
+      return o.year === y;
+    });
+    var r = d.filter(function (o) {
+      return o.processStatus === "real";
+    }).length;
+    var t = d.length;
+    var rate = t > 0 ? Math.round(r / t * 100) : 0;
     return /*#__PURE__*/React.createElement("div", {
       key: y,
       style: {
@@ -3780,7 +4225,7 @@ function Stats({
       }
     }, /*#__PURE__*/React.createElement("div", {
       style: {
-        width: `${rate}%`,
+        width: "".concat(rate, "%"),
         height: "100%",
         background: C.greenBright,
         borderRadius: 4,
@@ -3804,7 +4249,7 @@ function Stats({
   })), /*#__PURE__*/React.createElement("div", {
     style: {
       background: C.surface,
-      border: `1px solid ${C.border}`,
+      border: "1px solid ".concat(C.border),
       borderRadius: 12,
       padding: 16
     }
@@ -3826,15 +4271,17 @@ function Stats({
       display: "flex",
       gap: 10
     }
-  }, FIN.slice(1).map(s => {
-    const Icon = s.icon;
-    const cnt = orders.filter(o => o.finStatus === s.id).length;
+  }, FIN.slice(1).map(function (s) {
+    var Icon = s.icon;
+    var cnt = orders.filter(function (o) {
+      return o.finStatus === s.id;
+    }).length;
     return /*#__PURE__*/React.createElement("div", {
       key: s.id,
       style: {
         flex: 1,
         background: s.pale,
-        border: `1px solid ${s.color}33`,
+        border: "1px solid ".concat(s.color, "33"),
         borderRadius: 10,
         padding: "12px",
         textAlign: "center"
@@ -3862,12 +4309,11 @@ function Stats({
 }
 
 // ─── SETTINGS ────────────────────────────────────────────────────────────────
-function SettingsView({
-  user,
-  calToken,
-  onConnectCal
-}) {
-  const items = [{
+function SettingsView(_ref13) {
+  var user = _ref13.user,
+    calToken = _ref13.calToken,
+    onConnectCal = _ref13.onConnectCal;
+  var items = [{
     label: "Google přihlášení",
     desc: "Aktivní – přihlášen přes Google",
     ok: true
@@ -3884,7 +4330,7 @@ function SettingsView({
     desc: "Připraveno – vyžaduje Drive API scope",
     ok: false
   }];
-  const calConnected = !!calToken;
+  var calConnected = !!calToken;
   return /*#__PURE__*/React.createElement("div", {
     style: {
       padding: 18
@@ -3892,7 +4338,7 @@ function SettingsView({
   }, /*#__PURE__*/React.createElement("div", {
     style: {
       background: C.surface,
-      border: `1px solid ${C.border}`,
+      border: "1px solid ".concat(C.border),
       borderRadius: 12,
       padding: 18,
       marginBottom: 14
@@ -3932,7 +4378,7 @@ function SettingsView({
   }, user.email)))), /*#__PURE__*/React.createElement("div", {
     style: {
       background: C.surface,
-      border: `1px solid ${C.border}`,
+      border: "1px solid ".concat(C.border),
       borderRadius: 12,
       padding: 18
     }
@@ -3945,40 +4391,42 @@ function SettingsView({
       letterSpacing: ".6px",
       marginBottom: 14
     }
-  }, "Stav funkc\xED"), items.map((item, i) => /*#__PURE__*/React.createElement("div", {
-    key: i,
-    style: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
-      padding: "12px 0",
-      borderBottom: i < items.length - 1 ? `1px solid ${C.borderLight}` : "none"
-    }
-  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 13,
-      fontWeight: 600,
-      color: C.text
-    }
-  }, item.label), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 11,
-      color: C.textLight
-    }
-  }, item.desc)), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 10,
-      fontWeight: 700,
-      color: item.ok ? C.greenBright : C.amber,
-      background: item.ok ? C.greenBrightPale : C.amberPale,
-      border: `1px solid ${item.ok ? C.greenBright : C.amber}44`,
-      borderRadius: 20,
-      padding: "3px 10px"
-    }
-  }, item.ok ? "Aktivní" : "Připraveno")))), /*#__PURE__*/React.createElement("div", {
+  }, "Stav funkc\xED"), items.map(function (item, i) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        padding: "12px 0",
+        borderBottom: i < items.length - 1 ? "1px solid ".concat(C.borderLight) : "none"
+      }
+    }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 13,
+        fontWeight: 600,
+        color: C.text
+      }
+    }, item.label), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11,
+        color: C.textLight
+      }
+    }, item.desc)), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        fontWeight: 700,
+        color: item.ok ? C.greenBright : C.amber,
+        background: item.ok ? C.greenBrightPale : C.amberPale,
+        border: "1px solid ".concat(item.ok ? C.greenBright : C.amber, "44"),
+        borderRadius: 20,
+        padding: "3px 10px"
+      }
+    }, item.ok ? "Aktivní" : "Připraveno"));
+  })), /*#__PURE__*/React.createElement("div", {
     style: {
       background: C.surface,
-      border: `1px solid ${C.border}`,
+      border: "1px solid ".concat(C.border),
       borderRadius: 12,
       padding: 18,
       marginTop: 14
@@ -4008,7 +4456,7 @@ function SettingsView({
       fontWeight: 700,
       color: calConnected ? C.greenBright : C.amber,
       background: calConnected ? C.greenBrightPale : C.amberPale,
-      border: `1px solid ${calConnected ? C.greenBright : C.amber}44`,
+      border: "1px solid ".concat(calConnected ? C.greenBright : C.amber, "44"),
       borderRadius: 20,
       padding: "3px 10px"
     }
@@ -4047,23 +4495,31 @@ function SettingsView({
 }
 
 // ─── HEADER ──────────────────────────────────────────────────────────────────
-function Header({
-  year,
-  onYear,
-  onMenu,
-  user,
-  orders
-}) {
-  const doPrint = () => window.print();
-  const doPDF = () => exportPDF(orders, year);
-  const doSync = () => alert("Data jsou synchronizována automaticky přes Firebase Firestore v reálném čase.");
-  const doSignOut = () => auth.signOut();
-  const hBtn = {
+function Header(_ref14) {
+  var _user$displayName;
+  var year = _ref14.year,
+    onYear = _ref14.onYear,
+    onMenu = _ref14.onMenu,
+    user = _ref14.user,
+    orders = _ref14.orders;
+  var doPrint = function doPrint() {
+    return window.print();
+  };
+  var doPDF = function doPDF() {
+    return exportPDF(orders, year);
+  };
+  var doSync = function doSync() {
+    return alert("Data jsou synchronizována automaticky přes Firebase Firestore v reálném čase.");
+  };
+  var doSignOut = function doSignOut() {
+    return auth.signOut();
+  };
+  var hBtn = {
     width: 30,
     height: 30,
     borderRadius: 6,
     background: C.surfaceAlt,
-    border: `1px solid ${C.border}`,
+    border: "1px solid ".concat(C.border),
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -4074,7 +4530,7 @@ function Header({
     style: {
       height: 52,
       background: C.surface,
-      borderBottom: `1px solid ${C.border}`,
+      borderBottom: "1px solid ".concat(C.border),
       display: "flex",
       alignItems: "center",
       justifyContent: "space-between",
@@ -4100,12 +4556,14 @@ function Header({
       alignItems: "center",
       gap: 2,
       background: C.surfaceAlt,
-      border: `1px solid ${C.border}`,
+      border: "1px solid ".concat(C.border),
       borderRadius: 20,
       padding: "2px 4px"
     }
   }, /*#__PURE__*/React.createElement("button", {
-    onClick: () => onYear(-1),
+    onClick: function onClick() {
+      return onYear(-1);
+    },
     style: {
       width: 22,
       height: 22,
@@ -4129,7 +4587,9 @@ function Header({
       textAlign: "center"
     }
   }, year), /*#__PURE__*/React.createElement("button", {
-    onClick: () => onYear(1),
+    onClick: function onClick() {
+      return onYear(1);
+    },
     style: {
       width: 22,
       height: 22,
@@ -4178,7 +4638,7 @@ function Header({
       gap: 6,
       marginLeft: 4,
       background: C.surfaceAlt,
-      border: `1px solid ${C.border}`,
+      border: "1px solid ".concat(C.border),
       borderRadius: 20,
       padding: "3px 4px 3px 4px",
       cursor: "pointer"
@@ -4213,14 +4673,14 @@ function Header({
       color: C.text,
       paddingRight: 6
     }
-  }, user.displayName?.split(" ")[0] || "Uživatel"), /*#__PURE__*/React.createElement(LogOut, {
+  }, ((_user$displayName = user.displayName) === null || _user$displayName === void 0 ? void 0 : _user$displayName.split(" ")[0]) || "Uživatel"), /*#__PURE__*/React.createElement(LogOut, {
     size: 12,
     color: C.textLight
   }))));
 }
 
 // ─── SIDEBAR ─────────────────────────────────────────────────────────────────
-const NAV = [{
+var NAV = [{
   id: "dashboard",
   label: "Přehled",
   icon: Home
@@ -4237,18 +4697,17 @@ const NAV = [{
   label: "Nastavení",
   icon: Settings
 }];
-function Sidebar({
-  active,
-  onChange,
-  open
-}) {
+function Sidebar(_ref15) {
+  var active = _ref15.active,
+    onChange = _ref15.onChange,
+    open = _ref15.open;
   return /*#__PURE__*/React.createElement("div", {
     className: "no-print",
     style: {
       width: open ? 190 : 50,
       flexShrink: 0,
       background: C.surface,
-      borderRight: `1px solid ${C.border}`,
+      borderRight: "1px solid ".concat(C.border),
       display: "flex",
       flexDirection: "column",
       transition: "width .2s",
@@ -4300,44 +4759,47 @@ function Sidebar({
       background: C.borderLight,
       margin: "0 8px 6px"
     }
-  }), NAV.map(({
-    id,
-    label,
-    icon: Icon
-  }) => /*#__PURE__*/React.createElement("button", {
-    key: id,
-    onClick: () => onChange(id),
-    style: {
-      display: "flex",
-      alignItems: "center",
-      gap: 9,
-      padding: open ? "9px 12px" : "9px 10px",
-      background: active === id ? C.greenPale : "transparent",
-      border: "none",
-      borderLeft: `3px solid ${active === id ? C.green : "transparent"}`,
-      color: active === id ? C.green : C.textMid,
-      cursor: "pointer",
-      fontSize: 12,
-      fontWeight: active === id ? 700 : 500,
-      transition: "all .12s",
-      width: "100%",
-      textAlign: "left"
-    }
-  }, /*#__PURE__*/React.createElement(Icon, {
-    size: 15,
-    strokeWidth: 1.8,
-    style: {
-      flexShrink: 0
-    }
-  }), open && /*#__PURE__*/React.createElement("span", {
-    style: {
-      whiteSpace: "nowrap"
-    }
-  }, label))), open && /*#__PURE__*/React.createElement("div", {
+  }), NAV.map(function (_ref16) {
+    var id = _ref16.id,
+      label = _ref16.label,
+      Icon = _ref16.icon;
+    return /*#__PURE__*/React.createElement("button", {
+      key: id,
+      onClick: function onClick() {
+        return onChange(id);
+      },
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 9,
+        padding: open ? "9px 12px" : "9px 10px",
+        background: active === id ? C.greenPale : "transparent",
+        border: "none",
+        borderLeft: "3px solid ".concat(active === id ? C.green : "transparent"),
+        color: active === id ? C.green : C.textMid,
+        cursor: "pointer",
+        fontSize: 12,
+        fontWeight: active === id ? 700 : 500,
+        transition: "all .12s",
+        width: "100%",
+        textAlign: "left"
+      }
+    }, /*#__PURE__*/React.createElement(Icon, {
+      size: 15,
+      strokeWidth: 1.8,
+      style: {
+        flexShrink: 0
+      }
+    }), open && /*#__PURE__*/React.createElement("span", {
+      style: {
+        whiteSpace: "nowrap"
+      }
+    }, label));
+  }), open && /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: "auto",
       padding: "12px 12px 14px",
-      borderTop: `1px solid ${C.borderLight}`,
+      borderTop: "1px solid ".concat(C.borderLight),
       fontSize: 9,
       color: C.textLight,
       lineHeight: 1.7,
@@ -4353,10 +4815,9 @@ function Sidebar({
 }
 
 // ─── LOGIN SCREEN ─────────────────────────────────────────────────────────────
-function LoginScreen({
-  onLogin,
-  error
-}) {
+function LoginScreen(_ref17) {
+  var onLogin = _ref17.onLogin,
+    error = _ref17.error;
   return /*#__PURE__*/React.createElement("div", {
     style: {
       minHeight: "100vh",
@@ -4407,7 +4868,7 @@ function LoginScreen({
   }, "Prodejn\xED p\u0159ehled zak\xE1zek"), error && /*#__PURE__*/React.createElement("div", {
     style: {
       background: C.dangerPale,
-      border: `1px solid ${C.danger}44`,
+      border: "1px solid ".concat(C.danger, "44"),
       borderRadius: 8,
       padding: "8px 12px",
       fontSize: 12,
@@ -4431,7 +4892,7 @@ function LoginScreen({
       justifyContent: "center",
       gap: 10,
       marginBottom: 12,
-      boxShadow: `0 3px 12px ${C.green}44`
+      boxShadow: "0 3px 12px ".concat(C.green, "44")
     }
   }, /*#__PURE__*/React.createElement("svg", {
     width: "18",
@@ -4460,58 +4921,112 @@ function LoginScreen({
 
 // ─── ROOT ─────────────────────────────────────────────────────────────────────
 function App() {
-  const [user, setUser] = useState(null);
-  const [authLoading, setAuthLoading] = useState(true);
-  const [authError, setAuthError] = useState(null);
-  const [year, setYear] = useState(2026);
-  const [view, setView] = useState("dashboard");
-  const [sidebar, setSidebar] = useState(true);
-  const [filter, setFilter] = useState(null);
-  const [calToken, setCalToken] = useState(() => sessionStorage.getItem('goorn_cal_tok') || null);
-  useEffect(() => {
-    const unsub = auth.onAuthStateChanged(u => {
+  var _useState25 = useState(null),
+    _useState26 = _slicedToArray(_useState25, 2),
+    user = _useState26[0],
+    setUser = _useState26[1];
+  var _useState27 = useState(true),
+    _useState28 = _slicedToArray(_useState27, 2),
+    authLoading = _useState28[0],
+    setAuthLoading = _useState28[1];
+  var _useState29 = useState(null),
+    _useState30 = _slicedToArray(_useState29, 2),
+    authError = _useState30[0],
+    setAuthError = _useState30[1];
+  var _useState31 = useState(2026),
+    _useState32 = _slicedToArray(_useState31, 2),
+    year = _useState32[0],
+    setYear = _useState32[1];
+  var _useState33 = useState("dashboard"),
+    _useState34 = _slicedToArray(_useState33, 2),
+    view = _useState34[0],
+    setView = _useState34[1];
+  var _useState35 = useState(false),
+    _useState36 = _slicedToArray(_useState35, 2),
+    sidebar = _useState36[0],
+    setSidebar = _useState36[1];
+  var _useState37 = useState(null),
+    _useState38 = _slicedToArray(_useState37, 2),
+    filter = _useState38[0],
+    setFilter = _useState38[1];
+  var _useState39 = useState(function () {
+      return sessionStorage.getItem('goorn_cal_tok') || null;
+    }),
+    _useState40 = _slicedToArray(_useState39, 2),
+    calToken = _useState40[0],
+    setCalToken = _useState40[1];
+  useEffect(function () {
+    var unsub = auth.onAuthStateChanged(function (u) {
       setUser(u);
       setAuthLoading(false);
     });
     return unsub;
   }, []);
-  const {
-    orders,
-    ready,
-    addOrder,
-    updateOrder
-  } = useOrders(user?.uid);
-  const signIn = () => {
+  var _useOrders = useOrders(user === null || user === void 0 ? void 0 : user.uid),
+    orders = _useOrders.orders,
+    ready = _useOrders.ready,
+    addOrder = _useOrders.addOrder,
+    updateOrder = _useOrders.updateOrder;
+  var signIn = function signIn() {
     setAuthError(null);
-    const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider).catch(e => setAuthError(e.message));
+    var provider = new firebase.auth.GoogleAuthProvider();
+    auth.signInWithPopup(provider).catch(function (e) {
+      return setAuthError(e.message);
+    });
   };
-  const connectCalendar = async () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    provider.addScope(CAL_SCOPE);
-    try {
-      const result = await auth.signInWithPopup(provider);
-      const tok = result.credential?.accessToken;
-      if (tok) {
-        sessionStorage.setItem('goorn_cal_tok', tok);
-        setCalToken(tok);
-      }
-    } catch (e) {
-      alert('Nepodařilo se připojit Google Kalendář: ' + e.message);
-    }
-  };
-  const handleFilter = f => {
+  var connectCalendar = /*#__PURE__*/function () {
+    var _ref18 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee7() {
+      var provider, _result$credential, result, tok, _t3;
+      return _regenerator().w(function (_context7) {
+        while (1) switch (_context7.p = _context7.n) {
+          case 0:
+            provider = new firebase.auth.GoogleAuthProvider();
+            provider.addScope(CAL_SCOPE);
+            _context7.p = 1;
+            _context7.n = 2;
+            return auth.signInWithPopup(provider);
+          case 2:
+            result = _context7.v;
+            tok = (_result$credential = result.credential) === null || _result$credential === void 0 ? void 0 : _result$credential.accessToken;
+            if (tok) {
+              sessionStorage.setItem('goorn_cal_tok', tok);
+              setCalToken(tok);
+              // Save token expiry hint to Firestore for UX (not for security)
+              try {
+                db.collection('users').doc(user === null || user === void 0 ? void 0 : user.uid).set({
+                  calTokenAt: new Date().toISOString()
+                }, {
+                  merge: true
+                });
+              } catch (e) {}
+            }
+            _context7.n = 4;
+            break;
+          case 3:
+            _context7.p = 3;
+            _t3 = _context7.v;
+            alert('Nepodařilo se připojit Google Kalendář: ' + _t3.message);
+          case 4:
+            return _context7.a(2);
+        }
+      }, _callee7, null, [[1, 3]]);
+    }));
+    return function connectCalendar() {
+      return _ref18.apply(this, arguments);
+    };
+  }();
+  var handleFilter = function handleFilter(f) {
     setFilter(f);
     if (f !== null) setView("orders");
   };
-  const handleNav = v => {
+  var handleNav = function handleNav(v) {
     setView(v);
     if (v !== "orders") setFilter(null);
   };
-  const shared = {
-    orders,
-    year,
-    filter,
+  var shared = {
+    orders: orders,
+    year: year,
+    filter: filter,
     onFilter: handleFilter
   };
   if (authLoading) return /*#__PURE__*/React.createElement("div", {
@@ -4559,8 +5074,16 @@ function App() {
     }
   }, /*#__PURE__*/React.createElement(Header, {
     year: year,
-    onYear: d => setYear(y => y + d),
-    onMenu: () => setSidebar(s => !s),
+    onYear: function onYear(d) {
+      return setYear(function (y) {
+        return y + d;
+      });
+    },
+    onMenu: function onMenu() {
+      return setSidebar(function (s) {
+        return !s;
+      });
+    },
     user: user,
     orders: orders
   }), /*#__PURE__*/React.createElement("div", {
@@ -4595,7 +5118,7 @@ function App() {
 }
 
 // Show app after React hydrates
-const rootEl = document.getElementById("root");
+var rootEl = document.getElementById("root");
 rootEl.style.display = "block";
 document.getElementById("loading").style.display = "none";
 ReactDOM.createRoot(rootEl).render(/*#__PURE__*/React.createElement(App, null));
