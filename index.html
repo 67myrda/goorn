@@ -3512,21 +3512,25 @@ function Dashboard(_ref1) {
   var finished = yo.filter(function (o) {
     return ["real", "cancelled", "cancelledR"].includes(o.processStatus);
   }).length;
-  var successRate = finished > 0 ? Math.round(real / finished * 100) : 0;
   var totalDevices = yo.filter(function (o) {
     return o.processStatus === "real";
   }).reduce(function (s, o) {
     return s + (o.deviceCount || 1);
   }, 0);
+  var rateByOrders = finished > 0 ? Math.round(real / finished * 100) : 0;
+  var rateByDevices = finished > 0 ? Math.round(totalDevices / finished * 100) : 0;
   var procC = Object.fromEntries(PROC.map(function (s) {
     return [s.id, yo.filter(function (o) {
       return o.processStatus === s.id;
     }).length];
   }));
-  var finC = Object.fromEntries(FIN.slice(1).map(function (s) {
+  // Finance: počet přístrojů × hodnota provize
+  var finDevices = Object.fromEntries(FIN.slice(1).map(function (s) {
     return [s.id, orders.filter(function (o) {
       return o.finStatus === s.id;
-    }).length];
+    }).reduce(function (sum, o) {
+      return sum + (o.deviceCount || 1);
+    }, 0)];
   }));
   return /*#__PURE__*/React.createElement("div", {
     style: {
@@ -3558,10 +3562,15 @@ function Dashboard(_ref1) {
     value: totalDevices,
     color: C.green
   }, {
-    label: "Úspěšnost",
-    value: "".concat(successRate, " %"),
+    label: "Úsp. / zakázky",
+    value: "".concat(rateByOrders, " %"),
     color: C.greenBright,
     sub: "z ".concat(finished, " ukon\u010Den\xFDch")
+  }, {
+    label: "Úsp. / přístroje",
+    value: "".concat(rateByDevices, " %"),
+    color: C.green,
+    sub: "".concat(totalDevices, " ks / ").concat(finished, " zak\xE1zek")
   }].map(function (_ref10) {
     var label = _ref10.label,
       value = _ref10.value,
@@ -3571,31 +3580,31 @@ function Dashboard(_ref1) {
       key: label,
       style: {
         flex: 1,
-        minWidth: 80,
+        minWidth: 75,
         background: C.surface,
         border: "1px solid ".concat(C.border),
         borderRadius: 10,
-        padding: "10px 12px"
+        padding: "10px 10px"
       }
     }, /*#__PURE__*/React.createElement("div", {
       style: {
-        fontSize: 9,
+        fontSize: 8,
         color: C.textLight,
         fontWeight: 700,
         textTransform: "uppercase",
-        letterSpacing: ".5px",
+        letterSpacing: ".4px",
         marginBottom: 2
       }
     }, label), /*#__PURE__*/React.createElement("div", {
       style: {
-        fontSize: 22,
+        fontSize: 20,
         fontWeight: 800,
         color: color,
         lineHeight: 1
       }
     }, value), sub && /*#__PURE__*/React.createElement("div", {
       style: {
-        fontSize: 8,
+        fontSize: 7.5,
         color: C.textLight,
         marginTop: 2
       }
@@ -3661,12 +3670,12 @@ function Dashboard(_ref1) {
     return /*#__PURE__*/React.createElement(Tile, {
       key: s.id,
       status: s,
-      count: finC[s.id] || 0,
+      count: finDevices[s.id] || 0,
       active: filter === "fin-".concat(s.id),
       onClick: function onClick() {
         return onFilter(filter === "fin-".concat(s.id) ? null : "fin-".concat(s.id));
       },
-      kc: (finC[s.id] || 0) * s.value
+      kc: (finDevices[s.id] || 0) * s.value
     });
   }))));
 }
@@ -3878,6 +3887,7 @@ function Stats(_ref12) {
   }).reduce(function (s, o) {
     return s + (o.deviceCount || 1);
   }, 0);
+  var deviceRate = finished > 0 ? Math.round(totalDevices / finished * 100) : 0;
   var monthly = {};
   yo.forEach(function (o) {
     if (!o.visitDate) return;
@@ -3973,7 +3983,106 @@ function Stats(_ref12) {
       gap: 8,
       flexWrap: "wrap"
     }
-  }, card("Celkem zakázek", total, C.brown, Target), card("Realizace", real, C.greenBright, CheckCircle2), card("P\u0159\xEDstroje celkem", totalDevices, C.green, Wrench), card("Zrušeno", cancelled, C.danger, XCircle), card("\xDAsp\u011B\u0161nost (z ".concat(finished, ")"), "".concat(convRate, " %"), C.greenBright, TrendingUp)), /*#__PURE__*/React.createElement("div", {
+  }, card("Celkem zakázek", total, C.brown, Target), card("Realizace", real, C.greenBright, CheckCircle2), card("Přístroje celkem", totalDevices, C.green, Wrench), card("Zrušeno", cancelled, C.danger, XCircle), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 8,
+      flex: "1 1 100%",
+      flexWrap: "wrap"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      background: C.surface,
+      border: "1px solid ".concat(C.border),
+      borderRadius: 10,
+      padding: "12px 14px",
+      display: "flex",
+      alignItems: "center",
+      gap: 10
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 34,
+      height: 34,
+      borderRadius: 8,
+      background: "".concat(C.greenBright, "22"),
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      flexShrink: 0
+    }
+  }, /*#__PURE__*/React.createElement(TrendingUp, {
+    size: 16,
+    color: C.greenBright,
+    strokeWidth: 2
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 8,
+      color: C.textLight,
+      fontWeight: 700,
+      textTransform: "uppercase",
+      letterSpacing: ".5px"
+    }
+  }, "\xDAsp\u011B\u0161nost / zak\xE1zky"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 22,
+      fontWeight: 800,
+      color: C.greenBright,
+      lineHeight: 1.1
+    }
+  }, convRate, " %"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      color: C.textLight
+    }
+  }, "z ", finished, " ukon\u010Den\xFDch"))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      background: C.surface,
+      border: "1px solid ".concat(C.border),
+      borderRadius: 10,
+      padding: "12px 14px",
+      display: "flex",
+      alignItems: "center",
+      gap: 10
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 34,
+      height: 34,
+      borderRadius: 8,
+      background: "".concat(C.green, "22"),
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      flexShrink: 0
+    }
+  }, /*#__PURE__*/React.createElement(TrendingUp, {
+    size: 16,
+    color: C.green,
+    strokeWidth: 2
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 8,
+      color: C.textLight,
+      fontWeight: 700,
+      textTransform: "uppercase",
+      letterSpacing: ".5px"
+    }
+  }, "\xDAsp\u011B\u0161nost / p\u0159\xEDstroje"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 22,
+      fontWeight: 800,
+      color: C.green,
+      lineHeight: 1.1
+    }
+  }, deviceRate, " %"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      color: C.textLight
+    }
+  }, totalDevices, " ks / ", finished, " zak\xE1zek"))))), /*#__PURE__*/React.createElement("div", {
     style: {
       background: C.surface,
       border: "1px solid ".concat(C.border),
@@ -4275,7 +4384,9 @@ function Stats(_ref12) {
     var Icon = s.icon;
     var cnt = orders.filter(function (o) {
       return o.finStatus === s.id;
-    }).length;
+    }).reduce(function (sum, o) {
+      return sum + (o.deviceCount || 1);
+    }, 0);
     return /*#__PURE__*/React.createElement("div", {
       key: s.id,
       style: {
