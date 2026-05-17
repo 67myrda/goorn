@@ -2183,9 +2183,15 @@ function useOrders(userId) {
           return setReady(true);
         });
       } else {
-        setOrders(snap.docs.map(function (d) {
-          return d.data();
-        }));
+        // Deduplicate: keep one per (year,num,name) — most recently created wins
+        var seen = new Map();
+        snap.docs.forEach(function(d) {
+          var o = d.data();
+          var key = String(o.year)+'-'+String(o.num).padStart(3,'0')+'-'+(o.name||'').toLowerCase();
+          var ex = seen.get(key);
+          if(!ex || (o.createdAt||'') > (ex.createdAt||'')) seen.set(key, o);
+        });
+        setOrders([...seen.values()]);
         setReady(true);
       }
     });
