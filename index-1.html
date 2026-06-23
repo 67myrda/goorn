@@ -1,0 +1,5249 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>GOORN · Prodejní přehled</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter','Segoe UI',system-ui,sans-serif;background:#EDEAE2}
+input,textarea,button{font-family:inherit}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:#F2EEE6}
+::-webkit-scrollbar-thumb{background:#D8D0BE;border-radius:3px}
+@media print{
+  .no-print{display:none!important}
+  body{background:white!important}
+  #print-area{padding:12px!important}
+  .order-row{break-inside:avoid;page-break-inside:avoid}
+  .print-header{display:block!important;text-align:center;padding:8px 0 16px;font-size:18px;font-weight:800;color:#2A2218}
+}
+.print-header{display:none}
+</style>
+</head>
+<body>
+<div id="loading" style="min-height:100vh;background:#EDEAE2;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;font-family:Inter,sans-serif;">
+  <div style="width:44px;height:44px;border-radius:10px;background:#487A4C;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff;">GO</div>
+  <div style="font-size:13px;color:#9C9080;">Načítám GOORN…</div>
+</div>
+<div id="root" style="display:none"></div>
+<div id="error-box" style="display:none;min-height:100vh;background:#EDEAE2;align-items:center;justify-content:center;padding:24px;font-family:Inter,sans-serif;">
+  <div style="background:#FAF7F2;border:1px solid #D8D0BE;border-radius:12px;padding:24px;max-width:400px;width:100%">
+    <div style="font-weight:800;color:#B45252;margin-bottom:8px;">Chyba při načítání</div>
+    <div id="error-msg" style="font-size:12px;color:#685E52;line-height:1.6;word-break:break-all;"></div>
+    <button onclick="location.reload()" style="margin-top:14px;padding:8px 16px;background:#487A4C;color:#fff;border:none;border-radius:7px;font-size:13px;cursor:pointer;">Obnovit stránku</button>
+  </div>
+</div>
+<script>
+window.onerror=function(msg,src,line,col,err){
+  document.getElementById('loading').style.display='none';
+  var eb=document.getElementById('error-box');
+  eb.style.display='flex';
+  document.getElementById('error-msg').textContent=(err?err.toString():msg)+' ('+src+':'+line+')';
+  return false;
+};
+</script>
+<script>
+// Firebase init
+const firebaseConfig={
+  apiKey:"AIzaSyCrmdmdmXlu2P-lOQgeYwFNO1JpIhsm7NE",
+  authDomain:"goorn-prehled-zakazek.firebaseapp.com",
+  projectId:"goorn-prehled-zakazek",
+  storageBucket:"goorn-prehled-zakazek.firebasestorage.app",
+  messagingSenderId:"782644549894",
+  appId:"1:782644549894:web:b6bac82be626c887e0e687",
+  measurementId:"G-NGXWGSJGNC"
+};
+firebase.initializeApp(firebaseConfig);
+const auth=firebase.auth();
+const db=firebase.firestore();
+</script>
+<script>
+(function(){
+"use strict";
+"use strict";
+
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+var _excluded = ["size", "color", "strokeWidth", "style"];
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
+function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i.return) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
+function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
+var _React = React,
+  useState = _React.useState,
+  useEffect = _React.useEffect,
+  useRef = _React.useRef,
+  useCallback = _React.useCallback;
+
+// ─── DESIGN TOKENS ────────────────────────────────────────────────────────────
+var C = {
+  bg: "#EDEAE2",
+  surface: "#F8F5EF",
+  surfaceAlt: "#F2EEE6",
+  border: "#D8D0BE",
+  borderLight: "#E6E0D4",
+  green: "#487A4C",
+  greenPale: "#D4EDD6",
+  greenBright: "#3A7D3E",
+  greenBrightPale: "#BDE8C0",
+  brown: "#7A6249",
+  brownMid: "#A48B6A",
+  brownPale: "#EDE5D4",
+  orange: "#B67248",
+  orangePale: "#F2E6D8",
+  danger: "#B45252",
+  dangerPale: "#F2E4E4",
+  amber: "#8A7040",
+  amberPale: "#F2EAD6",
+  purple: "#7B5EA7",
+  purplePale: "#EDE8F8",
+  text: "#2A2218",
+  textMid: "#685E52",
+  textLight: "#9C9080"
+};
+
+// ─── LUCIDE ICONS (inline SVG) ────────────────────────────────────────────────
+var I = function I(d) {
+  var extra = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
+  return function (_ref) {
+    var _React2;
+    var _ref$size = _ref.size,
+      size = _ref$size === void 0 ? 16 : _ref$size,
+      _ref$color = _ref.color,
+      color = _ref$color === void 0 ? "currentColor" : _ref$color,
+      _ref$strokeWidth = _ref.strokeWidth,
+      strokeWidth = _ref$strokeWidth === void 0 ? 2 : _ref$strokeWidth,
+      _ref$style = _ref.style,
+      style = _ref$style === void 0 ? {} : _ref$style,
+      p = _objectWithoutProperties(_ref, _excluded);
+    return (_React2 = React).createElement.apply(_React2, ["svg", _objectSpread({
+      xmlns: "http://www.w3.org/2000/svg",
+      width: size,
+      height: size,
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: color,
+      strokeWidth: strokeWidth,
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      style: style
+    }, p)].concat(_toConsumableArray(d.map(function (x, i) {
+      var _React3;
+      return (_React3 = React).createElement.apply(_React3, _toConsumableArray(x));
+    }))));
+  };
+};
+var Phone = I([["path", {
+  key: 0,
+  d: "M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.83a16 16 0 0 0 6.29 6.29l1.93-1.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"
+}]]);
+var CalendarCheck = I([["rect", {
+  key: 0,
+  x: "3",
+  y: "4",
+  width: "18",
+  height: "18",
+  rx: "2",
+  ry: "2"
+}], ["line", {
+  key: 1,
+  x1: "16",
+  y1: "2",
+  x2: "16",
+  y2: "6"
+}], ["line", {
+  key: 2,
+  x1: "8",
+  y1: "2",
+  x2: "8",
+  y2: "6"
+}], ["line", {
+  key: 3,
+  x1: "3",
+  y1: "10",
+  x2: "21",
+  y2: "10"
+}], ["path", {
+  key: 4,
+  d: "m9 16 2 2 4-4"
+}]]);
+var HelpCircle = I([["circle", {
+  key: 0,
+  cx: "12",
+  cy: "12",
+  r: "10"
+}], ["path", {
+  key: 1,
+  d: "M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"
+}], ["line", {
+  key: 2,
+  x1: "12",
+  y1: "17",
+  x2: "12.01",
+  y2: "17"
+}]]);
+var RefreshCw = I([["polyline", {
+  key: 0,
+  points: "23 4 23 10 17 10"
+}], ["polyline", {
+  key: 1,
+  points: "1 20 1 14 7 14"
+}], ["path", {
+  key: 2,
+  d: "M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"
+}]]);
+var Wrench = I([["path", {
+  key: 0,
+  d: "M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"
+}]]);
+var UserX = I([["path", {
+  key: 0,
+  d: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"
+}], ["circle", {
+  key: 1,
+  cx: "9",
+  cy: "7",
+  r: "4"
+}], ["line", {
+  key: 2,
+  x1: "17",
+  y1: "8",
+  x2: "23",
+  y2: "14"
+}], ["line", {
+  key: 3,
+  x1: "23",
+  y1: "8",
+  x2: "17",
+  y2: "14"
+}]]);
+var XCircle = I([["circle", {
+  key: 0,
+  cx: "12",
+  cy: "12",
+  r: "10"
+}], ["line", {
+  key: 1,
+  x1: "15",
+  y1: "9",
+  x2: "9",
+  y2: "15"
+}], ["line", {
+  key: 2,
+  x1: "9",
+  y1: "9",
+  x2: "15",
+  y2: "15"
+}]]);
+var Ban = I([["circle", {
+  key: 0,
+  cx: "12",
+  cy: "12",
+  r: "10"
+}], ["line", {
+  key: 1,
+  x1: "4.93",
+  y1: "4.93",
+  x2: "19.07",
+  y2: "19.07"
+}]]);
+var Clock = I([["circle", {
+  key: 0,
+  cx: "12",
+  cy: "12",
+  r: "10"
+}], ["polyline", {
+  key: 1,
+  points: "12 6 12 12 16 14"
+}]]);
+var MoreHorizontal = I([["circle", {
+  key: 0,
+  cx: "12",
+  cy: "12",
+  r: "1"
+}], ["circle", {
+  key: 1,
+  cx: "19",
+  cy: "12",
+  r: "1"
+}], ["circle", {
+  key: 2,
+  cx: "5",
+  cy: "12",
+  r: "1"
+}]]);
+var Banknote = I([["rect", {
+  key: 0,
+  x: "2",
+  y: "6",
+  width: "20",
+  height: "12",
+  rx: "2"
+}], ["circle", {
+  key: 1,
+  cx: "12",
+  cy: "12",
+  r: "2"
+}], ["path", {
+  key: 2,
+  d: "M6 12h.01M18 12h.01"
+}]]);
+var DollarSign = I([["line", {
+  key: 0,
+  x1: "12",
+  y1: "1",
+  x2: "12",
+  y2: "23"
+}], ["path", {
+  key: 1,
+  d: "M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"
+}]]);
+var BadgeCheck = I([["path", {
+  key: 0,
+  d: "M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"
+}], ["path", {
+  key: 1,
+  d: "m9 12 2 2 4-4"
+}]]);
+var Plus = I([["line", {
+  key: 0,
+  x1: "12",
+  y1: "5",
+  x2: "12",
+  y2: "19"
+}], ["line", {
+  key: 1,
+  x1: "5",
+  y1: "12",
+  x2: "19",
+  y2: "12"
+}]]);
+var ChevronLeft = I([["polyline", {
+  key: 0,
+  points: "15 18 9 12 15 6"
+}]]);
+var ChevronRight = I([["polyline", {
+  key: 0,
+  points: "9 18 15 12 9 6"
+}]]);
+var ChevronDown = I([["polyline", {
+  key: 0,
+  points: "6 9 12 15 18 9"
+}]]);
+var User = I([["path", {
+  key: 0,
+  d: "M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
+}], ["circle", {
+  key: 1,
+  cx: "12",
+  cy: "7",
+  r: "4"
+}]]);
+var LogOut = I([["path", {
+  key: 0,
+  d: "M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"
+}], ["polyline", {
+  key: 1,
+  points: "16 17 21 12 16 7"
+}], ["line", {
+  key: 2,
+  x1: "21",
+  y1: "12",
+  x2: "9",
+  y2: "12"
+}]]);
+var Printer = I([["polyline", {
+  key: 0,
+  points: "6 9 6 2 18 2 18 9"
+}], ["path", {
+  key: 1,
+  d: "M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"
+}], ["rect", {
+  key: 2,
+  x: "6",
+  y: "14",
+  width: "12",
+  height: "8"
+}]]);
+var FileDown = I([["path", {
+  key: 0,
+  d: "M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"
+}], ["polyline", {
+  key: 1,
+  points: "14 2 14 8 20 8"
+}], ["path", {
+  key: 2,
+  d: "M12 18v-6"
+}], ["path", {
+  key: 3,
+  d: "m9 15 3 3 3-3"
+}]]);
+var Cloud = I([["path", {
+  key: 0,
+  d: "M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"
+}]]);
+var Search = I([["circle", {
+  key: 0,
+  cx: "11",
+  cy: "11",
+  r: "8"
+}], ["line", {
+  key: 1,
+  x1: "21",
+  y1: "21",
+  x2: "16.65",
+  y2: "16.65"
+}]]);
+var Home = I([["path", {
+  key: 0,
+  d: "m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
+}], ["polyline", {
+  key: 1,
+  points: "9 22 9 12 15 12 15 22"
+}]]);
+var BarChart2 = I([["line", {
+  key: 0,
+  x1: "18",
+  y1: "20",
+  x2: "18",
+  y2: "10"
+}], ["line", {
+  key: 1,
+  x1: "12",
+  y1: "20",
+  x2: "12",
+  y2: "4"
+}], ["line", {
+  key: 2,
+  x1: "6",
+  y1: "20",
+  x2: "6",
+  y2: "14"
+}]]);
+var Package = I([["line", {
+  key: 0,
+  x1: "16.5",
+  y1: "9.4",
+  x2: "7.55",
+  y2: "4.24"
+}], ["path", {
+  key: 1,
+  d: "M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"
+}], ["polyline", {
+  key: 2,
+  points: "3.27 6.96 12 12.01 20.73 6.96"
+}], ["line", {
+  key: 3,
+  x1: "12",
+  y1: "22.08",
+  x2: "12",
+  y2: "12"
+}]]);
+var Settings = I([["circle", {
+  key: 0,
+  cx: "12",
+  cy: "12",
+  r: "3"
+}], ["path", {
+  key: 1,
+  d: "M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"
+}]]);
+var Menu = I([["line", {
+  key: 0,
+  x1: "3",
+  y1: "12",
+  x2: "21",
+  y2: "12"
+}], ["line", {
+  key: 1,
+  x1: "3",
+  y1: "6",
+  x2: "21",
+  y2: "6"
+}], ["line", {
+  key: 2,
+  x1: "3",
+  y1: "18",
+  x2: "21",
+  y2: "18"
+}]]);
+var Edit3 = I([["path", {
+  key: 0,
+  d: "M12 20h9"
+}], ["path", {
+  key: 1,
+  d: "M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"
+}]]);
+var X = I([["line", {
+  key: 0,
+  x1: "18",
+  y1: "6",
+  x2: "6",
+  y2: "18"
+}], ["line", {
+  key: 1,
+  x1: "6",
+  y1: "6",
+  x2: "18",
+  y2: "18"
+}]]);
+var Save = I([["path", {
+  key: 0,
+  d: "M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"
+}], ["polyline", {
+  key: 1,
+  points: "17 21 17 13 7 13 7 21"
+}], ["polyline", {
+  key: 2,
+  points: "7 3 7 8 15 8"
+}]]);
+var Check = I([["polyline", {
+  key: 0,
+  points: "20 6 9 17 4 12"
+}]]);
+var Target = I([["circle", {
+  key: 0,
+  cx: "12",
+  cy: "12",
+  r: "10"
+}], ["circle", {
+  key: 1,
+  cx: "12",
+  cy: "12",
+  r: "6"
+}], ["circle", {
+  key: 2,
+  cx: "12",
+  cy: "12",
+  r: "2"
+}]]);
+var TrendingUp = I([["polyline", {
+  key: 0,
+  points: "23 6 13.5 15.5 8.5 10.5 1 18"
+}], ["polyline", {
+  key: 1,
+  points: "17 6 23 6 23 12"
+}]]);
+var CheckCircle2 = I([["circle", {
+  key: 0,
+  cx: "12",
+  cy: "12",
+  r: "10"
+}], ["path", {
+  key: 1,
+  d: "m9 12 2 2 4-4"
+}]]);
+var AlertTriangle = I([["path", {
+  key: 0,
+  d: "m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"
+}], ["line", {
+  key: 1,
+  x1: "12",
+  y1: "9",
+  x2: "12",
+  y2: "13"
+}], ["line", {
+  key: 2,
+  x1: "12",
+  y1: "17",
+  x2: "12.01",
+  y2: "17"
+}]]);
+var CalendarPlus = I([["rect", {
+  key: 0,
+  x: "3",
+  y: "4",
+  width: "18",
+  height: "18",
+  rx: "2",
+  ry: "2"
+}], ["line", {
+  key: 1,
+  x1: "16",
+  y1: "2",
+  x2: "16",
+  y2: "6"
+}], ["line", {
+  key: 2,
+  x1: "8",
+  y1: "2",
+  x2: "8",
+  y2: "6"
+}], ["line", {
+  key: 3,
+  x1: "3",
+  y1: "10",
+  x2: "21",
+  y2: "10"
+}], ["line", {
+  key: 4,
+  x1: "12",
+  y1: "15",
+  x2: "12",
+  y2: "19"
+}], ["line", {
+  key: 5,
+  x1: "10",
+  y1: "17",
+  x2: "14",
+  y2: "17"
+}]]);
+var CalendarOff = I([["path", {
+  key: 0,
+  d: "M4.18 4.18A2 2 0 0 0 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 1.82-1.18"
+}], ["path", {
+  key: 1,
+  d: "M21 15.5V6a2 2 0 0 0-2-2H9.5"
+}], ["path", {
+  key: 2,
+  d: "M16 2v4"
+}], ["path", {
+  key: 3,
+  d: "M3 10h7"
+}], ["path", {
+  key: 4,
+  d: "M21 10h-5.5"
+}], ["line", {
+  key: 5,
+  x1: "2",
+  y1: "2",
+  x2: "22",
+  y2: "22"
+}]]);
+
+var AlertCircleRed = function(_ref) { var size = _ref.size === void 0 ? 16 : _ref.size; return React.createElement("svg", {xmlns:"http://www.w3.org/2000/svg",width:size,height:size,viewBox:"0 0 24 24"},React.createElement("circle",{cx:"12",cy:"12",r:"10",fill:"#DC2626"}),React.createElement("line",{x1:"12",y1:"8",x2:"12",y2:"13",stroke:"white",strokeWidth:"2",strokeLinecap:"round"}),React.createElement("circle",{cx:"12",cy:"17",r:"1",fill:"white"})); };
+// ─── STATUS CONFIG ────────────────────────────────────────────────────────────
+var PROC = [{
+  id: "call",
+  label: "Zavolat",
+  icon: Phone,
+  color: C.orange,
+  pale: C.orangePale
+}, {
+  id: "agreed",
+  label: "Domluvený termín",
+  icon: CalendarCheck,
+  color: C.green,
+  pale: C.greenPale
+}, {
+  id: "thinking",
+  label: "Přemýšlí",
+  icon: HelpCircle,
+  color: C.brownMid,
+  pale: C.brownPale
+}, {
+  id: "followup",
+  label: "Follow-up",
+  icon: RefreshCw,
+  color: C.amber,
+  pale: C.amberPale
+}, {
+  id: "real",
+  label: "Realizace",
+  icon: Wrench,
+  color: C.greenBright,
+  pale: C.greenBrightPale
+}, {
+  id: "done",
+  label: "Ukončeno",
+  icon: UserX,
+  color: C.purple,
+  pale: C.purplePale
+}, {
+  id: "cancelled",
+  label: "Zrušeno",
+  icon: XCircle,
+  color: C.danger,
+  pale: C.dangerPale
+}, {
+  id: "cancelledR",
+  label: "Zrušená realizace",
+  icon: Ban,
+  color: "#C0502A",
+  pale: "#F5E0D8"
+}, {
+  id: "future",
+  label: "Ozvat se v budoucnosti",
+  icon: Clock,
+  color: C.brownMid,
+  pale: C.brownPale
+}, {
+  id: "other",
+  label: "Pozornost!",
+  icon: AlertCircleRed,
+  color: "#DC2626",
+  pale: "#FEE2E2"
+}];
+var REAL = [{
+  id: null,
+  label: "—",
+  icon: null,
+  color: C.textLight,
+  pale: C.surfaceAlt
+}, {
+  id: "realized",
+  label: "Instalováno",
+  icon: Wrench,
+  color: C.greenBright,
+  pale: C.greenBrightPale
+}, {
+  id: "notdone",
+  label: "Nenainstalováno",
+  icon: XCircle,
+  color: C.danger,
+  pale: C.dangerPale
+}];
+var DEVICE_COUNTS = [0, 1, 2, 3, 4, 5];
+var fmtKc = function fmtKc(n) {
+  return n.toLocaleString('cs-CZ') + " Kč";
+};
+var FIN = [{
+  id: null,
+  label: "—",
+  icon: null,
+  color: C.textLight,
+  pale: C.surfaceAlt,
+  value: 0
+}, {
+  id: "comm1",
+  label: "1. část provize",
+  icon: Banknote,
+  color: C.orange,
+  pale: C.orangePale,
+  value: 3190
+}, {
+  id: "comm2",
+  label: "2. část provize",
+  icon: DollarSign,
+  color: C.brown,
+  pale: C.brownPale,
+  value: 2530
+}, {
+  id: "paid",
+  label: "Kompletně zaplaceno",
+  icon: BadgeCheck,
+  color: C.green,
+  pale: C.greenPale,
+  value: 5720
+}];
+var procById = Object.fromEntries(PROC.map(function (s) {
+  return [s.id, s];
+}));
+var finById = Object.fromEntries(FIN.map(function (s) {
+  return [s.id, s];
+}));
+var uid = function uid() {
+  return "".concat(Date.now(), "-").concat(Math.random().toString(36).slice(2, 8));
+};
+var fmtDate = function fmtDate(d, t) {
+  if (!d) return "";
+  var dt = new Date(d + "T00:00:00");
+  return "".concat(dt.getDate(), ".").concat(dt.getMonth() + 1, ".").concat(t ? " " + t : "");
+};
+var MONTHS = ["Led", "Úno", "Bře", "Dub", "Kvě", "Čvn", "Čvc", "Srp", "Zář", "Říj", "Lis", "Pro"];
+
+// ─── GOOGLE CALENDAR API ──────────────────────────────────────────────────────
+var CAL_SCOPE = 'https://www.googleapis.com/auth/calendar.events';
+var CAL_BASE = 'https://www.googleapis.com/calendar/v3/calendars/primary/events';
+var addHour = function addHour(t) {
+  var _t$split$map = t.split(':').map(Number),
+    _t$split$map2 = _slicedToArray(_t$split$map, 2),
+    h = _t$split$map2[0],
+    m = _t$split$map2[1];
+  return "".concat(String((h + 1) % 24).padStart(2, '0'), ":").concat(String(m).padStart(2, '0'));
+};
+var makeCalEvent = function makeCalEvent(order) {
+  var proc = procById[order.processStatus] || PROC[0];
+  var hasTime = !!order.visitTime;
+  return {
+    summary: "\uD83D\uDFE2 ".concat(order.name, " ").concat(order.city),
+    description: ["\uD83E\uDDF1 \u2022 ".concat(proc.label), order.notes ? order.notes : ''].filter(Boolean).join(' • '),
+    start: hasTime ? {
+      dateTime: "".concat(order.visitDate, "T").concat(order.visitTime, ":00"),
+      timeZone: 'Europe/Prague'
+    } : {
+      date: order.visitDate
+    },
+    end: hasTime ? {
+      dateTime: "".concat(order.visitDate, "T").concat(addHour(order.visitTime), ":00"),
+      timeZone: 'Europe/Prague'
+    } : {
+      date: order.visitDate
+    },
+    colorId: '2',
+    reminders: {
+      useDefault: false,
+      overrides: [{
+        method: 'popup',
+        minutes: 1440
+      }, {
+        method: 'popup',
+        minutes: 120
+      }, {
+        method: 'popup',
+        minutes: 30
+      }]
+    }
+  };
+};
+var calApi = {
+  create: function () {
+    var _create = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee(order, token) {
+      var r;
+      return _regenerator().w(function (_context) {
+        while (1) switch (_context.n) {
+          case 0:
+            _context.n = 1;
+            return fetch(CAL_BASE, {
+              method: 'POST',
+              headers: {
+                'Authorization': "Bearer ".concat(token),
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(makeCalEvent(order))
+            });
+          case 1:
+            r = _context.v;
+            if (!(r.status === 401)) {
+              _context.n = 2;
+              break;
+            }
+            return _context.a(2, {
+              error: 'auth'
+            });
+          case 2:
+            return _context.a(2, r.json());
+        }
+      }, _callee);
+    }));
+    function create(_x, _x2) {
+      return _create.apply(this, arguments);
+    }
+    return create;
+  }(),
+  update: function () {
+    var _update = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2(eventId, order, token) {
+      var r;
+      return _regenerator().w(function (_context2) {
+        while (1) switch (_context2.n) {
+          case 0:
+            _context2.n = 1;
+            return fetch("".concat(CAL_BASE, "/").concat(eventId), {
+              method: 'PUT',
+              headers: {
+                'Authorization': "Bearer ".concat(token),
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(makeCalEvent(order))
+            });
+          case 1:
+            r = _context2.v;
+            if (!(r.status === 401)) {
+              _context2.n = 2;
+              break;
+            }
+            return _context2.a(2, {
+              error: 'auth'
+            });
+          case 2:
+            if (!(r.status === 404)) {
+              _context2.n = 3;
+              break;
+            }
+            return _context2.a(2, {
+              error: 'notfound'
+            });
+          case 3:
+            return _context2.a(2, r.json());
+        }
+      }, _callee2);
+    }));
+    function update(_x3, _x4, _x5) {
+      return _update.apply(this, arguments);
+    }
+    return update;
+  }(),
+  del: function () {
+    var _del = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3(eventId, token) {
+      var r;
+      return _regenerator().w(function (_context3) {
+        while (1) switch (_context3.n) {
+          case 0:
+            _context3.n = 1;
+            return fetch("".concat(CAL_BASE, "/").concat(eventId), {
+              method: 'DELETE',
+              headers: {
+                'Authorization': "Bearer ".concat(token)
+              }
+            });
+          case 1:
+            r = _context3.v;
+            if (!(r.status === 401)) {
+              _context3.n = 2;
+              break;
+            }
+            return _context3.a(2, {
+              error: 'auth'
+            });
+          case 2:
+            return _context3.a(2, {
+              ok: true
+            });
+        }
+      }, _callee3);
+    }));
+    function del(_x6, _x7) {
+      return _del.apply(this, arguments);
+    }
+    return del;
+  }()
+};
+
+// ─── COMPLETE DATASET ─────────────────────────────────────────────────────────
+var INITIAL_DATA = [
+// ══ 2026 ══════════════════════════════════════════════════════════════════
+{
+  id: uid(),
+  year: 2026,
+  num: 1,
+  name: "Lhotská",
+  city: "Sadová",
+  visitDate: "2026-01-07",
+  visitTime: "",
+  processStatus: "future",
+  realStatus: null,
+  finStatus: null,
+  notes: "Zájem – zavolat červen 2026"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 2,
+  name: "Bohadlová",
+  city: "N.Město p.Smr.",
+  visitDate: "2026-01-09",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: "Dotace – zakázána"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 3,
+  name: "Cink",
+  city: "Svatý Petr",
+  visitDate: "2026-01-15",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: "paid",
+  notes: "Instalace 12.2"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 4,
+  name: "Hovorková",
+  city: "Vlkov",
+  visitDate: "2026-01-16",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: "Zaslán e-mail"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 5,
+  name: "Krtička",
+  city: "Turnov / 2 domy",
+  visitDate: "2026-01-23",
+  visitTime: "",
+  processStatus: "thinking",
+  realStatus: null,
+  finStatus: null,
+  notes: "📞 čeká zákazník – on zavolá"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 6,
+  name: "Pírko",
+  city: "Roudnice",
+  visitDate: "2026-01-20",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: "Zrušeno (bylo domluveno)"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 7,
+  name: "Šimková",
+  city: "Nymburk",
+  visitDate: "2026-01-23",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: "paid",
+  notes: "Instalace 28.1"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 8,
+  name: "Svatoň",
+  city: "Smržov / Smiřice",
+  visitDate: "2026-01-20",
+  visitTime: "",
+  processStatus: "done",
+  realStatus: null,
+  finStatus: null,
+  notes: "📞 10.2 – bez odezvy, ukončeno"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 9,
+  name: "Bužiková",
+  city: "Smidary",
+  visitDate: "2026-01-27",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2026,
+  num: 10,
+  name: "Jeřábková",
+  city: "Stará Paka",
+  visitDate: "2026-02-03",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: "paid",
+  notes: "Instalace 12.2"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 11,
+  name: "Zörner",
+  city: "Předměřice n/L",
+  visitDate: "2026-02-04",
+  visitTime: "",
+  processStatus: "followup",
+  realStatus: null,
+  finStatus: null,
+  notes: "Zavolat červen 2026 – já iniciuji"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 12,
+  name: "Kaplan",
+  city: "Maršov / Úpice",
+  visitDate: "2026-04-13",
+  visitTime: "",
+  processStatus: "call",
+  realStatus: null,
+  finStatus: null,
+  notes: "☎ 13.4 pondělí – urgentní!"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 13,
+  name: "Dlab",
+  city: "D.Javoří (L.Běl.)",
+  visitDate: "2026-02-26",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2026,
+  num: 14,
+  name: "Němec",
+  city: "Česká Lípa",
+  visitDate: "2026-03-02",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2026,
+  num: 15,
+  name: "Milde",
+  city: "Sosnová / ČL",
+  visitDate: "2026-03-02",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2026,
+  num: 16,
+  name: "Horčička",
+  city: "Hodkovice n.Moh.",
+  visitDate: "2026-03-05",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2026,
+  num: 17,
+  name: "Andrš",
+  city: "Frýdlant v Č.",
+  visitDate: "2026-03-05",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2026,
+  num: 18,
+  name: "Čermáková",
+  city: "Bílý Kostel n/N",
+  visitDate: "2026-03-06",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: null,
+  finStatus: "comm1",
+  notes: "Reference"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 19,
+  name: "Paroulek",
+  city: "Janov n/N",
+  visitDate: "2026-03-06",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: null,
+  finStatus: "comm1",
+  notes: "Faktura +30 dní"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 20,
+  name: "Hnilička",
+  city: "Benecko",
+  visitDate: "2026-03-24",
+  visitTime: "",
+  processStatus: "future",
+  realStatus: null,
+  finStatus: null,
+  notes: "Odkládá na 09/2026"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 21,
+  name: "Hanuš",
+  city: "Víchová n.J.",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "call",
+  realStatus: null,
+  finStatus: null,
+  notes: "Poslat SMS! – urgentní"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 22,
+  name: "Pelanta",
+  city: "Stráž n/Nisou",
+  visitDate: "2026-04-10",
+  visitTime: "",
+  processStatus: "thinking",
+  realStatus: null,
+  finStatus: null,
+  notes: "Konec dubna – zavolat, urgentní"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 23,
+  name: "Pokorná",
+  city: "Železný Brod",
+  visitDate: "2026-04-10",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: "paid",
+  notes: "Instalace (datum ?)"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 0,
+  name: "Urbancová (XX)",
+  city: "Zásada",
+  visitDate: "2026-04-10",
+  visitTime: "",
+  processStatus: "cancelledR",
+  realStatus: null,
+  finStatus: null,
+  notes: "Zrušena prohlídka – nečíslovaná zakázka"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 24,
+  name: "Belda",
+  city: "Tanvald",
+  visitDate: "2026-04-10",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2026,
+  num: 25,
+  name: "Stébelský",
+  city: "Rynoltice",
+  visitDate: "2026-04-24",
+  visitTime: "15:30",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: "comm1",
+  notes: ""
+}, {
+  id: uid(),
+  year: 2026,
+  num: 26,
+  name: "Lacman",
+  city: "Kamenický Šenov",
+  visitDate: "2026-04-24",
+  visitTime: "",
+  processStatus: "thinking",
+  realStatus: null,
+  finStatus: null,
+  notes: "Janatová-hospoda – čeká na manžela"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 27,
+  name: "Diabola",
+  city: "Vrchlabí",
+  visitDate: "2026-04-17",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: "paid",
+  notes: "Instalace 22.4"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 28,
+  name: "Dr. Macenauerová",
+  city: "Liberec",
+  visitDate: "2026-04-24",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: "Původní přístroj"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 29,
+  name: "Pitrman",
+  city: "Třebechovice p.O.",
+  visitDate: "2026-04-27",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: "comm1",
+  notes: ""
+}, {
+  id: uid(),
+  year: 2026,
+  num: 30,
+  name: "Dvořák",
+  city: "Turnov",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "call",
+  realStatus: null,
+  finStatus: null,
+  notes: "Domluvit termín – urgentní!"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 31,
+  name: "Pospíšilová",
+  city: "SVJ Trutnov",
+  visitDate: "2026-05-04",
+  visitTime: "",
+  processStatus: "thinking",
+  realStatus: null,
+  finStatus: null,
+  notes: "Souhlasí, ještě předsedkyně SVJ"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 32,
+  name: "Zíchová",
+  city: "Trutnov",
+  visitDate: "2026-05-04",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: "Zákaznice zrušila"
+}, {
+  id: uid(),
+  year: 2026,
+  num: 33,
+  name: "Kvášovský",
+  city: "Dvůr Králové n/L",
+  visitDate: "2026-05-05",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2026,
+  num: 34,
+  name: "Koňáková",
+  city: "Trutnov",
+  visitDate: "2026-05-06",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2026,
+  num: 35,
+  name: "Maleček",
+  city: "Trutnov",
+  visitDate: "2026-05-11",
+  visitTime: "15:00",
+  processStatus: "agreed",
+  realStatus: null,
+  finStatus: null,
+  notes: "Potvrdit den předem"
+},
+// ══ 2025 ══════════════════════════════════════════════════════════════════
+{
+  id: uid(),
+  year: 2025,
+  num: 1,
+  name: "Dvořák",
+  city: "D.Rokytnice",
+  visitDate: "2025-01-16",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 2,
+  name: "Valenta",
+  city: "HK Plotiště",
+  visitDate: "2025-01-24",
+  visitTime: "",
+  processStatus: "thinking",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 3,
+  name: "Hlušička",
+  city: "HK Plotiště",
+  visitDate: "2025-01-24",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 4,
+  name: "Drapelová",
+  city: "Librantice",
+  visitDate: "2025-01-23",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "notdone",
+  finStatus: null,
+  notes: "Prezentace OK, instalace zrušena"
+}, {
+  id: uid(),
+  year: 2025,
+  num: 5,
+  name: "Krejčí",
+  city: "Volavec",
+  visitDate: "2025-01-31",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 6,
+  name: "Václavík",
+  city: "Rusek",
+  visitDate: "2025-01-23",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: "☎ konec roku"
+}, {
+  id: uid(),
+  year: 2025,
+  num: 7,
+  name: "Kalvodová",
+  city: "Sloupno",
+  visitDate: "2025-02-13",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 8,
+  name: "Kohout",
+  city: "Lužec n/Cidl.",
+  visitDate: "2025-02-19",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 9,
+  name: "Fejfar",
+  city: "Dolní Přím",
+  visitDate: "2025-02-18",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 10,
+  name: "Polášek",
+  city: "Lípa n/Orl.",
+  visitDate: "2025-03-19",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 11,
+  name: "Kyselová",
+  city: "Lukavice",
+  visitDate: "2025-03-19",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 12,
+  name: "Malý",
+  city: "Slatina n/Zd.",
+  visitDate: "2025-03-19",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 13,
+  name: "Holec",
+  city: "Javornice",
+  visitDate: "2025-03-19",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 14,
+  name: "Cablk",
+  city: "Lípa n/Orl.",
+  visitDate: "2025-03-19",
+  visitTime: "",
+  processStatus: "thinking",
+  realStatus: null,
+  finStatus: null,
+  notes: "Zavolat půl června"
+}, {
+  id: uid(),
+  year: 2025,
+  num: 15,
+  name: "Sojka",
+  city: "Nový Hrádek",
+  visitDate: "2025-04-04",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: null,
+  notes: "📞 24-25.7"
+}, {
+  id: uid(),
+  year: 2025,
+  num: 16,
+  name: "Vaňková",
+  city: "Jezbiny / Jaroměř",
+  visitDate: "2025-04-07",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: "📞 půl 06"
+}, {
+  id: uid(),
+  year: 2025,
+  num: 17,
+  name: "Kučera",
+  city: "Žacléř",
+  visitDate: "2025-04-10",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: "Posl. 📧 12.5"
+}, {
+  id: uid(),
+  year: 2025,
+  num: 18,
+  name: "Hrnčíř",
+  city: "Bohuslavice",
+  visitDate: "2025-04-14",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 19,
+  name: "Zmrzlíková",
+  city: "Náchod",
+  visitDate: "2025-04-07",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: "📞 půlka 05"
+}, {
+  id: uid(),
+  year: 2025,
+  num: 20,
+  name: "Rokošová",
+  city: "Náchod",
+  visitDate: "2025-04-08",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 21,
+  name: "Martinec",
+  city: "D.Radechová",
+  visitDate: "2025-04-24",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 22,
+  name: "Friebelová",
+  city: "Libňatov",
+  visitDate: "2025-05-14",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 23,
+  name: "Malkovský",
+  city: "Dolní Dvůr",
+  visitDate: "2025-05-14",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 24,
+  name: "Hlavatý",
+  city: "Doubravice",
+  visitDate: "2025-05-15",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 25,
+  name: "Stehlík",
+  city: "Lázně Bělohrad",
+  visitDate: "2025-06-13",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 26,
+  name: "Čekan",
+  city: "Prachov",
+  visitDate: "2025-06-13",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "notdone",
+  finStatus: null,
+  notes: "Prezentace OK, instalace zrušena"
+}, {
+  id: uid(),
+  year: 2025,
+  num: 27,
+  name: "Rejha",
+  city: "Sobčice",
+  visitDate: "2025-06-18",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 28,
+  name: "Faistauerová",
+  city: "D.Štěpanice",
+  visitDate: "2025-07-17",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "notdone",
+  finStatus: null,
+  notes: "Prezentace OK, instalace zrušena"
+}, {
+  id: uid(),
+  year: 2025,
+  num: 29,
+  name: "Šír",
+  city: "D.Štěpanice",
+  visitDate: "2025-07-17",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 30,
+  name: "Rybák",
+  city: "Skuhrov-Huntířov",
+  visitDate: "2025-07-21",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 31,
+  name: "Herman",
+  city: "Lukavice",
+  visitDate: "2025-08-12",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 32,
+  name: "Janeba",
+  city: "Jaroměř",
+  visitDate: "2025-08-14",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 33,
+  name: "Dvořák",
+  city: "Dobruška",
+  visitDate: "2025-08-18",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: "paid",
+  notes: "Kompletně zaplaceno"
+}, {
+  id: uid(),
+  year: 2025,
+  num: 34,
+  name: "Martinec",
+  city: "Teplice n/Met.",
+  visitDate: "2025-10-27",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 35,
+  name: "Jiroušek",
+  city: "Rtyně v Podkrk.",
+  visitDate: "2025-10-27",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2025,
+  num: 0,
+  name: "Nývltová (XX)",
+  city: "St.Sedloňov",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "done",
+  realStatus: null,
+  finStatus: null,
+  notes: "NEREAGUJE"
+},
+// ══ 2024 ══════════════════════════════════════════════════════════════════
+{
+  id: uid(),
+  year: 2024,
+  num: 1,
+  name: "Balážová",
+  city: "Lukavec",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 2,
+  name: "Hamák",
+  city: "Hradec Králové",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 3,
+  name: "Cajdam",
+  city: "Ostroměř",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 4,
+  name: "Špinar",
+  city: "Nemyčeves",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 5,
+  name: "Kuhn",
+  city: "Markoušovice",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 6,
+  name: "Michal",
+  city: "Kocbeře",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 7,
+  name: "Součková",
+  city: "Hrobice",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 8,
+  name: "Bulva",
+  city: "Cerekvice",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "notdone",
+  finStatus: null,
+  notes: "Prezentace OK, instalace zrušena"
+}, {
+  id: uid(),
+  year: 2024,
+  num: 9,
+  name: "Loskot",
+  city: "Křičeň",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 10,
+  name: "Karbulka",
+  city: "Svítkov",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 11,
+  name: "Kolman",
+  city: "Sadová",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 12,
+  name: "Maličký",
+  city: "Arnultovice",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 13,
+  name: "Novák",
+  city: "kostel Černčice",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 14,
+  name: "Sobota",
+  city: "Lužany",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 15,
+  name: "Nosek",
+  city: "Studenec",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 16,
+  name: "Vokoun",
+  city: "Běleč nad Orlicí",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 17,
+  name: "Grejcar",
+  city: "Vítězná-Koclířov",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 18,
+  name: "Veselý",
+  city: "Hořice",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 19,
+  name: "Šimková",
+  city: "Lužec nad Cidlinou",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 20,
+  name: "John",
+  city: "Horní Počernice",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 21,
+  name: "Káninská",
+  city: "Opolany",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 22,
+  name: "Kuchařová",
+  city: "Lysá nad Labem",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 23,
+  name: "Fridrich",
+  city: "Křinec",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "realized",
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 24,
+  name: "Hejzlarová",
+  city: "Kratonohy",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 25,
+  name: "Sekera",
+  city: "Opolany",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 26,
+  name: "Hronovský",
+  city: "Rubena Náchod",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 27,
+  name: "Fuzik",
+  city: "Běrunice",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "real",
+  realStatus: "notdone",
+  finStatus: null,
+  notes: "Prezentace OK, instalace zrušena"
+}, {
+  id: uid(),
+  year: 2024,
+  num: 28,
+  name: "MuDr. Ouzký",
+  city: "Skochovice",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "cancelled",
+  realStatus: null,
+  finStatus: null,
+  notes: ""
+}, {
+  id: uid(),
+  year: 2024,
+  num: 0,
+  name: "Fejfar (XX)",
+  city: "Hradec Králové",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "other",
+  realStatus: null,
+  finStatus: null,
+  notes: "💬 nečíslovaná zakázka"
+}, {
+  id: uid(),
+  year: 2024,
+  num: 0,
+  name: "Švec (XX)",
+  city: "Kosičky",
+  visitDate: "",
+  visitTime: "",
+  processStatus: "other",
+  realStatus: null,
+  finStatus: null,
+  notes: "💬 nečíslovaná zakázka"
+}];
+
+// ─── FIREBASE DATA LAYER ──────────────────────────────────────────────────────
+function useOrders(userId) {
+  var _useState = useState([]),
+    _useState2 = _slicedToArray(_useState, 2),
+    orders = _useState2[0],
+    setOrders = _useState2[1];
+  var _useState3 = useState(false),
+    _useState4 = _slicedToArray(_useState3, 2),
+    ready = _useState4[0],
+    setReady = _useState4[1];
+  useEffect(function () {
+    if (!userId) return;
+    var ref = db.collection("users").doc(userId).collection("orders");
+    var unsub = ref.onSnapshot(function (snap) {
+      if (snap.empty && !ready) {
+        // First login – import initial data
+        var batch = db.batch();
+        INITIAL_DATA.forEach(function (o) {
+          var d = ref.doc(o.id);
+          batch.set(d, o);
+        });
+        batch.commit().then(function () {
+          return setReady(true);
+        });
+      } else {
+        // Deduplicate: keep one per (year,num) — most recently created wins
+        // For num===0 (XX entries) also include name prefix to keep distinct people
+        var seen = new Map();
+        snap.docs.forEach(function(d) {
+          var o = d.data();
+          var key = o.num === 0
+            ? String(o.year)+'-0-'+(o.name||'').toLowerCase().slice(0,10)
+            : String(o.year)+'-'+String(o.num).padStart(3,'0');
+          var ex = seen.get(key);
+          if(!ex || (o.createdAt||'') > (ex.createdAt||'')) seen.set(key, o);
+        });
+        setOrders([...seen.values()]);
+        setReady(true);
+      }
+    });
+    return unsub;
+  }, [userId]);
+  var col = function col() {
+    return db.collection("users").doc(userId).collection("orders");
+  };
+  var addOrder = function addOrder(o) {
+    return col().doc(o.id).set(o);
+  };
+  var updateOrder = function updateOrder(o) {
+    return col().doc(o.id).set(o, {
+      merge: true
+    });
+  };
+  return {
+    orders: orders,
+    ready: ready,
+    addOrder: addOrder,
+    updateOrder: updateOrder
+  };
+}
+
+// ─── PDF EXPORT ───────────────────────────────────────────────────────────────
+function exportPDF(orders, year) {
+  var jsPDF = window.jspdf.jsPDF;
+  var doc = new jsPDF({
+    orientation: "portrait",
+    unit: "mm",
+    format: "a4"
+  });
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(16);
+  doc.text("GOORN \xB7 Zak\xE1zky ".concat(year), 14, 16);
+  doc.setFontSize(9);
+  doc.setFont("helvetica", "normal");
+  doc.setTextColor(120, 100, 80);
+  doc.text("Exportov\xE1no ".concat(new Date().toLocaleDateString("cs-CZ"), " \xB7 Pro GOORN \xA9 \u2076\u2077\u303D\uFE0F"), 14, 22);
+  var yo = orders.filter(function (o) {
+    return o.year === year;
+  }).sort(function (a, b) {
+    return b.num - a.num;
+  });
+  var rows = yo.map(function (o) {
+    var p = procById[o.processStatus] || PROC[0];
+    var f = finById[o.finStatus];
+    var r = REAL.find(function (x) {
+      return x.id === o.realStatus;
+    });
+    return [o.num === 0 ? "XX" : String(o.num), o.name || "—", o.city || "—", fmtDate(o.visitDate, o.visitTime) || "—", p.label, r && r.id ? r.label : "—", f && f.id ? f.label : "—", o.notes || ""];
+  });
+  doc.autoTable({
+    startY: 28,
+    head: [["#", "Zákazník", "Město", "Datum", "Procesní status", "Instalace", "Provize", "Poznámky"]],
+    body: rows,
+    styles: {
+      fontSize: 7.5,
+      cellPadding: 2,
+      font: "helvetica"
+    },
+    headStyles: {
+      fillColor: [72, 122, 76],
+      textColor: 255,
+      fontStyle: "bold"
+    },
+    alternateRowStyles: {
+      fillColor: [245, 240, 232]
+    },
+    columnStyles: {
+      0: {
+        cellWidth: 8
+      },
+      7: {
+        cellWidth: 35
+      }
+    },
+    margin: {
+      left: 8,
+      right: 8
+    }
+  });
+  var total = yo.length;
+  var real = yo.filter(function (o) {
+    return o.processStatus === "real";
+  }).length;
+  var finalY = doc.lastAutoTable.finalY + 8;
+  doc.setFontSize(8);
+  doc.setTextColor(80, 60, 40);
+  doc.text("Celkem: ".concat(total, "  |  Realizace: ").concat(real, "  |  \xDAsp\u011B\u0161nost: ").concat(total > 0 ? Math.round(real / total * 100) : 0, " %"), 14, finalY);
+  doc.save("GOORN_".concat(year, "_zakazky.pdf"));
+}
+
+// ─── PROCESS STATUS PICKER ────────────────────────────────────────────────────
+function ProcPicker(_ref2) {
+  var current = _ref2.current,
+    onChange = _ref2.onChange,
+    onClose = _ref2.onClose;
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "fixed",
+      inset: 0,
+      background: "rgba(20,15,8,.45)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      zIndex: 400,
+      padding: 16
+    },
+    onClick: onClose
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.surface,
+      borderRadius: 14,
+      padding: 18,
+      width: "100%",
+      maxWidth: 340,
+      boxShadow: "0 12px 40px rgba(0,0,0,.22)"
+    },
+    onClick: function onClick(e) {
+      return e.stopPropagation();
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      fontWeight: 700,
+      color: C.textLight,
+      textTransform: "uppercase",
+      letterSpacing: ".6px",
+      marginBottom: 12
+    }
+  }, "Procesn\xED status zak\xE1zky"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "repeat(2,1fr)",
+      gap: 6
+    }
+  }, PROC.map(function (s) {
+    var Icon = s.icon;
+    var active = s.id === current;
+    return /*#__PURE__*/React.createElement("button", {
+      key: s.id,
+      onClick: function onClick() {
+        onChange(s.id);
+        onClose();
+      },
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 8,
+        padding: "9px 10px",
+        borderRadius: 8,
+        cursor: "pointer",
+        background: active ? s.pale : C.surfaceAlt,
+        border: "1.5px solid ".concat(active ? s.color : C.borderLight),
+        color: active ? s.color : C.textMid,
+        fontWeight: active ? 700 : 500,
+        fontSize: 12,
+        textAlign: "left"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 26,
+        height: 26,
+        borderRadius: 6,
+        background: "".concat(s.color, "28"),
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexShrink: 0
+      }
+    }, /*#__PURE__*/React.createElement(Icon, {
+      size: 13,
+      color: s.color,
+      strokeWidth: 2
+    })), s.label, active && /*#__PURE__*/React.createElement(Check, {
+      size: 11,
+      color: s.color,
+      style: {
+        marginLeft: "auto"
+      }
+    }));
+  })), /*#__PURE__*/React.createElement("button", {
+    onClick: onClose,
+    style: {
+      width: "100%",
+      marginTop: 10,
+      padding: "9px",
+      borderRadius: 8,
+      border: "1px solid ".concat(C.border),
+      background: C.surfaceAlt,
+      color: C.textMid,
+      fontSize: 12,
+      fontWeight: 600,
+      cursor: "pointer"
+    }
+  }, "Zav\u0159\xEDt")));
+}
+
+// ─── CYCLE BUTTON ─────────────────────────────────────────────────────────────
+function CycleBtn(_ref3) {
+  var statuses = _ref3.statuses,
+    value = _ref3.value,
+    onChange = _ref3.onChange,
+    _ref3$size = _ref3.size,
+    size = _ref3$size === void 0 ? 28 : _ref3$size;
+  var _useState5 = useState(false),
+    _useState6 = _slicedToArray(_useState5, 2),
+    tip = _useState6[0],
+    setTip = _useState6[1];
+  var idx = statuses.findIndex(function (s) {
+    return s.id === value;
+  });
+  var cur = statuses[Math.max(0, idx)];
+  var Icon = cur.icon;
+  var click = function click(e) {
+    e.stopPropagation();
+    onChange(statuses[(idx + 1) % statuses.length].id);
+    setTip(true);
+    setTimeout(function () {
+      return setTip(false);
+    }, 1400);
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "relative",
+      flexShrink: 0
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: click,
+    title: cur.label,
+    style: {
+      width: size,
+      height: size,
+      borderRadius: 6,
+      background: cur.pale,
+      border: "1.5px solid ".concat(cur.color, "55"),
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      cursor: "pointer",
+      transition: "box-shadow .1s"
+    },
+    onMouseEnter: function onMouseEnter(e) {
+      return e.currentTarget.style.boxShadow = "0 2px 8px ".concat(cur.color, "40");
+    },
+    onMouseLeave: function onMouseLeave(e) {
+      return e.currentTarget.style.boxShadow = "none";
+    }
+  }, Icon ? /*#__PURE__*/React.createElement(Icon, {
+    size: size * .43,
+    color: cur.color,
+    strokeWidth: 2
+  }) : /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.textLight,
+      fontSize: 9,
+      fontWeight: 700
+    }
+  }, "\u2014")), tip && /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "absolute",
+      bottom: "115%",
+      left: "50%",
+      transform: "translateX(-50%)",
+      background: C.text,
+      color: "#fff",
+      borderRadius: 6,
+      padding: "3px 8px",
+      fontSize: 10,
+      fontWeight: 600,
+      whiteSpace: "nowrap",
+      zIndex: 500,
+      pointerEvents: "none"
+    }
+  }, cur.label));
+}
+
+// ─── STATUS TILE ─────────────────────────────────────────────────────────────
+function Tile(_ref4) {
+  var status = _ref4.status,
+    count = _ref4.count,
+    active = _ref4.active,
+    onClick = _ref4.onClick,
+    kc = _ref4.kc;
+  var Icon = status.icon;
+  return /*#__PURE__*/React.createElement("button", {
+    onClick: onClick,
+    style: {
+      flex: 1,
+      minWidth: 70,
+      maxWidth: kc ? 110 : 90,
+      background: active ? status.pale : C.surface,
+      border: "1.5px solid ".concat(active ? status.color : C.border),
+      borderRadius: 10,
+      padding: "8px 4px 7px",
+      cursor: "pointer",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      gap: 3,
+      boxShadow: active ? "0 0 0 2px ".concat(status.color, "30") : "none",
+      transition: "all .15s"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 30,
+      height: 30,
+      borderRadius: 7,
+      background: "".concat(status.color, "38"),
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center"
+    }
+  }, /*#__PURE__*/React.createElement(Icon, {
+    size: 15,
+    color: status.color,
+    strokeWidth: 2
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 19,
+      fontWeight: 800,
+      color: active ? status.color : C.text,
+      lineHeight: 1
+    }
+  }, count), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 8,
+      color: active ? status.color : C.textLight,
+      textAlign: "center",
+      lineHeight: 1.25,
+      fontWeight: active ? 700 : 500,
+      padding: "0 2px"
+    }
+  }, status.label), kc != null && /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      fontWeight: 700,
+      color: active ? status.color : C.textMid,
+      marginTop: 1,
+      letterSpacing: "-0.3px"
+    }
+  }, fmtKc(kc)));
+}
+
+// ─── ORDER ROW ────────────────────────────────────────────────────────────────
+function OrderRow(_ref5) {
+  var order = _ref5.order,
+    onUpdate = _ref5.onUpdate,
+    calToken = _ref5.calToken,
+    onConnectCal = _ref5.onConnectCal;
+  var _useState7 = useState(false),
+    _useState8 = _slicedToArray(_useState7, 2),
+    open = _useState8[0],
+    setOpen = _useState8[1];
+  var _useState9 = useState(false),
+    _useState0 = _slicedToArray(_useState9, 2),
+    showPicker = _useState0[0],
+    setPicker = _useState0[1];
+  var _useState1 = useState(false),
+    _useState10 = _slicedToArray(_useState1, 2),
+    editMode = _useState10[0],
+    setEditMode = _useState10[1];
+  var _useState11 = useState({}),
+    _useState12 = _slicedToArray(_useState11, 2),
+    draft = _useState12[0],
+    setDraft = _useState12[1];
+  var _useState13 = useState(order.notes || ""),
+    _useState14 = _slicedToArray(_useState13, 2),
+    notes = _useState14[0],
+    setNotes = _useState14[1];
+  var _useState15 = useState(false),
+    _useState16 = _slicedToArray(_useState15, 2),
+    calBusy = _useState16[0],
+    setCalBusy = _useState16[1];
+  var _useState17 = useState(''),
+    _useState18 = _slicedToArray(_useState17, 2),
+    calMsg = _useState18[0],
+    setCalMsg = _useState18[1];
+  var timer = useRef(null);
+  var procSt = procById[order.processStatus] || PROC[0];
+  var PIcon = procSt.icon;
+  var dateStr = fmtDate(order.visitDate, order.visitTime);
+  var hasNotes = notes.trim().length > 0;
+  var onNotes = function onNotes(v) {
+    setNotes(v);
+    clearTimeout(timer.current);
+    timer.current = setTimeout(function () {
+      return onUpdate(_objectSpread(_objectSpread({}, order), {}, {
+        notes: v
+      }));
+    }, 800);
+  };
+  var startEdit = function startEdit(e) {
+    e.stopPropagation();
+    setDraft({
+      name: order.name || "",
+      city: order.city || "",
+      visitDate: order.visitDate || "",
+      visitTime: order.visitTime || ""
+    });
+    setEditMode(true);
+    setOpen(true);
+  };
+  var saveEdit = function saveEdit() {
+    onUpdate(_objectSpread(_objectSpread({}, order), draft));
+    setEditMode(false);
+  };
+  var syncCal = /*#__PURE__*/function () {
+    var _ref6 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4(e) {
+      var res, _t;
+      return _regenerator().w(function (_context4) {
+        while (1) switch (_context4.p = _context4.n) {
+          case 0:
+            e.stopPropagation();
+            if (calToken) {
+              _context4.n = 1;
+              break;
+            }
+            onConnectCal();
+            return _context4.a(2);
+          case 1:
+            setCalBusy(true);
+            setCalMsg('');
+            _context4.p = 2;
+            if (!order.calendarEventId) {
+              _context4.n = 6;
+              break;
+            }
+            _context4.n = 3;
+            return calApi.update(order.calendarEventId, order, calToken);
+          case 3:
+            res = _context4.v;
+            if (!(res.error === 'notfound')) {
+              _context4.n = 5;
+              break;
+            }
+            _context4.n = 4;
+            return calApi.create(order, calToken);
+          case 4:
+            res = _context4.v;
+          case 5:
+            _context4.n = 8;
+            break;
+          case 6:
+            _context4.n = 7;
+            return calApi.create(order, calToken);
+          case 7:
+            res = _context4.v;
+          case 8:
+            if (res.error === 'auth') {
+              onConnectCal();
+              setCalMsg('Znovu připojit Google Kalendář');
+            } else if (res.id) {
+              onUpdate(_objectSpread(_objectSpread({}, order), {}, {
+                calendarEventId: res.id
+              }));
+              setCalMsg('Synchronizováno!');
+            } else setCalMsg('Chyba – zkus znovu');
+            _context4.n = 10;
+            break;
+          case 9:
+            _context4.p = 9;
+            _t = _context4.v;
+            setCalMsg('Chyba připojení');
+          case 10:
+            setCalBusy(false);
+            setTimeout(function () {
+              return setCalMsg('');
+            }, 3000);
+          case 11:
+            return _context4.a(2);
+        }
+      }, _callee4, null, [[2, 9]]);
+    }));
+    return function syncCal(_x8) {
+      return _ref6.apply(this, arguments);
+    };
+  }();
+  var removeCal = /*#__PURE__*/function () {
+    var _ref7 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5(e) {
+      return _regenerator().w(function (_context5) {
+        while (1) switch (_context5.n) {
+          case 0:
+            e.stopPropagation();
+            if (!(!order.calendarEventId || !calToken)) {
+              _context5.n = 1;
+              break;
+            }
+            return _context5.a(2);
+          case 1:
+            setCalBusy(true);
+            _context5.n = 2;
+            return calApi.del(order.calendarEventId, calToken);
+          case 2:
+            onUpdate(_objectSpread(_objectSpread({}, order), {}, {
+              calendarEventId: null
+            }));
+            setCalMsg('Odebráno z kalendáře');
+            setCalBusy(false);
+            setTimeout(function () {
+              return setCalMsg('');
+            }, 3000);
+          case 3:
+            return _context5.a(2);
+        }
+      }, _callee5);
+    }));
+    return function removeCal(_x9) {
+      return _ref7.apply(this, arguments);
+    };
+  }();
+  var numLabel = order.num === 0 ? "XX" : order.num;
+  var inp = {
+    border: "1px solid ".concat(C.border),
+    borderRadius: 6,
+    padding: "6px 8px",
+    fontSize: 12,
+    color: C.text,
+    background: C.surface,
+    fontFamily: "inherit",
+    outline: "none",
+    width: "100%",
+    boxSizing: "border-box"
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    className: "order-row",
+    style: {
+      background: C.surface,
+      border: "1px solid ".concat(C.border),
+      borderRadius: 10,
+      overflow: "hidden",
+      borderLeft: "3px solid ".concat(procSt.color),
+      marginBottom: 4
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    onClick: function onClick() {
+      return setOpen(function (o) {
+        return !o;
+      });
+    },
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 6,
+      padding: "8px 10px",
+      cursor: "pointer",
+      userSelect: "none"
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      width: 26,
+      textAlign: "right",
+      fontSize: 11,
+      fontWeight: 700,
+      color: order.num === 0 ? "#C0502A" : C.textLight,
+      flexShrink: 0
+    }
+  }, numLabel), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick(e) {
+      e.stopPropagation();
+      setPicker(true);
+    },
+    title: procSt.label,
+    style: {
+      width: 28,
+      height: 28,
+      borderRadius: 6,
+      background: procSt.pale,
+      border: "1.5px solid ".concat(procSt.color, "55"),
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      cursor: "pointer",
+      flexShrink: 0
+    },
+    onMouseEnter: function onMouseEnter(e) {
+      return e.currentTarget.style.boxShadow = "0 2px 8px ".concat(procSt.color, "40");
+    },
+    onMouseLeave: function onMouseLeave(e) {
+      return e.currentTarget.style.boxShadow = "none";
+    }
+  }, /*#__PURE__*/React.createElement(PIcon, {
+    size: 12,
+    color: procSt.color,
+    strokeWidth: 2
+  })), /*#__PURE__*/React.createElement("span", {
+    style: {
+      flex: 2,
+      minWidth: 60,
+      fontSize: 13,
+      fontWeight: 600,
+      color: C.text,
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      whiteSpace: "nowrap"
+    }
+  }, order.name || "—"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      flex: 1.5,
+      minWidth: 50,
+      fontSize: 11,
+      color: C.textMid,
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      whiteSpace: "nowrap"
+    }
+  }, order.city || ""), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 11,
+      color: C.textLight,
+      flexShrink: 0,
+      minWidth: 52,
+      textAlign: "center",
+      fontWeight: 500
+    }
+  }, dateStr || "—"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick(e) {
+      e.stopPropagation();
+      var cur = order.deviceCount != null ? order.deviceCount : 0;
+      var next = cur >= 5 ? 0 : cur + 1;
+      onUpdate(_objectSpread(_objectSpread({}, order), {}, {
+        deviceCount: next
+      }));
+    },
+    title: "Po\u010Det p\u0159\xEDstroj\u016F: ".concat(order.deviceCount || '—'),
+    style: {
+      width: 28,
+      height: 28,
+      borderRadius: 6,
+      flexShrink: 0,
+      background: order.processStatus === "real" ? C.greenBrightPale : C.surfaceAlt,
+      border: "1.5px solid ".concat(order.processStatus === "real" ? C.greenBright : C.border),
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      cursor: "pointer",
+      fontSize: 13,
+      fontWeight: 800,
+      color: order.processStatus === "real" ? C.greenBright : C.textLight
+    }
+  }, order.deviceCount || '—'), /*#__PURE__*/React.createElement(CycleBtn, {
+    statuses: REAL,
+    value: order.realStatus,
+    onChange: function onChange(v) {
+      return onUpdate(_objectSpread(_objectSpread({}, order), {}, {
+        realStatus: v
+      }));
+    }
+  }), /*#__PURE__*/React.createElement(CycleBtn, {
+    statuses: FIN,
+    value: order.finStatus,
+    onChange: function onChange(v) {
+      return onUpdate(_objectSpread(_objectSpread({}, order), {}, {
+        finStatus: v
+      }));
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 18,
+      flexShrink: 0,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center"
+    }
+  }, hasNotes && /*#__PURE__*/React.createElement(Edit3, {
+    size: 11,
+    color: C.brownMid
+  })), /*#__PURE__*/React.createElement(ChevronDown, {
+    size: 12,
+    color: C.textLight,
+    style: {
+      transition: "transform .2s",
+      transform: open ? "rotate(180deg)" : "rotate(0)",
+      flexShrink: 0
+    }
+  })), open && /*#__PURE__*/React.createElement("div", {
+    style: {
+      borderTop: "1px solid ".concat(C.borderLight),
+      padding: "12px 12px 14px",
+      background: C.surfaceAlt
+    }
+  }, editMode ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: 10
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      fontWeight: 700,
+      color: C.textLight,
+      textTransform: "uppercase",
+      letterSpacing: ".6px"
+    }
+  }, "Upravit z\xE1znam"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 8
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 2
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      color: C.textLight,
+      fontWeight: 700,
+      textTransform: "uppercase",
+      letterSpacing: ".5px",
+      marginBottom: 3
+    }
+  }, "Z\xE1kazn\xEDk"), /*#__PURE__*/React.createElement("input", {
+    value: draft.name,
+    onChange: function onChange(e) {
+      return setDraft(function (d) {
+        return _objectSpread(_objectSpread({}, d), {}, {
+          name: e.target.value
+        });
+      });
+    },
+    style: inp,
+    onClick: function onClick(e) {
+      return e.stopPropagation();
+    }
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 2
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      color: C.textLight,
+      fontWeight: 700,
+      textTransform: "uppercase",
+      letterSpacing: ".5px",
+      marginBottom: 3
+    }
+  }, "M\u011Bsto / Adresa"), /*#__PURE__*/React.createElement("input", {
+    value: draft.city,
+    onChange: function onChange(e) {
+      return setDraft(function (d) {
+        return _objectSpread(_objectSpread({}, d), {}, {
+          city: e.target.value
+        });
+      });
+    },
+    style: inp,
+    onClick: function onClick(e) {
+      return e.stopPropagation();
+    }
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 8
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      color: C.textLight,
+      fontWeight: 700,
+      textTransform: "uppercase",
+      letterSpacing: ".5px",
+      marginBottom: 3
+    }
+  }, "Datum n\xE1v\u0161t\u011Bvy"), /*#__PURE__*/React.createElement("input", {
+    type: "date",
+    value: draft.visitDate,
+    onChange: function onChange(e) {
+      return setDraft(function (d) {
+        return _objectSpread(_objectSpread({}, d), {}, {
+          visitDate: e.target.value
+        });
+      });
+    },
+    style: inp,
+    onClick: function onClick(e) {
+      return e.stopPropagation();
+    }
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      color: C.textLight,
+      fontWeight: 700,
+      textTransform: "uppercase",
+      letterSpacing: ".5px",
+      marginBottom: 3
+    }
+  }, "\u010Cas"), /*#__PURE__*/React.createElement("input", {
+    type: "time",
+    value: draft.visitTime,
+    onChange: function onChange(e) {
+      return setDraft(function (d) {
+        return _objectSpread(_objectSpread({}, d), {}, {
+          visitTime: e.target.value
+        });
+      });
+    },
+    style: inp,
+    onClick: function onClick(e) {
+      return e.stopPropagation();
+    }
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 8,
+      marginTop: 2
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick(e) {
+      e.stopPropagation();
+      saveEdit();
+    },
+    style: {
+      flex: 2,
+      padding: "8px",
+      borderRadius: 7,
+      border: "none",
+      background: C.green,
+      color: "#fff",
+      fontSize: 12,
+      fontWeight: 700,
+      cursor: "pointer",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: 5
+    }
+  }, /*#__PURE__*/React.createElement(Save, {
+    size: 12
+  }), " Ulo\u017Eit zm\u011Bny"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick(e) {
+      e.stopPropagation();
+      setEditMode(false);
+    },
+    style: {
+      flex: 1,
+      padding: "8px",
+      borderRadius: 7,
+      border: "1px solid ".concat(C.border),
+      background: C.surface,
+      color: C.textMid,
+      fontSize: 12,
+      cursor: "pointer"
+    }
+  }, "Zru\u0161it"))) : /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "flex-start",
+      marginBottom: 10,
+      gap: 8
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexWrap: "wrap",
+      gap: 5
+    }
+  }, /*#__PURE__*/React.createElement(StatusChip, {
+    s: procSt
+  })), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick(e) {
+      return startEdit(e);
+    },
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 5,
+      padding: "5px 10px",
+      borderRadius: 6,
+      border: "1px solid ".concat(C.border),
+      background: C.surface,
+      color: C.textMid,
+      fontSize: 11,
+      fontWeight: 600,
+      cursor: "pointer",
+      flexShrink: 0
+    }
+  }, /*#__PURE__*/React.createElement(Edit3, {
+    size: 11
+  }), " Upravit")), !editMode && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      fontWeight: 700,
+      color: C.textLight,
+      textTransform: "uppercase",
+      letterSpacing: ".6px",
+      marginBottom: 5
+    }
+  }, "Pozn\xE1mky"), /*#__PURE__*/React.createElement("textarea", {
+    value: notes,
+    onChange: function onChange(e) {
+      return onNotes(e.target.value);
+    },
+    onClick: function onClick(e) {
+      return e.stopPropagation();
+    },
+    placeholder: "P\u0159idejte pozn\xE1mku\u2026",
+    rows: 3,
+    style: {
+      width: "100%",
+      resize: "vertical",
+      fontFamily: "inherit",
+      border: "1px solid ".concat(C.border),
+      borderRadius: 7,
+      padding: "8px 10px",
+      fontSize: 12.5,
+      color: C.text,
+      background: C.surface,
+      outline: "none",
+      lineHeight: 1.55,
+      boxSizing: "border-box"
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9.5,
+      color: C.textLight,
+      marginTop: 3
+    }
+  }, "Ulo\u017Eeno automaticky do Firestore"), calMsg && /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 6,
+      fontSize: 11,
+      fontWeight: 600,
+      color: calMsg.includes('!') || calMsg.includes('Odebrán') ? C.greenBright : C.orange,
+      padding: "4px 8px",
+      borderRadius: 5,
+      background: C.surfaceAlt
+    }
+  }, calMsg), order.calendarEventId && !calBusy && /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 8,
+      display: "flex",
+      alignItems: "center",
+      gap: 8
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: C.greenBright,
+      display: "flex",
+      alignItems: "center",
+      gap: 4
+    }
+  }, /*#__PURE__*/React.createElement(CalendarCheck, {
+    size: 11,
+    color: C.greenBright,
+    strokeWidth: 2
+  }), "Synchronizov\xE1no s Google Kalend\xE1\u0159em"), /*#__PURE__*/React.createElement("button", {
+    onClick: removeCal,
+    style: {
+      fontSize: 10,
+      color: C.danger,
+      border: "1px solid ".concat(C.danger, "33"),
+      borderRadius: 5,
+      padding: "2px 7px",
+      background: C.dangerPale,
+      cursor: "pointer"
+    }
+  }, /*#__PURE__*/React.createElement(CalendarOff, {
+    size: 10,
+    color: C.danger,
+    strokeWidth: 2
+  }), " Odebrat")))), showPicker && /*#__PURE__*/React.createElement(ProcPicker, {
+    current: order.processStatus,
+    onChange: function onChange(v) {
+      return onUpdate(_objectSpread(_objectSpread({}, order), {}, {
+        processStatus: v
+      }));
+    },
+    onClose: function onClose() {
+      return setPicker(false);
+    }
+  }));
+}
+function StatusChip(_ref8) {
+  var s = _ref8.s;
+  var Icon = s.icon;
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: s.pale,
+      border: "1px solid ".concat(s.color, "44"),
+      borderRadius: 20,
+      padding: "3px 9px",
+      display: "flex",
+      alignItems: "center",
+      gap: 5,
+      fontSize: 11,
+      color: s.color,
+      fontWeight: 600
+    }
+  }, /*#__PURE__*/React.createElement(Icon, {
+    size: 10,
+    strokeWidth: 2
+  }), " ", s.label);
+}
+
+// ─── ADD ORDER MODAL ──────────────────────────────────────────────────────────
+function AddModal(_ref9) {
+  var year = _ref9.year,
+    maxNum = _ref9.maxNum,
+    onAdd = _ref9.onAdd,
+    onClose = _ref9.onClose,
+    calToken = _ref9.calToken,
+    onConnectCal = _ref9.onConnectCal;
+  var _useState19 = useState({
+      name: "",
+      city: "",
+      visitDate: "",
+      visitTime: "",
+      processStatus: "call",
+      notes: ""
+    }),
+    _useState20 = _slicedToArray(_useState19, 2),
+    f = _useState20[0],
+    setF = _useState20[1];
+  var set = function set(k, v) {
+    return setF(function (p) {
+      return _objectSpread(_objectSpread({}, p), {}, _defineProperty({}, k, v));
+    });
+  };
+  var save = /*#__PURE__*/function () {
+    var _ref0 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee6() {
+      var newOrder, res, _t2;
+      return _regenerator().w(function (_context6) {
+        while (1) switch (_context6.p = _context6.n) {
+          case 0:
+            if (f.name.trim()) {
+              _context6.n = 1;
+              break;
+            }
+            return _context6.a(2);
+          case 1:
+            newOrder = {
+              id: uid(),
+              year: year,
+              num: maxNum + 1,
+              name: f.name.trim(),
+              city: f.city.trim(),
+              visitDate: f.visitDate,
+              visitTime: f.visitTime,
+              processStatus: f.processStatus,
+              realStatus: null,
+              finStatus: null,
+              deviceCount: 1,
+              notes: f.notes,
+              createdAt: new Date().toISOString()
+            }; // Auto-sync to calendar if date set and token available
+            if (!(f.visitDate && calToken)) {
+              _context6.n = 5;
+              break;
+            }
+            _context6.p = 2;
+            _context6.n = 3;
+            return calApi.create(newOrder, calToken);
+          case 3:
+            res = _context6.v;
+            if (res.id) newOrder.calendarEventId = res.id;
+            _context6.n = 5;
+            break;
+          case 4:
+            _context6.p = 4;
+            _t2 = _context6.v;
+          case 5:
+            onAdd(newOrder);
+            onClose();
+          case 6:
+            return _context6.a(2);
+        }
+      }, _callee6, null, [[2, 4]]);
+    }));
+    return function save() {
+      return _ref0.apply(this, arguments);
+    };
+  }();
+  var inp = {
+    width: "100%",
+    border: "1px solid ".concat(C.border),
+    borderRadius: 7,
+    padding: "8px 10px",
+    fontSize: 13,
+    color: C.text,
+    background: C.surface,
+    fontFamily: "inherit",
+    outline: "none",
+    boxSizing: "border-box"
+  };
+  var lbl = {
+    display: "block",
+    fontSize: 9,
+    fontWeight: 700,
+    color: C.textLight,
+    textTransform: "uppercase",
+    letterSpacing: ".6px",
+    marginBottom: 4
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "fixed",
+      inset: 0,
+      background: "rgba(20,15,8,.5)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      zIndex: 300,
+      padding: 16
+    },
+    onClick: onClose
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.surface,
+      borderRadius: 14,
+      padding: 24,
+      width: "100%",
+      maxWidth: 420,
+      maxHeight: "92vh",
+      overflowY: "auto",
+      boxShadow: "0 12px 48px rgba(0,0,0,.25)"
+    },
+    onClick: function onClick(e) {
+      return e.stopPropagation();
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      marginBottom: 18
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 15,
+      fontWeight: 800,
+      color: C.text
+    }
+  }, "Nov\xE1 zak\xE1zka"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: C.textLight
+    }
+  }, "#", maxNum + 1, " \xB7 rok ", year)), /*#__PURE__*/React.createElement("button", {
+    onClick: onClose,
+    style: {
+      width: 28,
+      height: 28,
+      borderRadius: 6,
+      border: "1px solid ".concat(C.border),
+      background: C.surfaceAlt,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      cursor: "pointer"
+    }
+  }, /*#__PURE__*/React.createElement(X, {
+    size: 13,
+    color: C.textMid
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: 13
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
+    style: lbl
+  }, "Z\xE1kazn\xEDk *"), /*#__PURE__*/React.createElement("input", {
+    value: f.name,
+    onChange: function onChange(e) {
+      return set("name", e.target.value);
+    },
+    placeholder: "P\u0159\xEDjmen\xED, Jm\xE9no",
+    style: inp,
+    onKeyDown: function onKeyDown(e) {
+      return e.key === "Enter" && save();
+    }
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
+    style: lbl
+  }, "M\u011Bsto / Adresa"), /*#__PURE__*/React.createElement("input", {
+    value: f.city,
+    onChange: function onChange(e) {
+      return set("city", e.target.value);
+    },
+    placeholder: "Trutnov",
+    style: inp
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 10
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: lbl
+  }, "Datum n\xE1v\u0161t\u011Bvy"), /*#__PURE__*/React.createElement("input", {
+    type: "date",
+    value: f.visitDate,
+    onChange: function onChange(e) {
+      return set("visitDate", e.target.value);
+    },
+    style: inp
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: lbl
+  }, "\u010Cas"), /*#__PURE__*/React.createElement("input", {
+    type: "time",
+    value: f.visitTime,
+    onChange: function onChange(e) {
+      return set("visitTime", e.target.value);
+    },
+    style: inp
+  }))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
+    style: lbl
+  }, "Po\u010D\xE1te\u010Dn\xED status"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexWrap: "wrap",
+      gap: 5,
+      marginTop: 2
+    }
+  }, PROC.slice(0, 5).map(function (s) {
+    var Icon = s.icon;
+    var active = f.processStatus === s.id;
+    return /*#__PURE__*/React.createElement("button", {
+      key: s.id,
+      onClick: function onClick() {
+        return set("processStatus", s.id);
+      },
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 4,
+        padding: "4px 9px",
+        borderRadius: 6,
+        cursor: "pointer",
+        fontSize: 11,
+        background: active ? s.pale : C.surfaceAlt,
+        border: "1px solid ".concat(active ? s.color : C.border),
+        color: active ? s.color : C.textMid,
+        fontWeight: active ? 700 : 500
+      }
+    }, /*#__PURE__*/React.createElement(Icon, {
+      size: 10,
+      strokeWidth: 2
+    }), s.label);
+  }))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
+    style: lbl
+  }, "Pozn\xE1mky"), /*#__PURE__*/React.createElement("textarea", {
+    value: f.notes,
+    onChange: function onChange(e) {
+      return set("notes", e.target.value);
+    },
+    placeholder: "Voliteln\xE9\u2026",
+    rows: 2,
+    style: _objectSpread(_objectSpread({}, inp), {}, {
+      resize: "vertical",
+      lineHeight: 1.5
+    })
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 8,
+      marginTop: 18
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: onClose,
+    style: {
+      flex: 1,
+      padding: "10px",
+      borderRadius: 8,
+      border: "1px solid ".concat(C.border),
+      background: C.surfaceAlt,
+      color: C.textMid,
+      fontSize: 13,
+      fontWeight: 600,
+      cursor: "pointer"
+    }
+  }, "Zru\u0161it"), /*#__PURE__*/React.createElement("button", {
+    onClick: save,
+    style: {
+      flex: 2,
+      padding: "10px",
+      borderRadius: 8,
+      border: "none",
+      background: f.name.trim() ? C.green : "#aaa",
+      color: "#fff",
+      fontSize: 13,
+      fontWeight: 700,
+      cursor: "pointer"
+    }
+  }, "+ P\u0159idat #", maxNum + 1))));
+}
+
+// ─── DASHBOARD ────────────────────────────────────────────────────────────────
+function Dashboard(_ref1) {
+  var orders = _ref1.orders,
+    year = _ref1.year,
+    filter = _ref1.filter,
+    onFilter = _ref1.onFilter;
+  var yo = orders.filter(function (o) {
+    return o.year === year;
+  });
+  var total = yo.length;
+  var real = yo.filter(function (o) {
+    return o.processStatus === "real";
+  }).length;
+  var actv = yo.filter(function (o) {
+    return !["done", "cancelled", "cancelledR"].includes(o.processStatus);
+  }).length;
+  var finished = yo.filter(function (o) {
+    return ["real", "cancelled", "cancelledR"].includes(o.processStatus);
+  }).length;
+  var totalDevices = yo.filter(function (o) {
+    return o.processStatus === "real";
+  }).reduce(function (s, o) {
+    return s + (o.deviceCount || 1);
+  }, 0);
+  var rateByOrders = finished > 0 ? Math.round(real / finished * 100) : 0;
+  var rateByDevices = finished > 0 ? Math.round(totalDevices / finished * 100) : 0;
+  var procC = Object.fromEntries(PROC.map(function (s) {
+    return [s.id, yo.filter(function (o) {
+      return o.processStatus === s.id;
+    }).length];
+  }));
+  // Finance: počet přístrojů × hodnota provize
+  var finDevices = Object.fromEntries(FIN.slice(1).map(function (s) {
+    return [s.id, orders.filter(function (o) {
+      return o.finStatus === s.id;
+    }).reduce(function (sum, o) {
+      return sum + (o.deviceCount || 1);
+    }, 0)];
+  }));
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: 18,
+      display: "flex",
+      flexDirection: "column",
+      gap: 14
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 8,
+      flexWrap: "wrap"
+    }
+  }, [{
+    label: "Celkem",
+    value: total,
+    color: C.brown
+  }, {
+    label: "Aktivní",
+    value: actv,
+    color: C.orange
+  }, {
+    label: "Realizace",
+    value: real,
+    color: C.greenBright
+  }, {
+    label: "Přístroje",
+    value: totalDevices,
+    color: C.green
+  }, {
+    label: "Úsp. / zakázky",
+    value: "".concat(rateByOrders, " %"),
+    color: C.greenBright,
+    sub: "z ".concat(finished, " ukon\u010Den\xFDch")
+  }, {
+    label: "Úsp. / přístroje",
+    value: "".concat(rateByDevices, " %"),
+    color: C.green,
+    sub: "".concat(totalDevices, " ks / ").concat(finished, " zak\xE1zek")
+  }].map(function (_ref10) {
+    var label = _ref10.label,
+      value = _ref10.value,
+      color = _ref10.color,
+      sub = _ref10.sub;
+    return /*#__PURE__*/React.createElement("div", {
+      key: label,
+      style: {
+        flex: 1,
+        minWidth: 75,
+        background: C.surface,
+        border: "1px solid ".concat(C.border),
+        borderRadius: 10,
+        padding: "10px 10px"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 8,
+        color: C.textLight,
+        fontWeight: 700,
+        textTransform: "uppercase",
+        letterSpacing: ".4px",
+        marginBottom: 2
+      }
+    }, label), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 20,
+        fontWeight: 800,
+        color: color,
+        lineHeight: 1
+      }
+    }, value), sub && /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 7.5,
+        color: C.textLight,
+        marginTop: 2
+      }
+    }, sub));
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.surface,
+      border: "1px solid ".concat(C.border),
+      borderRadius: 12,
+      padding: 12
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      fontWeight: 700,
+      color: C.textLight,
+      textTransform: "uppercase",
+      letterSpacing: ".6px",
+      marginBottom: 10
+    }
+  }, "Procesn\xED statusy \xB7 ", year), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 5,
+      flexWrap: "wrap"
+    }
+  }, PROC.map(function (s) {
+    return /*#__PURE__*/React.createElement(Tile, {
+      key: s.id,
+      status: s,
+      count: procC[s.id] || 0,
+      active: filter === s.id,
+      onClick: function onClick() {
+        return onFilter(filter === s.id ? null : s.id);
+      }
+    });
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.surface,
+      border: "1px solid ".concat(C.border),
+      borderRadius: 12,
+      padding: 12
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      fontWeight: 700,
+      color: C.textLight,
+      textTransform: "uppercase",
+      letterSpacing: ".6px",
+      marginBottom: 10
+    }
+  }, "Finan\u010Dn\xED p\u0159ehled \xB7 ", /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.orange
+    }
+  }, "v\u0161echny roky")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 5
+    }
+  }, FIN.slice(1).map(function (s) {
+    return /*#__PURE__*/React.createElement(Tile, {
+      key: s.id,
+      status: s,
+      count: finDevices[s.id] || 0,
+      active: filter === "fin-".concat(s.id),
+      onClick: function onClick() {
+        return onFilter(filter === "fin-".concat(s.id) ? null : "fin-".concat(s.id));
+      },
+      kc: (finDevices[s.id] || 0) * s.value
+    });
+  }))));
+}
+
+// ─── ORDERS VIEW ─────────────────────────────────────────────────────────────
+function OrdersView(_ref11) {
+  var orders = _ref11.orders,
+    year = _ref11.year,
+    filter = _ref11.filter,
+    onFilter = _ref11.onFilter,
+    onUpdate = _ref11.onUpdate,
+    onAdd = _ref11.onAdd,
+    calToken = _ref11.calToken,
+    onConnectCal = _ref11.onConnectCal;
+  var _useState21 = useState(""),
+    _useState22 = _slicedToArray(_useState21, 2),
+    search = _useState22[0],
+    setSearch = _useState22[1];
+  var _useState23 = useState(false),
+    _useState24 = _slicedToArray(_useState23, 2),
+    showAdd = _useState24[0],
+    setShowAdd = _useState24[1];
+  var list = orders.filter(function (o) {
+    return o.year === year;
+  });
+  if (filter && !filter.startsWith("fin-")) list = list.filter(function (o) {
+    return o.processStatus === filter;
+  });
+  if (filter && filter.startsWith("fin-")) list = list.filter(function (o) {
+    return o.finStatus === filter.replace("fin-", "");
+  });
+  if (search.trim()) {
+    var q = search.toLowerCase();
+    list = list.filter(function (o) {
+      var _o$name, _o$city;
+      return ((_o$name = o.name) === null || _o$name === void 0 ? void 0 : _o$name.toLowerCase().includes(q)) || ((_o$city = o.city) === null || _o$city === void 0 ? void 0 : _o$city.toLowerCase().includes(q));
+    });
+  }
+  list = list.sort(function (a, b) {
+    return b.num - a.num;
+  });
+  var maxNum = Math.max.apply(Math, [0].concat(_toConsumableArray(orders.filter(function (o) {
+    return o.year === year;
+  }).map(function (o) {
+    return o.num;
+  }))));
+  var activeFilter = filter && !filter.startsWith("fin-") ? procById[filter] : filter !== null && filter !== void 0 && filter.startsWith("fin-") ? finById[filter.replace("fin-", "")] : null;
+  return /*#__PURE__*/React.createElement("div", {
+    id: "print-area",
+    style: {
+      padding: 18,
+      display: "flex",
+      flexDirection: "column",
+      gap: 12
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "no-print",
+    style: {
+      display: "flex",
+      gap: 8,
+      alignItems: "center"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      display: "flex",
+      alignItems: "center",
+      gap: 8,
+      background: C.surface,
+      border: "1px solid ".concat(C.border),
+      borderRadius: 8,
+      padding: "8px 12px"
+    }
+  }, /*#__PURE__*/React.createElement(Search, {
+    size: 13,
+    color: C.textLight
+  }), /*#__PURE__*/React.createElement("input", {
+    value: search,
+    onChange: function onChange(e) {
+      return setSearch(e.target.value);
+    },
+    placeholder: "Jm\xE9no nebo m\u011Bsto\u2026",
+    style: {
+      border: "none",
+      background: "transparent",
+      fontSize: 13,
+      color: C.text,
+      outline: "none",
+      flex: 1,
+      fontFamily: "inherit"
+    }
+  }), search && /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setSearch("");
+    },
+    style: {
+      border: "none",
+      background: "none",
+      cursor: "pointer",
+      color: C.textLight
+    }
+  }, /*#__PURE__*/React.createElement(X, {
+    size: 12
+  }))), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setShowAdd(true);
+    },
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 6,
+      background: C.green,
+      border: "none",
+      borderRadius: 8,
+      padding: "9px 14px",
+      color: "#fff",
+      fontSize: 13,
+      fontWeight: 700,
+      cursor: "pointer",
+      whiteSpace: "nowrap"
+    }
+  }, /*#__PURE__*/React.createElement(Plus, {
+    size: 14
+  }), "P\u0159idat")), activeFilter && /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 8
+    }
+  }, /*#__PURE__*/React.createElement(StatusChip, {
+    s: activeFilter
+  }), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return onFilter(null);
+    },
+    style: {
+      border: "none",
+      background: "none",
+      cursor: "pointer",
+      color: C.textLight,
+      display: "flex",
+      alignItems: "center"
+    }
+  }, /*#__PURE__*/React.createElement(X, {
+    size: 12
+  })), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 11,
+      color: C.textLight
+    }
+  }, list.length, " zak\xE1zek")), list.length === 0 ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: 40,
+      textAlign: "center",
+      color: C.textLight,
+      fontSize: 13,
+      background: C.surface,
+      border: "1px solid ".concat(C.border),
+      borderRadius: 10
+    }
+  }, orders.filter(function (o) {
+    return o.year === year;
+  }).length === 0 ? "Rok ".concat(year, " nem\xE1 \u017E\xE1dn\xE9 zak\xE1zky.") : "Žádné zakázky odpovídají filtru.") : /*#__PURE__*/React.createElement("div", null, list.map(function (o) {
+    return /*#__PURE__*/React.createElement(OrderRow, {
+      key: o.id,
+      order: o,
+      onUpdate: onUpdate,
+      calToken: calToken,
+      onConnectCal: onConnectCal
+    });
+  })), showAdd && /*#__PURE__*/React.createElement(AddModal, {
+    year: year,
+    maxNum: maxNum,
+    onAdd: onAdd,
+    onClose: function onClose() {
+      return setShowAdd(false);
+    },
+    calToken: calToken,
+    onConnectCal: onConnectCal
+  }));
+}
+
+// ─── STATISTICS ───────────────────────────────────────────────────────────────
+function Stats(_ref12) {
+  var orders = _ref12.orders,
+    year = _ref12.year;
+  var yo = orders.filter(function (o) {
+    return o.year === year;
+  });
+  var total = yo.length;
+  if (total === 0) return /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: 32,
+      textAlign: "center",
+      color: C.textLight,
+      fontSize: 13
+    }
+  }, "Rok ", year, " nem\xE1 \u017E\xE1dn\xE1 data.");
+  var real = yo.filter(function (o) {
+    return o.processStatus === "real";
+  }).length;
+  var cancelled = yo.filter(function (o) {
+    return o.processStatus === "cancelled" || o.processStatus === "cancelledR";
+  }).length;
+  var finished = real + cancelled;
+  var convRate = finished > 0 ? Math.round(real / finished * 100) : 0;
+  var totalDevices = yo.filter(function (o) {
+    return o.processStatus === "real";
+  }).reduce(function (s, o) {
+    return s + (o.deviceCount || 1);
+  }, 0);
+  var deviceRate = finished > 0 ? Math.round(totalDevices / finished * 100) : 0;
+  var monthly = {};
+  yo.forEach(function (o) {
+    if (!o.visitDate) return;
+    var m = new Date(o.visitDate + "T00:00:00").getMonth();
+    if (!monthly[m]) monthly[m] = {
+      total: 0,
+      real: 0
+    };
+    monthly[m].total++;
+    if (o.processStatus === "real") monthly[m].real++;
+  });
+  var mKeys = Object.keys(monthly).map(Number).sort(function (a, b) {
+    return a - b;
+  });
+  var maxM = Math.max.apply(Math, _toConsumableArray(mKeys.map(function (k) {
+    return monthly[k].total;
+  })).concat([1]));
+  var procData = PROC.map(function (s) {
+    return _objectSpread(_objectSpread({}, s), {}, {
+      count: yo.filter(function (o) {
+        return o.processStatus === s.id;
+      }).length
+    });
+  }).filter(function (s) {
+    return s.count > 0;
+  }).sort(function (a, b) {
+    return b.count - a.count;
+  });
+  var maxP = Math.max.apply(Math, _toConsumableArray(procData.map(function (s) {
+    return s.count;
+  })).concat([1]));
+  var card = function card(label, value, color, Icon) {
+    return /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1,
+        background: C.surface,
+        border: "1px solid ".concat(C.border),
+        borderRadius: 10,
+        padding: "12px 14px",
+        display: "flex",
+        alignItems: "center",
+        gap: 10
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 34,
+        height: 34,
+        borderRadius: 8,
+        background: "".concat(color, "22"),
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexShrink: 0
+      }
+    }, /*#__PURE__*/React.createElement(Icon, {
+      size: 16,
+      color: color,
+      strokeWidth: 2
+    })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 9,
+        color: C.textLight,
+        fontWeight: 700,
+        textTransform: "uppercase",
+        letterSpacing: ".5px"
+      }
+    }, label), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 22,
+        fontWeight: 800,
+        color: color,
+        lineHeight: 1.1
+      }
+    }, value)));
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    id: "print-area",
+    style: {
+      padding: 18,
+      display: "flex",
+      flexDirection: "column",
+      gap: 14
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      fontWeight: 800,
+      color: C.text
+    }
+  }, "Statistiky \xB7 ", year), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 8,
+      flexWrap: "wrap"
+    }
+  }, card("Celkem zakázek", total, C.brown, Target), card("Realizace", real, C.greenBright, CheckCircle2), card("Přístroje celkem", totalDevices, C.green, Wrench), card("Zrušeno", cancelled, C.danger, XCircle), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 8,
+      flex: "1 1 100%",
+      flexWrap: "wrap"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      background: C.surface,
+      border: "1px solid ".concat(C.border),
+      borderRadius: 10,
+      padding: "12px 14px",
+      display: "flex",
+      alignItems: "center",
+      gap: 10
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 34,
+      height: 34,
+      borderRadius: 8,
+      background: "".concat(C.greenBright, "22"),
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      flexShrink: 0
+    }
+  }, /*#__PURE__*/React.createElement(TrendingUp, {
+    size: 16,
+    color: C.greenBright,
+    strokeWidth: 2
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 8,
+      color: C.textLight,
+      fontWeight: 700,
+      textTransform: "uppercase",
+      letterSpacing: ".5px"
+    }
+  }, "\xDAsp\u011B\u0161nost / zak\xE1zky"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 22,
+      fontWeight: 800,
+      color: C.greenBright,
+      lineHeight: 1.1
+    }
+  }, convRate, " %"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      color: C.textLight
+    }
+  }, "z ", finished, " ukon\u010Den\xFDch"))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      background: C.surface,
+      border: "1px solid ".concat(C.border),
+      borderRadius: 10,
+      padding: "12px 14px",
+      display: "flex",
+      alignItems: "center",
+      gap: 10
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 34,
+      height: 34,
+      borderRadius: 8,
+      background: "".concat(C.green, "22"),
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      flexShrink: 0
+    }
+  }, /*#__PURE__*/React.createElement(TrendingUp, {
+    size: 16,
+    color: C.green,
+    strokeWidth: 2
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 8,
+      color: C.textLight,
+      fontWeight: 700,
+      textTransform: "uppercase",
+      letterSpacing: ".5px"
+    }
+  }, "\xDAsp\u011B\u0161nost / p\u0159\xEDstroje"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 22,
+      fontWeight: 800,
+      color: C.green,
+      lineHeight: 1.1
+    }
+  }, deviceRate, " %"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      color: C.textLight
+    }
+  }, totalDevices, " ks / ", finished, " zak\xE1zek"))))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.surface,
+      border: "1px solid ".concat(C.border),
+      borderRadius: 12,
+      padding: 16
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      fontWeight: 700,
+      color: C.textLight,
+      textTransform: "uppercase",
+      letterSpacing: ".6px",
+      marginBottom: 14
+    }
+  }, "Distribuce status\u016F"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: 8
+    }
+  }, procData.map(function (s) {
+    var Icon = s.icon;
+    var pct = Math.round(s.count / maxP * 100);
+    return /*#__PURE__*/React.createElement("div", {
+      key: s.id,
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 10
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 20,
+        height: 20,
+        borderRadius: 5,
+        background: "".concat(s.color, "28"),
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexShrink: 0
+      }
+    }, /*#__PURE__*/React.createElement(Icon, {
+      size: 11,
+      color: s.color,
+      strokeWidth: 2
+    })), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11,
+        color: C.textMid,
+        width: 130,
+        flexShrink: 0
+      }
+    }, s.label), /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1,
+        height: 18,
+        background: C.surfaceAlt,
+        borderRadius: 4,
+        overflow: "hidden"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: "".concat(pct, "%"),
+        height: "100%",
+        background: s.color,
+        borderRadius: 4,
+        opacity: .85
+      }
+    })), /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 28,
+        textAlign: "right",
+        fontSize: 12,
+        fontWeight: 700,
+        color: s.color,
+        flexShrink: 0
+      }
+    }, s.count), /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 36,
+        textAlign: "right",
+        fontSize: 10,
+        color: C.textLight,
+        flexShrink: 0
+      }
+    }, Math.round(s.count / total * 100), " %"));
+  }))), mKeys.length > 0 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.surface,
+      border: "1px solid ".concat(C.border),
+      borderRadius: 12,
+      padding: 16
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      fontWeight: 700,
+      color: C.textLight,
+      textTransform: "uppercase",
+      letterSpacing: ".6px",
+      marginBottom: 14
+    }
+  }, "M\u011Bs\xED\u010Dn\xED aktivita \xB7 ", year), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "flex-end",
+      gap: 6,
+      height: 100
+    }
+  }, mKeys.map(function (m) {
+    var d = monthly[m];
+    var hT = Math.round(d.total / maxM * 80) + 10;
+    var hR = Math.round(d.real / d.total * hT);
+    return /*#__PURE__*/React.createElement("div", {
+      key: m,
+      style: {
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: 4
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        fontWeight: 700,
+        color: C.textMid
+      }
+    }, d.total), /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: "100%",
+        height: hT,
+        borderRadius: "5px 5px 0 0",
+        background: C.greenBrightPale,
+        border: "1px solid ".concat(C.greenBright, "33"),
+        position: "relative",
+        overflow: "hidden"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        position: "absolute",
+        bottom: 0,
+        left: 0,
+        right: 0,
+        height: hR > 0 ? "".concat(Math.round(hR / hT * 100), "%") : "0",
+        background: C.greenBright,
+        opacity: .75
+      }
+    })), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 9,
+        color: C.textLight
+      }
+    }, MONTHS[m]));
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 12,
+      marginTop: 10
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 5,
+      fontSize: 10,
+      color: C.textLight
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 10,
+      height: 10,
+      borderRadius: 2,
+      background: C.greenBrightPale,
+      border: "1px solid ".concat(C.greenBright, "44")
+    }
+  }), "Celkem"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 5,
+      fontSize: 10,
+      color: C.textLight
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 10,
+      height: 10,
+      borderRadius: 2,
+      background: C.greenBright,
+      opacity: .75
+    }
+  }), "Realizace"))), [year - 1, year - 2].some(function (y) {
+    return orders.some(function (o) {
+      return o.year === y;
+    });
+  }) && /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.surface,
+      border: "1px solid ".concat(C.border),
+      borderRadius: 12,
+      padding: 16
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      fontWeight: 700,
+      color: C.textLight,
+      textTransform: "uppercase",
+      letterSpacing: ".6px",
+      marginBottom: 12
+    }
+  }, "Porovn\xE1n\xED rok\u016F"), [year - 2, year - 1, year].filter(function (y) {
+    return orders.some(function (o) {
+      return o.year === y;
+    });
+  }).map(function (y) {
+    var d = orders.filter(function (o) {
+      return o.year === y;
+    });
+    var r = d.filter(function (o) {
+      return o.processStatus === "real";
+    }).length;
+    var t = d.length;
+    var rate = t > 0 ? Math.round(r / t * 100) : 0;
+    return /*#__PURE__*/React.createElement("div", {
+      key: y,
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 10,
+        marginBottom: 8
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 36,
+        fontSize: 11,
+        fontWeight: 700,
+        color: C.text
+      }
+    }, y), /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1,
+        height: 20,
+        background: C.surfaceAlt,
+        borderRadius: 4,
+        overflow: "hidden"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: "".concat(rate, "%"),
+        height: "100%",
+        background: C.greenBright,
+        borderRadius: 4,
+        opacity: .8
+      }
+    })), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11,
+        fontWeight: 700,
+        color: C.greenBright,
+        width: 40,
+        textAlign: "right"
+      }
+    }, rate, " %"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        color: C.textLight,
+        width: 60
+      }
+    }, r, "/", t, " real."));
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.surface,
+      border: "1px solid ".concat(C.border),
+      borderRadius: 12,
+      padding: 16
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      fontWeight: 700,
+      color: C.textLight,
+      textTransform: "uppercase",
+      letterSpacing: ".6px",
+      marginBottom: 14
+    }
+  }, "Finan\u010Dn\xED stav \xB7 ", /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: C.orange
+    }
+  }, "v\u0161echny roky")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 10
+    }
+  }, FIN.slice(1).map(function (s) {
+    var Icon = s.icon;
+    var cnt = orders.filter(function (o) {
+      return o.finStatus === s.id;
+    }).reduce(function (sum, o) {
+      return sum + (o.deviceCount || 1);
+    }, 0);
+    return /*#__PURE__*/React.createElement("div", {
+      key: s.id,
+      style: {
+        flex: 1,
+        background: s.pale,
+        border: "1px solid ".concat(s.color, "33"),
+        borderRadius: 10,
+        padding: "12px",
+        textAlign: "center"
+      }
+    }, /*#__PURE__*/React.createElement(Icon, {
+      size: 18,
+      color: s.color,
+      strokeWidth: 1.8
+    }), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 20,
+        fontWeight: 800,
+        color: s.color,
+        margin: "4px 0 2px"
+      }
+    }, cnt), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 9,
+        color: s.color,
+        fontWeight: 600,
+        lineHeight: 1.3
+      }
+    }, s.label));
+  }))));
+}
+
+// ─── SETTINGS ────────────────────────────────────────────────────────────────
+function SettingsView(_ref13) {
+  var user = _ref13.user,
+    calToken = _ref13.calToken,
+    onConnectCal = _ref13.onConnectCal;
+  var items = [{
+    label: "Google přihlášení",
+    desc: "Aktivní – přihlášen přes Google",
+    ok: true
+  }, {
+    label: "Firebase Firestore",
+    desc: "Data synchronizována v reálném čase",
+    ok: true
+  }, {
+    label: "PDF export",
+    desc: "jsPDF – export do PDF aktivní",
+    ok: true
+  }, {
+    label: "Google Drive export",
+    desc: "Připraveno – vyžaduje Drive API scope",
+    ok: false
+  }];
+  var calConnected = !!calToken;
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: 18
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.surface,
+      border: "1px solid ".concat(C.border),
+      borderRadius: 12,
+      padding: 18,
+      marginBottom: 14
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      fontWeight: 700,
+      color: C.text,
+      marginBottom: 6
+    }
+  }, "P\u0159ihl\xE1\u0161en\xFD \xFA\u010Det"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 12
+    }
+  }, user.photoURL && /*#__PURE__*/React.createElement("img", {
+    src: user.photoURL,
+    style: {
+      width: 40,
+      height: 40,
+      borderRadius: "50%"
+    },
+    alt: ""
+  }), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      fontWeight: 600,
+      color: C.text
+    }
+  }, user.displayName), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: C.textLight
+    }
+  }, user.email)))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.surface,
+      border: "1px solid ".concat(C.border),
+      borderRadius: 12,
+      padding: 18
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      fontWeight: 700,
+      color: C.textLight,
+      textTransform: "uppercase",
+      letterSpacing: ".6px",
+      marginBottom: 14
+    }
+  }, "Stav funkc\xED"), items.map(function (item, i) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        padding: "12px 0",
+        borderBottom: i < items.length - 1 ? "1px solid ".concat(C.borderLight) : "none"
+      }
+    }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 13,
+        fontWeight: 600,
+        color: C.text
+      }
+    }, item.label), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11,
+        color: C.textLight
+      }
+    }, item.desc)), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        fontWeight: 700,
+        color: item.ok ? C.greenBright : C.amber,
+        background: item.ok ? C.greenBrightPale : C.amberPale,
+        border: "1px solid ".concat(item.ok ? C.greenBright : C.amber, "44"),
+        borderRadius: 20,
+        padding: "3px 10px"
+      }
+    }, item.ok ? "Aktivní" : "Připraveno"));
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.surface,
+      border: "1px solid ".concat(C.border),
+      borderRadius: 12,
+      padding: 18,
+      marginTop: 14
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      marginBottom: 14
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      fontWeight: 700,
+      color: C.text
+    }
+  }, "Google Kalend\xE1\u0159"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: C.textLight,
+      marginTop: 2
+    }
+  }, calConnected ? "Připojeno – tlačítko 📅 v každé zakázce" : "Nepřipojeno – klikni pro povolení přístupu")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      fontWeight: 700,
+      color: calConnected ? C.greenBright : C.amber,
+      background: calConnected ? C.greenBrightPale : C.amberPale,
+      border: "1px solid ".concat(calConnected ? C.greenBright : C.amber, "44"),
+      borderRadius: 20,
+      padding: "3px 10px"
+    }
+  }, calConnected ? "Aktivní" : "Nepřipojeno")), !calConnected && /*#__PURE__*/React.createElement("button", {
+    onClick: onConnectCal,
+    style: {
+      width: "100%",
+      padding: "11px",
+      borderRadius: 8,
+      border: "none",
+      background: C.green,
+      color: "#fff",
+      fontSize: 13,
+      fontWeight: 700,
+      cursor: "pointer",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: 8
+    }
+  }, /*#__PURE__*/React.createElement(CalendarPlus, {
+    size: 15,
+    color: "#fff",
+    strokeWidth: 2
+  }), "P\u0159ipojit Google Kalend\xE1\u0159"), calConnected && /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      color: C.textMid,
+      lineHeight: 1.6
+    }
+  }, "\u2713 Kliknut\xEDm na ikonu ", /*#__PURE__*/React.createElement(CalendarPlus, {
+    size: 11,
+    color: C.greenBright,
+    strokeWidth: 2
+  }), " v \u0159\xE1dku zak\xE1zky p\u0159id\xE1\u0161 term\xEDn do Google Kalend\xE1\u0159e", /*#__PURE__*/React.createElement("br", null), "\u2713 Automatick\xE9 p\u0159ipom\xEDnky: 1 den, 2 hodiny a 30 minut p\u0159ed term\xEDnem", /*#__PURE__*/React.createElement("br", null), "\u2713 Barva ud\xE1lost\xED: \u0161alv\u011Bjov\xE1 zelen\xE1")));
+}
+
+// ─── HEADER ──────────────────────────────────────────────────────────────────
+function Header(_ref14) {
+  var _user$displayName;
+  var year = _ref14.year,
+    onYear = _ref14.onYear,
+    onMenu = _ref14.onMenu,
+    user = _ref14.user,
+    orders = _ref14.orders;
+  var doPrint = function doPrint() {
+    return window.print();
+  };
+  var doPDF = function doPDF() {
+    return exportPDF(orders, year);
+  };
+  var doSync = function doSync() {
+    return alert("Data jsou synchronizována automaticky přes Firebase Firestore v reálném čase.");
+  };
+  var doSignOut = function doSignOut() {
+    return auth.signOut();
+  };
+  var hBtn = {
+    width: 30,
+    height: 30,
+    borderRadius: 6,
+    background: C.surfaceAlt,
+    border: "1px solid ".concat(C.border),
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    cursor: "pointer"
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    className: "no-print",
+    style: {
+      height: 52,
+      background: C.surface,
+      borderBottom: "1px solid ".concat(C.border),
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      padding: "0 14px",
+      gap: 12,
+      flexShrink: 0
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 10
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: onMenu,
+    style: hBtn
+  }, /*#__PURE__*/React.createElement(Menu, {
+    size: 14,
+    color: C.textMid
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 2,
+      background: C.surfaceAlt,
+      border: "1px solid ".concat(C.border),
+      borderRadius: 20,
+      padding: "2px 4px"
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return onYear(-1);
+    },
+    style: {
+      width: 22,
+      height: 22,
+      borderRadius: 11,
+      border: "none",
+      background: "transparent",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      cursor: "pointer",
+      color: C.textMid
+    }
+  }, /*#__PURE__*/React.createElement(ChevronLeft, {
+    size: 13
+  })), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontWeight: 800,
+      fontSize: 14,
+      color: C.text,
+      minWidth: 32,
+      textAlign: "center"
+    }
+  }, year), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return onYear(1);
+    },
+    style: {
+      width: 22,
+      height: 22,
+      borderRadius: 11,
+      border: "none",
+      background: "transparent",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      cursor: "pointer",
+      color: C.textMid
+    }
+  }, /*#__PURE__*/React.createElement(ChevronRight, {
+    size: 13
+  })))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 6
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    title: "Tisk",
+    style: hBtn,
+    onClick: doPrint
+  }, /*#__PURE__*/React.createElement(Printer, {
+    size: 13,
+    color: C.textMid
+  })), /*#__PURE__*/React.createElement("button", {
+    title: "St\xE1hnout PDF",
+    style: hBtn,
+    onClick: doPDF
+  }, /*#__PURE__*/React.createElement(FileDown, {
+    size: 13,
+    color: C.textMid
+  })), /*#__PURE__*/React.createElement("button", {
+    title: "Firestore sync \u2013 aktivn\xED",
+    style: hBtn,
+    onClick: doSync
+  }, /*#__PURE__*/React.createElement(Cloud, {
+    size: 13,
+    color: C.greenBright
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 6,
+      marginLeft: 4,
+      background: C.surfaceAlt,
+      border: "1px solid ".concat(C.border),
+      borderRadius: 20,
+      padding: "3px 4px 3px 4px",
+      cursor: "pointer"
+    },
+    onClick: doSignOut,
+    title: "Odhl\xE1sit se"
+  }, user.photoURL ? /*#__PURE__*/React.createElement("img", {
+    src: user.photoURL,
+    style: {
+      width: 22,
+      height: 22,
+      borderRadius: "50%"
+    },
+    alt: ""
+  }) : /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 22,
+      height: 22,
+      borderRadius: "50%",
+      background: C.green,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center"
+    }
+  }, /*#__PURE__*/React.createElement(User, {
+    size: 11,
+    color: "#fff"
+  })), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 12,
+      fontWeight: 600,
+      color: C.text,
+      paddingRight: 6
+    }
+  }, ((_user$displayName = user.displayName) === null || _user$displayName === void 0 ? void 0 : _user$displayName.split(" ")[0]) || "Uživatel"), /*#__PURE__*/React.createElement(LogOut, {
+    size: 12,
+    color: C.textLight
+  }))));
+}
+
+// ─── SIDEBAR ─────────────────────────────────────────────────────────────────
+var NAV = [{
+  id: "dashboard",
+  label: "Přehled",
+  icon: Home
+}, {
+  id: "orders",
+  label: "Zakázky",
+  icon: Package
+}, {
+  id: "stats",
+  label: "Statistiky",
+  icon: BarChart2
+}, {
+  id: "settings",
+  label: "Nastavení",
+  icon: Settings
+}];
+function Sidebar(_ref15) {
+  var active = _ref15.active,
+    onChange = _ref15.onChange,
+    open = _ref15.open;
+  return /*#__PURE__*/React.createElement("div", {
+    className: "no-print",
+    style: {
+      width: open ? 190 : 50,
+      flexShrink: 0,
+      background: C.surface,
+      borderRight: "1px solid ".concat(C.border),
+      display: "flex",
+      flexDirection: "column",
+      transition: "width .2s",
+      overflow: "hidden"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: open ? "13px 12px 9px" : "13px 10px 9px",
+      display: "flex",
+      alignItems: "center",
+      gap: 9
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 30,
+      height: 30,
+      borderRadius: 7,
+      background: C.green,
+      flexShrink: 0,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      fontSize: 10,
+      fontWeight: 800,
+      color: "#fff",
+      letterSpacing: "-0.5px"
+    }
+  }, "GO"), open && /*#__PURE__*/React.createElement("div", {
+    style: {
+      lineHeight: 1.15
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontWeight: 800,
+      fontSize: 13,
+      color: C.text,
+      whiteSpace: "nowrap"
+    }
+  }, "GOORN"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      color: C.textLight,
+      fontWeight: 500,
+      letterSpacing: ".3px"
+    }
+  }, "Souhrn"))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      height: 1,
+      background: C.borderLight,
+      margin: "0 8px 6px"
+    }
+  }), NAV.map(function (_ref16) {
+    var id = _ref16.id,
+      label = _ref16.label,
+      Icon = _ref16.icon;
+    return /*#__PURE__*/React.createElement("button", {
+      key: id,
+      onClick: function onClick() {
+        return onChange(id);
+      },
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 9,
+        padding: open ? "9px 12px" : "9px 10px",
+        background: active === id ? C.greenPale : "transparent",
+        border: "none",
+        borderLeft: "3px solid ".concat(active === id ? C.green : "transparent"),
+        color: active === id ? C.green : C.textMid,
+        cursor: "pointer",
+        fontSize: 12,
+        fontWeight: active === id ? 700 : 500,
+        transition: "all .12s",
+        width: "100%",
+        textAlign: "left"
+      }
+    }, /*#__PURE__*/React.createElement(Icon, {
+      size: 15,
+      strokeWidth: 1.8,
+      style: {
+        flexShrink: 0
+      }
+    }), open && /*#__PURE__*/React.createElement("span", {
+      style: {
+        whiteSpace: "nowrap"
+      }
+    }, label));
+  }), open && /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: "auto",
+      padding: "12px 12px 14px",
+      borderTop: "1px solid ".concat(C.borderLight),
+      fontSize: 9,
+      color: C.textLight,
+      lineHeight: 1.7,
+      textAlign: "center"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontWeight: 700,
+      color: C.brownMid,
+      fontSize: 10
+    }
+  }, "Pro GOORN"), /*#__PURE__*/React.createElement("div", null, "\xA9 \u2076\u2077\u303D\uFE0F 2026")));
+}
+
+// ─── LOGIN SCREEN ─────────────────────────────────────────────────────────────
+function LoginScreen(_ref17) {
+  var onLogin = _ref17.onLogin,
+    error = _ref17.error;
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      minHeight: "100vh",
+      background: C.bg,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: 24
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.surface,
+      borderRadius: 16,
+      padding: 40,
+      width: "100%",
+      maxWidth: 360,
+      boxShadow: "0 8px 32px rgba(0,0,0,0.12)",
+      textAlign: "center"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 52,
+      height: 52,
+      borderRadius: 12,
+      background: C.green,
+      margin: "0 auto 16px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      fontSize: 18,
+      fontWeight: 800,
+      color: "#fff",
+      letterSpacing: "-1px"
+    }
+  }, "GO"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontWeight: 800,
+      fontSize: 22,
+      color: C.text,
+      marginBottom: 4
+    }
+  }, "GOORN"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      color: C.textLight,
+      marginBottom: 28
+    }
+  }, "Prodejn\xED p\u0159ehled zak\xE1zek"), error && /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: C.dangerPale,
+      border: "1px solid ".concat(C.danger, "44"),
+      borderRadius: 8,
+      padding: "8px 12px",
+      fontSize: 12,
+      color: C.danger,
+      marginBottom: 16
+    }
+  }, error), /*#__PURE__*/React.createElement("button", {
+    onClick: onLogin,
+    style: {
+      width: "100%",
+      padding: "12px",
+      borderRadius: 10,
+      border: "none",
+      background: C.green,
+      color: "#fff",
+      fontSize: 14,
+      fontWeight: 700,
+      cursor: "pointer",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: 10,
+      marginBottom: 12,
+      boxShadow: "0 3px 12px ".concat(C.green, "44")
+    }
+  }, /*#__PURE__*/React.createElement("svg", {
+    width: "18",
+    height: "18",
+    viewBox: "0 0 18 18"
+  }, /*#__PURE__*/React.createElement("path", {
+    fill: "#fff",
+    d: "M9 3.48c1.69 0 2.83.73 3.48 1.34l2.54-2.48C13.46.89 11.43 0 9 0 5.48 0 2.44 2.02.96 4.96l2.91 2.26C4.6 5.05 6.62 3.48 9 3.48z"
+  }), /*#__PURE__*/React.createElement("path", {
+    fill: "#fff",
+    d: "M17.64 9.2c0-.74-.06-1.28-.19-1.84H9v3.34h4.96c-.1.83-.64 2.08-1.84 2.92l2.84 2.2c1.7-1.57 2.68-3.88 2.68-6.62z"
+  }), /*#__PURE__*/React.createElement("path", {
+    fill: "#fff",
+    d: "M3.88 10.78A5.54 5.54 0 0 1 3.58 9c0-.62.11-1.22.29-1.78L.96 4.96A9 9 0 0 0 0 9c0 1.45.35 2.82.96 4.04l2.92-2.26z"
+  }), /*#__PURE__*/React.createElement("path", {
+    fill: "#fff",
+    d: "M9 18c2.43 0 4.47-.8 5.96-2.18l-2.84-2.2c-.76.53-1.78.9-3.12.9-2.38 0-4.4-1.57-5.12-3.74L.96 13.04C2.44 15.98 5.48 18 9 18z"
+  })), "P\u0159ihl\xE1sit se p\u0159es Google"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: C.textLight,
+      lineHeight: 1.6
+    }
+  }, "Data jsou bezpe\u010Dn\u011B ulo\u017Eena ve Firebase Firestore", /*#__PURE__*/React.createElement("br", null), "Synchronizace v re\xE1ln\xE9m \u010Dase \xB7 Pro GOORN \xA9 \u2076\u2077\u303D\uFE0F")));
+}
+
+// ─── ROOT ─────────────────────────────────────────────────────────────────────
+function App() {
+  var _useState25 = useState(null),
+    _useState26 = _slicedToArray(_useState25, 2),
+    user = _useState26[0],
+    setUser = _useState26[1];
+  var _useState27 = useState(true),
+    _useState28 = _slicedToArray(_useState27, 2),
+    authLoading = _useState28[0],
+    setAuthLoading = _useState28[1];
+  var _useState29 = useState(null),
+    _useState30 = _slicedToArray(_useState29, 2),
+    authError = _useState30[0],
+    setAuthError = _useState30[1];
+  var _useState31 = useState(2026),
+    _useState32 = _slicedToArray(_useState31, 2),
+    year = _useState32[0],
+    setYear = _useState32[1];
+  var _useState33 = useState("dashboard"),
+    _useState34 = _slicedToArray(_useState33, 2),
+    view = _useState34[0],
+    setView = _useState34[1];
+  var _useState35 = useState(false),
+    _useState36 = _slicedToArray(_useState35, 2),
+    sidebar = _useState36[0],
+    setSidebar = _useState36[1];
+  var _useState37 = useState(null),
+    _useState38 = _slicedToArray(_useState37, 2),
+    filter = _useState38[0],
+    setFilter = _useState38[1];
+  var _useState39 = useState(function () {
+      return sessionStorage.getItem('goorn_cal_tok') || null;
+    }),
+    _useState40 = _slicedToArray(_useState39, 2),
+    calToken = _useState40[0],
+    setCalToken = _useState40[1];
+  useEffect(function () {
+    var unsub = auth.onAuthStateChanged(function (u) {
+      setUser(u);
+      setAuthLoading(false);
+    });
+    return unsub;
+  }, []);
+  var _useOrders = useOrders(user === null || user === void 0 ? void 0 : user.uid),
+    orders = _useOrders.orders,
+    ready = _useOrders.ready,
+    addOrder = _useOrders.addOrder,
+    updateOrder = _useOrders.updateOrder;
+  var signIn = function signIn() {
+    setAuthError(null);
+    var provider = new firebase.auth.GoogleAuthProvider();
+    auth.signInWithPopup(provider).catch(function (e) {
+      return setAuthError(e.message);
+    });
+  };
+  var connectCalendar = /*#__PURE__*/function () {
+    var _ref18 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee7() {
+      var provider, _result$credential, result, tok, _t3;
+      return _regenerator().w(function (_context7) {
+        while (1) switch (_context7.p = _context7.n) {
+          case 0:
+            provider = new firebase.auth.GoogleAuthProvider();
+            provider.addScope(CAL_SCOPE);
+            _context7.p = 1;
+            _context7.n = 2;
+            return auth.signInWithPopup(provider);
+          case 2:
+            result = _context7.v;
+            tok = (_result$credential = result.credential) === null || _result$credential === void 0 ? void 0 : _result$credential.accessToken;
+            if (tok) {
+              sessionStorage.setItem('goorn_cal_tok', tok);
+              setCalToken(tok);
+              // Save token expiry hint to Firestore for UX (not for security)
+              try {
+                db.collection('users').doc(user === null || user === void 0 ? void 0 : user.uid).set({
+                  calTokenAt: new Date().toISOString()
+                }, {
+                  merge: true
+                });
+              } catch (e) {}
+            }
+            _context7.n = 4;
+            break;
+          case 3:
+            _context7.p = 3;
+            _t3 = _context7.v;
+            alert('Nepodařilo se připojit Google Kalendář: ' + _t3.message);
+          case 4:
+            return _context7.a(2);
+        }
+      }, _callee7, null, [[1, 3]]);
+    }));
+    return function connectCalendar() {
+      return _ref18.apply(this, arguments);
+    };
+  }();
+  var handleFilter = function handleFilter(f) {
+    setFilter(f);
+    if (f !== null) setView("orders");
+  };
+  var handleNav = function handleNav(v) {
+    setView(v);
+    if (v !== "orders") setFilter(null);
+  };
+  var shared = {
+    orders: orders,
+    year: year,
+    filter: filter,
+    onFilter: handleFilter
+  };
+  if (authLoading) return /*#__PURE__*/React.createElement("div", {
+    style: {
+      minHeight: "100vh",
+      background: C.bg,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 14,
+      color: C.textLight
+    }
+  }, "Na\u010D\xEDt\xE1m\u2026"));
+  if (!user) return /*#__PURE__*/React.createElement(LoginScreen, {
+    onLogin: signIn,
+    error: authError
+  });
+  if (!ready) return /*#__PURE__*/React.createElement("div", {
+    style: {
+      minHeight: "100vh",
+      background: C.bg,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 14,
+      color: C.textLight
+    }
+  }, "Synchronizuji data\u2026"));
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+    className: "print-header"
+  }, "GOORN \xB7 Zak\xE1zky ", year), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: "inherit",
+      background: C.bg,
+      minHeight: "100vh",
+      display: "flex",
+      flexDirection: "column",
+      color: C.text
+    }
+  }, /*#__PURE__*/React.createElement(Header, {
+    year: year,
+    onYear: function onYear(d) {
+      return setYear(function (y) {
+        return y + d;
+      });
+    },
+    onMenu: function onMenu() {
+      return setSidebar(function (s) {
+        return !s;
+      });
+    },
+    user: user,
+    orders: orders
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flex: 1,
+      overflow: "hidden",
+      minHeight: "calc(100vh - 52px)"
+    }
+  }, /*#__PURE__*/React.createElement(Sidebar, {
+    active: view,
+    onChange: handleNav,
+    open: sidebar
+  }), /*#__PURE__*/React.createElement("main", {
+    style: {
+      flex: 1,
+      overflowY: "auto"
+    }
+  }, view === "dashboard" && /*#__PURE__*/React.createElement(Dashboard, shared), view === "orders" && /*#__PURE__*/React.createElement(OrdersView, _extends({}, shared, {
+    onUpdate: updateOrder,
+    onAdd: addOrder,
+    calToken: calToken,
+    onConnectCal: connectCalendar
+  })), view === "stats" && /*#__PURE__*/React.createElement(Stats, {
+    orders: orders,
+    year: year
+  }), view === "settings" && /*#__PURE__*/React.createElement(SettingsView, {
+    user: user,
+    calToken: calToken,
+    onConnectCal: connectCalendar
+  })))));
+}
+
+// Show app after React hydrates
+var rootEl = document.getElementById("root");
+rootEl.style.display = "block";
+document.getElementById("loading").style.display = "none";
+ReactDOM.createRoot(rootEl).render(/*#__PURE__*/React.createElement(App, null));
+})();
+</script>
+</body>
+</html>
