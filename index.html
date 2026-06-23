@@ -638,6 +638,7 @@ var CalendarOff = I([["path", {
   y2: "22"
 }]]);
 
+var AlertCircleRed = function(_ref) { var size = _ref.size === void 0 ? 16 : _ref.size; return React.createElement("svg", {xmlns:"http://www.w3.org/2000/svg",width:size,height:size,viewBox:"0 0 24 24"},React.createElement("circle",{cx:"12",cy:"12",r:"10",fill:"#DC2626"}),React.createElement("line",{x1:"12",y1:"8",x2:"12",y2:"13",stroke:"white",strokeWidth:"2",strokeLinecap:"round"}),React.createElement("circle",{cx:"12",cy:"17",r:"1",fill:"white"})); };
 // ─── STATUS CONFIG ────────────────────────────────────────────────────────────
 var PROC = [{
   id: "call",
@@ -695,10 +696,10 @@ var PROC = [{
   pale: C.brownPale
 }, {
   id: "other",
-  label: "Jiné",
-  icon: MoreHorizontal,
-  color: C.textLight,
-  pale: C.surfaceAlt
+  label: "Pozornost!",
+  icon: AlertCircleRed,
+  color: "#DC2626",
+  pale: "#FEE2E2"
 }];
 var REAL = [{
   id: null,
@@ -719,7 +720,7 @@ var REAL = [{
   color: C.danger,
   pale: C.dangerPale
 }];
-var DEVICE_COUNTS = [1, 2, 3, 4, 5];
+var DEVICE_COUNTS = [0, 1, 2, 3, 4, 5];
 var fmtKc = function fmtKc(n) {
   return n.toLocaleString('cs-CZ') + " Kč";
 };
@@ -2814,13 +2815,13 @@ function OrderRow(_ref5) {
   }, dateStr || "—"), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick(e) {
       e.stopPropagation();
-      var cur = order.deviceCount || 1;
-      var next = cur >= 5 ? 1 : cur + 1;
+      var cur = order.deviceCount != null ? order.deviceCount : 0;
+      var next = cur >= 5 ? 0 : cur + 1;
       onUpdate(_objectSpread(_objectSpread({}, order), {}, {
         deviceCount: next
       }));
     },
-    title: "Po\u010Det p\u0159\xEDstroj\u016F: ".concat(order.deviceCount || 1),
+    title: "Po\u010Det p\u0159\xEDstroj\u016F: ".concat(order.deviceCount || '—'),
     style: {
       width: 28,
       height: 28,
@@ -2836,7 +2837,7 @@ function OrderRow(_ref5) {
       fontWeight: 800,
       color: order.processStatus === "real" ? C.greenBright : C.textLight
     }
-  }, order.deviceCount || 1), /*#__PURE__*/React.createElement(CycleBtn, {
+  }, order.deviceCount || '—'), /*#__PURE__*/React.createElement(CycleBtn, {
     statuses: REAL,
     value: order.realStatus,
     onChange: function onChange(v) {
