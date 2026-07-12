@@ -3547,7 +3547,7 @@ function Dashboard(_ref1) {
   var totalDevices = yo.filter(function (o) {
     return o.processStatus === "real";
   }).reduce(function (s, o) {
-    return s + (o.deviceCount || 1);
+    return s + (o.deviceCount != null ? o.deviceCount : 1);
   }, 0);
   var rateByOrders = finished > 0 ? Math.round(real / finished * 100) : 0;
   var rateByDevices = finished > 0 ? Math.round(totalDevices / finished * 100) : 0;
@@ -3561,7 +3561,7 @@ function Dashboard(_ref1) {
     return [s.id, orders.filter(function (o) {
       return o.finStatus === s.id;
     }).reduce(function (sum, o) {
-      return sum + (o.deviceCount || 1);
+      return sum + (o.deviceCount != null ? o.deviceCount : 1);
     }, 0)];
   }));
   return /*#__PURE__*/React.createElement("div", {
@@ -3917,7 +3917,7 @@ function Stats(_ref12) {
   var totalDevices = yo.filter(function (o) {
     return o.processStatus === "real";
   }).reduce(function (s, o) {
-    return s + (o.deviceCount || 1);
+    return s + (o.deviceCount != null ? o.deviceCount : 1);
   }, 0);
   var deviceRate = finished > 0 ? Math.round(totalDevices / finished * 100) : 0;
   var monthly = {};
@@ -4417,7 +4417,7 @@ function Stats(_ref12) {
     var cnt = orders.filter(function (o) {
       return o.finStatus === s.id;
     }).reduce(function (sum, o) {
-      return sum + (o.deviceCount || 1);
+      return sum + (o.deviceCount != null ? o.deviceCount : 1);
     }, 0);
     return /*#__PURE__*/React.createElement("div", {
       key: s.id,
