@@ -2711,6 +2711,7 @@ function OrderRow(_ref5) {
     };
   }();
   var numLabel = order.num === 0 ? "XX" : order.num;
+  var isMobile = useIsMobile();
   var inp = {
     border: "1px solid ".concat(C.border),
     borderRadius: 6,
@@ -2758,7 +2759,8 @@ function OrderRow(_ref5) {
       gap: 6,
       padding: "8px 10px",
       cursor: "pointer",
-      userSelect: "none"
+      userSelect: "none",
+      flexWrap: isMobile ? "wrap" : "nowrap"
     }
   }, /*#__PURE__*/React.createElement("span", {
     style: {
@@ -2808,7 +2810,7 @@ function OrderRow(_ref5) {
       textOverflow: "ellipsis",
       whiteSpace: "nowrap"
     }
-  }, order.name || "—"), /*#__PURE__*/React.createElement("span", {
+  }, order.name || "—"), !isMobile && /*#__PURE__*/React.createElement("span", {
     style: {
       flex: 1.5,
       minWidth: 50,
@@ -2818,7 +2820,7 @@ function OrderRow(_ref5) {
       textOverflow: "ellipsis",
       whiteSpace: "nowrap"
     }
-  }, order.city || ""), /*#__PURE__*/React.createElement("span", {
+  }, order.city || ""), !isMobile && /*#__PURE__*/React.createElement("span", {
     style: {
       fontSize: 11,
       color: C.textLight,
@@ -2887,7 +2889,30 @@ function OrderRow(_ref5) {
       transform: open ? "rotate(180deg)" : "rotate(0)",
       flexShrink: 0
     }
-  })), open && /*#__PURE__*/React.createElement("div", {
+  }), isMobile && /*#__PURE__*/React.createElement("div", {
+    style: {
+      flexBasis: "100%",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      gap: 8,
+      paddingLeft: 34
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 11,
+      color: C.textMid,
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      whiteSpace: "nowrap"
+    }
+  }, order.city || ""), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 11,
+      color: C.textLight,
+      flexShrink: 0
+    }
+  }, dateStr || "—"))), open && /*#__PURE__*/React.createElement("div", {
     style: {
       borderTop: "1px solid ".concat(C.borderLight),
       padding: "12px 12px 14px",
@@ -2910,7 +2935,8 @@ function OrderRow(_ref5) {
   }, "Upravit z\xE1znam"), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
-      gap: 8
+      gap: 8,
+      flexDirection: isMobile ? "column" : "row"
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -2979,7 +3005,8 @@ function OrderRow(_ref5) {
   }, "\uD83E\uDDED")))), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
-      gap: 8
+      gap: 8,
+      flexDirection: isMobile ? "column" : "row"
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -4962,13 +4989,45 @@ var NAV = [{
   label: "Nastavení",
   icon: Settings
 }];
+function useIsMobile() {
+  var st = useState(window.innerWidth <= 640);
+  var isMobile = st[0],
+    setIsMobile = st[1];
+  useEffect(function () {
+    var mq = window.matchMedia("(max-width: 640px)");
+    var onChange = function onChange(e) {
+      setIsMobile(e.matches);
+    };
+    if (mq.addEventListener) mq.addEventListener("change", onChange);else mq.addListener(onChange);
+    setIsMobile(mq.matches);
+    return function () {
+      if (mq.removeEventListener) mq.removeEventListener("change", onChange);else mq.removeListener(onChange);
+    };
+  }, []);
+  return isMobile;
+}
 function Sidebar(_ref15) {
   var active = _ref15.active,
     onChange = _ref15.onChange,
     open = _ref15.open;
+  var isMobile = useIsMobile();
   return /*#__PURE__*/React.createElement("div", {
     className: "no-print",
-    style: {
+    style: isMobile ? {
+      width: open ? 190 : 0,
+      position: "fixed",
+      left: 0,
+      top: 52,
+      bottom: 0,
+      zIndex: 60,
+      background: C.surface,
+      borderRight: open ? "1px solid ".concat(C.border) : "none",
+      boxShadow: open ? "4px 0 18px rgba(0,0,0,0.18)" : "none",
+      display: "flex",
+      flexDirection: "column",
+      transition: "width .2s",
+      overflow: "hidden"
+    } : {
       width: open ? 190 : 50,
       flexShrink: 0,
       background: C.surface,
@@ -5286,6 +5345,7 @@ function App() {
   };
   var handleNav = function handleNav(v) {
     setView(v);
+    if (window.innerWidth <= 640) setSidebar(false);
     if (v !== "orders") setFilter(null);
   };
   var shared = {
