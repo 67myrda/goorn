@@ -2594,6 +2594,8 @@ function OrderRow(_ref5) {
     setDraft({
       name: order.name || "",
       city: order.city || "",
+      phone: order.phone || "",
+      email: order.email || "",
       visitDate: order.visitDate || "",
       visitTime: order.visitTime || ""
     });
@@ -2720,6 +2722,19 @@ function OrderRow(_ref5) {
     outline: "none",
     width: "100%",
     boxSizing: "border-box"
+  };
+  var actBtn = function actBtn(enabled) {
+    return {
+      padding: "0 10px",
+      borderRadius: 6,
+      border: "1px solid ".concat(C.border),
+      background: enabled ? C.greenPale : C.surfaceAlt,
+      fontSize: 15,
+      cursor: enabled ? "pointer" : "default",
+      opacity: enabled ? 1 : 0.45,
+      flexShrink: 0,
+      lineHeight: 1
+    };
   };
   return /*#__PURE__*/React.createElement("div", {
     className: "order-row",
@@ -2936,7 +2951,12 @@ function OrderRow(_ref5) {
       letterSpacing: ".5px",
       marginBottom: 3
     }
-  }, "M\u011Bsto / Adresa"), /*#__PURE__*/React.createElement("input", {
+  }, "M\u011Bsto / Adresa"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 6
+    }
+  }, /*#__PURE__*/React.createElement("input", {
     value: draft.city,
     onChange: function onChange(e) {
       return setDraft(function (d) {
@@ -2949,7 +2969,99 @@ function OrderRow(_ref5) {
     onClick: function onClick(e) {
       return e.stopPropagation();
     }
-  }))), /*#__PURE__*/React.createElement("div", {
+  }), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick(e) {
+      e.stopPropagation();
+      if ((draft.city || "").trim()) window.open("https://mapy.com/?q=" + encodeURIComponent(draft.city.trim()), "_blank");
+    },
+    title: "Otev\u0159\u00EDt v Mapy.com",
+    style: actBtn(!!(draft.city || "").trim())
+  }, "\uD83E\uDDED")))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 8
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      color: C.textLight,
+      fontWeight: 700,
+      textTransform: "uppercase",
+      letterSpacing: ".5px",
+      marginBottom: 3
+    }
+  }, "Telefon"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 6
+    }
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "tel",
+    value: draft.phone,
+    onChange: function onChange(e) {
+      return setDraft(function (d) {
+        return _objectSpread(_objectSpread({}, d), {}, {
+          phone: e.target.value
+        });
+      });
+    },
+    style: inp,
+    onClick: function onClick(e) {
+      return e.stopPropagation();
+    }
+  }), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick(e) {
+      e.stopPropagation();
+      var p = (draft.phone || "").replace(/\s+/g, "");
+      if (p) window.location.href = "tel:" + p;
+    },
+    title: "Vyto\u010Dit",
+    style: actBtn(!!(draft.phone || "").trim())
+  }, "\u260E\uFE0F"))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      color: C.textLight,
+      fontWeight: 700,
+      textTransform: "uppercase",
+      letterSpacing: ".5px",
+      marginBottom: 3
+    }
+  }, "E-mail"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 6
+    }
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "email",
+    value: draft.email,
+    onChange: function onChange(e) {
+      return setDraft(function (d) {
+        return _objectSpread(_objectSpread({}, d), {}, {
+          email: e.target.value
+        });
+      });
+    },
+    style: inp,
+    onClick: function onClick(e) {
+      return e.stopPropagation();
+    }
+  }), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick(e) {
+      e.stopPropagation();
+      var em = (draft.email || "").trim();
+      if (em) window.location.href = "mailto:" + em;
+    },
+    title: "Napsat e-mail",
+    style: actBtn(!!(draft.email || "").trim())
+  }, "\u2709\uFE0F")))), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       gap: 8
@@ -3273,7 +3385,7 @@ function AddModal(_ref9) {
               processStatus: f.processStatus,
               realStatus: null,
               finStatus: null,
-              deviceCount: 1,
+              deviceCount: 0,
               notes: f.notes,
               createdAt: new Date().toISOString()
             }; // Auto-sync to calendar if date set and token available
