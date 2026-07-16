@@ -2,7 +2,7 @@
 <html lang="cs">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>GOORN · Prodejní přehled</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
@@ -3376,6 +3376,8 @@ function AddModal(_ref9) {
   var _useState19 = useState({
       name: "",
       city: "",
+      phone: "",
+      email: "",
       visitDate: "",
       visitTime: "",
       processStatus: "call",
@@ -3407,6 +3409,8 @@ function AddModal(_ref9) {
               num: maxNum + 1,
               name: f.name.trim(),
               city: f.city.trim(),
+              phone: (f.phone || "").trim(),
+              email: (f.email || "").trim(),
               visitDate: f.visitDate,
               visitTime: f.visitTime,
               processStatus: f.processStatus,
@@ -3552,6 +3556,39 @@ function AddModal(_ref9) {
     placeholder: "Trutnov",
     style: inp
   })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 10
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: lbl
+  }, "Telefon"), /*#__PURE__*/React.createElement("input", {
+    type: "tel",
+    value: f.phone,
+    onChange: function onChange(e) {
+      return set("phone", e.target.value);
+    },
+    placeholder: "777 123 456",
+    style: inp
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: lbl
+  }, "E-mail"), /*#__PURE__*/React.createElement("input", {
+    type: "email",
+    value: f.email,
+    onChange: function onChange(e) {
+      return set("email", e.target.value);
+    },
+    placeholder: "jmeno@email.cz",
+    style: inp
+  }))), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       gap: 10
@@ -4785,6 +4822,7 @@ function Header(_ref14) {
     onMenu = _ref14.onMenu,
     user = _ref14.user,
     orders = _ref14.orders;
+  var isMobile = useIsMobile();
   var doPrint = function doPrint() {
     return window.print();
   };
@@ -4817,8 +4855,8 @@ function Header(_ref14) {
       display: "flex",
       alignItems: "center",
       justifyContent: "space-between",
-      padding: "0 14px",
-      gap: 12,
+      padding: isMobile ? "0 8px" : "0 14px",
+      gap: isMobile ? 6 : 12,
       flexShrink: 0
     }
   }, /*#__PURE__*/React.createElement("div", {
@@ -4838,7 +4876,7 @@ function Header(_ref14) {
     alt: "GOORN",
     className: "no-print",
     style: {
-      height: 30,
+      height: isMobile ? 24 : 30,
       width: "auto",
       flexShrink: 0
     }
@@ -4923,7 +4961,7 @@ function Header(_ref14) {
   }, /*#__PURE__*/React.createElement(Cloud, {
     size: 13,
     color: C.greenBright
-  })), /*#__PURE__*/React.createElement("div", {
+  })), !isMobile && /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       alignItems: "center",
@@ -4998,10 +5036,17 @@ function useIsMobile() {
     var onChange = function onChange(e) {
       setIsMobile(e.matches);
     };
+    var onResize = function onResize() {
+      setIsMobile(window.innerWidth <= 640);
+    };
     if (mq.addEventListener) mq.addEventListener("change", onChange);else mq.addListener(onChange);
+    window.addEventListener("resize", onResize);
+    window.addEventListener("orientationchange", onResize);
     setIsMobile(mq.matches);
     return function () {
       if (mq.removeEventListener) mq.removeEventListener("change", onChange);else mq.removeListener(onChange);
+      window.removeEventListener("resize", onResize);
+      window.removeEventListener("orientationchange", onResize);
     };
   }, []);
   return isMobile;
@@ -5009,7 +5054,8 @@ function useIsMobile() {
 function Sidebar(_ref15) {
   var active = _ref15.active,
     onChange = _ref15.onChange,
-    open = _ref15.open;
+    open = _ref15.open,
+    user = _ref15.user;
   var isMobile = useIsMobile();
   return /*#__PURE__*/React.createElement("div", {
     className: "no-print",
@@ -5119,9 +5165,63 @@ function Sidebar(_ref15) {
         whiteSpace: "nowrap"
       }
     }, label));
-  }), open && /*#__PURE__*/React.createElement("div", {
+  }), isMobile && open && user && /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: "auto",
+      borderTop: "1px solid ".concat(C.borderLight),
+      padding: "10px 12px",
+      display: "flex",
+      alignItems: "center",
+      gap: 8
+    }
+  }, user.photoURL ? /*#__PURE__*/React.createElement("img", {
+    src: user.photoURL,
+    style: {
+      width: 26,
+      height: 26,
+      borderRadius: "50%"
+    },
+    alt: ""
+  }) : /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 26,
+      height: 26,
+      borderRadius: "50%",
+      background: C.green,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      color: "#fff",
+      fontSize: 12,
+      fontWeight: 700
+    }
+  }, (user.displayName || "U").charAt(0)), /*#__PURE__*/React.createElement("span", {
+    style: {
+      flex: 1,
+      fontSize: 12,
+      fontWeight: 600,
+      color: C.text,
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      whiteSpace: "nowrap"
+    }
+  }, (user.displayName || "U\u017Eivatel").split(" ")[0]), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      auth.signOut();
+    },
+    title: "Odhl\xE1sit se",
+    style: {
+      border: "1px solid ".concat(C.border),
+      background: C.surfaceAlt,
+      borderRadius: 6,
+      padding: "4px 8px",
+      fontSize: 11,
+      cursor: "pointer",
+      color: C.textMid
+    }
+  }, "Odhl\xE1sit")), open && /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: isMobile ? 0 : "auto",
       padding: "12px 12px 14px",
       borderTop: "1px solid ".concat(C.borderLight),
       fontSize: 9,
@@ -5421,7 +5521,8 @@ function App() {
   }, /*#__PURE__*/React.createElement(Sidebar, {
     active: view,
     onChange: handleNav,
-    open: sidebar
+    open: sidebar,
+    user: user
   }), /*#__PURE__*/React.createElement("main", {
     style: {
       flex: 1,
