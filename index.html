@@ -793,10 +793,11 @@ var makeCalEvent = function makeCalEvent(order) {
   var proc = procById[order.processStatus] || PROC[0];
   var hasTime = !!order.visitTime;
   var obec = ((order.city || '').split(',')[0] || '').trim();
+  var surname = ((order.name || '').trim().split(/\s+/)[0]) || '';
   var tag = order.num != null && order.year != null ? "#".concat(order.num, "/").concat(String(order.year).slice(-2), " ") : "";
   var idLine = tag + "\uD83E\uDDF1 ".concat(order.name, " ").concat(order.city);
   return {
-    summary: "\uD83D\uDFE2 ".concat(order.name, " ").concat(obec).concat(hasTime ? " " + order.visitTime : ""),
+    summary: "\uD83D\uDFE2 ".concat(surname, " ").concat(obec).concat(hasTime ? " " + order.visitTime : ""),
     description: [idLine, proc.label, order.notes ? order.notes : ''].filter(Boolean).join(' • '),
     start: hasTime ? {
       dateTime: "".concat(order.visitDate, "T").concat(order.visitTime, ":00"),
@@ -2699,43 +2700,83 @@ function OrderRow(_ref5) {
   };
   var saveEdit = async function saveEdit() {
     var updated = _objectSpread(_objectSpread({}, order), draft);
+    var msgs = [];
+    var tokenExpired = false;
+
+    // --- Datum návštěvy + Čas → hlavní termín v Google Kalendáři ---
+    if (draft.visitDate) {
+      if (!calToken) {
+        msgs.push("termín bez kalendáře (nepřipojen)");
+      } else {
+        try {
+          var vres = order.calendarEventId ? await calApi.update(order.calendarEventId, updated, calToken) : await calApi.create(updated, calToken);
+          if (vres && vres.error === 'notfound') vres = await calApi.create(updated, calToken);
+          if (vres && vres.error === 'auth') {
+            tokenExpired = true;
+          } else if (vres && vres.id) {
+            updated.calendarEventId = vres.id;
+            msgs.push("termín uložen do kalendáře");
+          } else {
+            msgs.push("termín se do kalendáře neuložil");
+          }
+        } catch (err) {
+          console.error("Kalendářová událost pro Datum návštěvy selhala:", err);
+          msgs.push("termín se do kalendáře neuložil");
+        }
+      }
+    } else if (order.calendarEventId && calToken) {
+      try {
+        await calApi.del(order.calendarEventId, calToken);
+      } catch (err) {
+        console.error("Odstranění kalendářové události (termín) selhalo:", err);
+      }
+      updated.calendarEventId = null;
+    }
+
+    // --- Datum kontroly → připomínka fakturace 2. části ---
     if (draft.reviewDate) {
       if (!calToken) {
-        setCalMsg("Kalendář nepřipojen — Datum kontroly uloženo, ale bez připomínky (připoj v Nastavení)");
-        setTimeout(function () {
-          return setCalMsg('');
-        }, 5000);
+        msgs.push("kontrola bez připomínky (nepřipojen)");
       } else {
         try {
           var evBody = makeReviewCalEvent(updated);
           var res = order.reviewCalendarEventId ? await calUpdateEvent(order.reviewCalendarEventId, evBody, calToken) : await calCreateEvent(evBody, calToken);
           if (res && res.error === 'notfound') res = await calCreateEvent(evBody, calToken);
           if (res && res.error === 'auth') {
-            setCalMsg("Přístup ke kalendáři vypršel — připoj se znovu a ulož znovu");
-            if (onCalTokenInvalid) onCalTokenInvalid();
+            tokenExpired = true;
           } else if (res && res.id) {
             updated.reviewCalendarEventId = res.id;
-            setCalMsg("Připomínka kontroly uložena do kalendáře!");
+            msgs.push("připomínka kontroly uložena");
           } else {
-            setCalMsg("Nepodařilo se uložit připomínku kontroly");
+            msgs.push("připomínku kontroly se nepodařilo uložit");
           }
         } catch (err) {
           console.error("Kalendářová událost pro Datum kontroly selhala:", err);
-          setCalMsg("Nepodařilo se uložit připomínku kontroly");
+          msgs.push("připomínku kontroly se nepodařilo uložit");
         }
-        setTimeout(function () {
-          return setCalMsg('');
-        }, 4000);
       }
     } else if (order.reviewCalendarEventId) {
       if (calToken) {
         try {
           await calApi.del(order.reviewCalendarEventId, calToken);
         } catch (err) {
-          console.error("Odstranění kalendářové události selhalo:", err);
+          console.error("Odstranění kalendářové události (kontrola) selhalo:", err);
         }
       }
       updated.reviewCalendarEventId = null;
+    }
+
+    if (tokenExpired) {
+      setCalMsg("Přístup ke kalendáři vypršel — připoj se znovu a ulož znovu");
+      if (onCalTokenInvalid) onCalTokenInvalid();
+      setTimeout(function () {
+        return setCalMsg('');
+      }, 5000);
+    } else if (msgs.length) {
+      setCalMsg(msgs.join(' • '));
+      setTimeout(function () {
+        return setCalMsg('');
+      }, 5000);
     }
     onUpdate(updated);
     setEditMode(false);
@@ -5101,11 +5142,7 @@ function SettingsView(_ref13) {
       cursor: "pointer",
       whiteSpace: "nowrap"
     }
-  }, "Odpojit")), "\u2713 Kliknut\xEDm na ikonu ", /*#__PURE__*/React.createElement(CalendarPlus, {
-    size: 11,
-    color: C.greenBright,
-    strokeWidth: 2
-  }), " v \u0159\xE1dku zak\xE1zky p\u0159id\xE1\u0161 term\xEDn n\xE1v\u0161t\u011Bvy do Google Kalend\xE1\u0159e", /*#__PURE__*/React.createElement("br", null), "\u2713 Automatick\xE9 p\u0159ipom\xEDnky: 1 den, 2 hodiny a 30 minut p\u0159ed term\xEDnem", /*#__PURE__*/React.createElement("br", null), "\u2713 Barva ud\xE1lost\xED: \u0161alv\u011Bjov\xE1 zelen\xE1", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), "\uD83D\uDD14 Pole \u201EDatum kontroly\u201C v editaci zak\xE1zky funguje jinak \u2014 nem\xE1 vlastn\xED ikonu, p\u0159ipomenut\xED \u201E\uD83D\uDCB0 Fakturovat 2. \u010D\xE1st\u201C se do kalend\xE1\u0159e zap\xED\u0161e automaticky p\u0159i kliknut\xED na \u201EUlo\u017Eit zm\u011Bny\u201C (pokud je kalend\xE1\u0159 p\u0159ipojen). V\xFDsledek uvid\xED\u0161 jako hl\xE1\u0161ku pod pozn\xE1mkami zak\xE1zky.")));
+  }, "Odpojit")), "\u2713 Datum n\xE1v\u0161t\u011Bvy i Datum kontroly se do kalend\xE1\u0159e zapisuj\xED automaticky p\u0159i kliknut\xED na \u201EUlo\u017Eit zm\u011Bny\u201C v editaci zak\xE1zky (pokud je kalend\xE1\u0159 p\u0159ipojen) \u2014 \u017E\xE1dn\xE1 ikona nen\xED pot\u0159eba.", /*#__PURE__*/React.createElement("br", null), "\u2713 Nov\xE1 zak\xE1zka s vypln\u011Bn\xFDm Datem n\xE1v\u0161t\u011Bvy se do kalend\xE1\u0159e zap\xED\u0161e hned p\u0159i vytvo\u0159en\xED.", /*#__PURE__*/React.createElement("br", null), "\u2713 Automatick\xE9 p\u0159ipom\xEDnky: 1 den, 2 hodiny a 30 minut p\u0159ed term\xEDnem.", /*#__PURE__*/React.createElement("br", null), "\u2713 Barva ud\xE1lost\xED: Datum n\xE1v\u0161t\u011Bvy \u0161alv\u011Bjov\xE1 zelen\xE1, Datum kontroly oran\u017Eov\xE1.", /*#__PURE__*/React.createElement("br", null), "\u2713 V\xFDsledek ulo\u017Een\xED uvid\xED\u0161 jako hl\xE1\u0161ku pod pozn\xE1mkami zak\xE1zky.")));
 }
 
 // ─── HEADER ──────────────────────────────────────────────────────────────────
