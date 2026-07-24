@@ -792,9 +792,12 @@ var addHour = function addHour(t) {
 var makeCalEvent = function makeCalEvent(order) {
   var proc = procById[order.processStatus] || PROC[0];
   var hasTime = !!order.visitTime;
+  var obec = ((order.city || '').split(',')[0] || '').trim();
+  var tag = order.num != null && order.year != null ? "#".concat(order.num, "/").concat(String(order.year).slice(-2), " ") : "";
+  var idLine = tag + "\uD83E\uDDF1 ".concat(order.name, " ").concat(order.city);
   return {
-    summary: "\uD83D\uDFE2 ".concat(order.name, " ").concat(order.city),
-    description: ["\uD83E\uDDF1 \u2022 ".concat(proc.label), order.notes ? order.notes : ''].filter(Boolean).join(' • '),
+    summary: "\uD83D\uDFE2 ".concat(order.name, " ").concat(obec).concat(hasTime ? " " + order.visitTime : ""),
+    description: [idLine, proc.label, order.notes ? order.notes : ''].filter(Boolean).join(' • '),
     start: hasTime ? {
       dateTime: "".concat(order.visitDate, "T").concat(order.visitTime, ":00"),
       timeZone: 'Europe/Prague'
