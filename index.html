@@ -2685,20 +2685,42 @@ function OrderRow(_ref5) {
   };
   var saveEdit = async function saveEdit() {
     var updated = _objectSpread(_objectSpread({}, order), draft);
-    if (calToken) {
-      try {
-        if (draft.reviewDate) {
+    if (draft.reviewDate) {
+      if (!calToken) {
+        setCalMsg("Kalendář nepřipojen — Datum kontroly uloženo, ale bez připomínky (připoj v Nastavení)");
+        setTimeout(function () {
+          return setCalMsg('');
+        }, 5000);
+      } else {
+        try {
           var evBody = makeReviewCalEvent(updated);
           var res = order.reviewCalendarEventId ? await calUpdateEvent(order.reviewCalendarEventId, evBody, calToken) : await calCreateEvent(evBody, calToken);
           if (res && res.error === 'notfound') res = await calCreateEvent(evBody, calToken);
-          if (res && res.id) updated.reviewCalendarEventId = res.id;
-        } else if (!draft.reviewDate && order.reviewCalendarEventId) {
-          await calApi.del(order.reviewCalendarEventId, calToken);
-          updated.reviewCalendarEventId = null;
+          if (res && res.error === 'auth') {
+            setCalMsg("Přístup ke kalendáři vypršel — připoj se znovu a ulož znovu");
+          } else if (res && res.id) {
+            updated.reviewCalendarEventId = res.id;
+            setCalMsg("Připomínka kontroly uložena do kalendáře!");
+          } else {
+            setCalMsg("Nepodařilo se uložit připomínku kontroly");
+          }
+        } catch (err) {
+          console.error("Kalendářová událost pro Datum kontroly selhala:", err);
+          setCalMsg("Nepodařilo se uložit připomínku kontroly");
         }
-      } catch (err) {
-        console.error("Kalendářová událost pro Datum kontroly selhala:", err);
+        setTimeout(function () {
+          return setCalMsg('');
+        }, 4000);
       }
+    } else if (order.reviewCalendarEventId) {
+      if (calToken) {
+        try {
+          await calApi.del(order.reviewCalendarEventId, calToken);
+        } catch (err) {
+          console.error("Odstranění kalendářové události selhalo:", err);
+        }
+      }
+      updated.reviewCalendarEventId = null;
     }
     onUpdate(updated);
     setEditMode(false);
@@ -3313,7 +3335,14 @@ function OrderRow(_ref5) {
     onClick: function onClick(e) {
       return e.stopPropagation();
     }
-  }))), /*#__PURE__*/React.createElement("div", {
+  }), (draft.reviewDate || order.reviewCalendarEventId) && /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      marginTop: 3,
+      color: order.reviewCalendarEventId ? C.greenBright : C.orange,
+      fontWeight: 600
+    }
+  }, order.reviewCalendarEventId ? "\uD83D\uDD14 v kalend\xE1\u0159i" : draft.reviewDate ? "\u26A0\uFE0F ulo\u017E\xED se do kalend\xE1\u0159e a\u017E po klik. na Ulo\u017Eit zm\u011Bny" : null))), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       gap: 8,
@@ -5028,7 +5057,7 @@ function SettingsView(_ref13) {
     size: 11,
     color: C.greenBright,
     strokeWidth: 2
-  }), " v \u0159\xE1dku zak\xE1zky p\u0159id\xE1\u0161 term\xEDn do Google Kalend\xE1\u0159e", /*#__PURE__*/React.createElement("br", null), "\u2713 Automatick\xE9 p\u0159ipom\xEDnky: 1 den, 2 hodiny a 30 minut p\u0159ed term\xEDnem", /*#__PURE__*/React.createElement("br", null), "\u2713 Barva ud\xE1lost\xED: \u0161alv\u011Bjov\xE1 zelen\xE1")));
+  }), " v \u0159\xE1dku zak\xE1zky p\u0159id\xE1\u0161 term\xEDn n\xE1v\u0161t\u011Bvy do Google Kalend\xE1\u0159e", /*#__PURE__*/React.createElement("br", null), "\u2713 Automatick\xE9 p\u0159ipom\xEDnky: 1 den, 2 hodiny a 30 minut p\u0159ed term\xEDnem", /*#__PURE__*/React.createElement("br", null), "\u2713 Barva ud\xE1lost\xED: \u0161alv\u011Bjov\xE1 zelen\xE1", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), "\uD83D\uDD14 Pole \u201EDatum kontroly\u201C v editaci zak\xE1zky funguje jinak \u2014 nem\xE1 vlastn\xED ikonu, p\u0159ipomenut\xED \u201E\uD83D\uDCB0 Fakturovat 2. \u010D\xE1st\u201C se do kalend\xE1\u0159e zap\xED\u0161e automaticky p\u0159i kliknut\xED na \u201EUlo\u017Eit zm\u011Bny\u201C (pokud je kalend\xE1\u0159 p\u0159ipojen). V\xFDsledek uvid\xED\u0161 jako hl\xE1\u0161ku pod pozn\xE1mkami zak\xE1zky.")));
 }
 
 // ─── HEADER ──────────────────────────────────────────────────────────────────
