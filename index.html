@@ -771,6 +771,16 @@ var MONTHS = ["Led", "Úno", "Bře", "Dub", "Kvě", "Čvn", "Čvc", "Srp", "Zá�
 
 // ─── GOOGLE CALENDAR API ──────────────────────────────────────────────────────
 var CAL_SCOPE = 'https://www.googleapis.com/auth/calendar.events';
+var CAL_TOKEN_TTL_MS = 50 * 60 * 1000; // bezpečná rezerva, Google token žije ~60 min
+function loadStoredCalToken() {
+  var tok = sessionStorage.getItem('goorn_cal_tok');
+  var ts = Number(sessionStorage.getItem('goorn_cal_tok_ts') || 0);
+  if (tok && Date.now() - ts < CAL_TOKEN_TTL_MS) return tok;
+  sessionStorage.removeItem('goorn_cal_tok');
+  sessionStorage.removeItem('goorn_cal_tok_ts');
+  sessionStorage.removeItem('goorn_cal_tok_email');
+  return null;
+}
 var CAL_BASE = 'https://www.googleapis.com/calendar/v3/calendars/primary/events';
 var addHour = function addHour(t) {
   var _t$split$map = t.split(':').map(Number),
@@ -2604,6 +2614,7 @@ function OrderRow(_ref5) {
     onUpdate = _ref5.onUpdate,
     calToken = _ref5.calToken,
     onConnectCal = _ref5.onConnectCal,
+    onCalTokenInvalid = _ref5.onCalTokenInvalid,
     autoOpenId = _ref5.autoOpenId;
   var _useState7 = useState(false),
     _useState8 = _slicedToArray(_useState7, 2),
@@ -2698,6 +2709,7 @@ function OrderRow(_ref5) {
           if (res && res.error === 'notfound') res = await calCreateEvent(evBody, calToken);
           if (res && res.error === 'auth') {
             setCalMsg("Přístup ke kalendáři vypršel — připoj se znovu a ulož znovu");
+            if (onCalTokenInvalid) onCalTokenInvalid();
           } else if (res && res.id) {
             updated.reviewCalendarEventId = res.id;
             setCalMsg("Připomínka kontroly uložena do kalendáře!");
@@ -2768,6 +2780,7 @@ function OrderRow(_ref5) {
             res = _context4.v;
           case 8:
             if (res.error === 'auth') {
+              if (onCalTokenInvalid) onCalTokenInvalid();
               onConnectCal();
               setCalMsg('Znovu připojit Google Kalendář');
             } else if (res.id) {
@@ -4093,6 +4106,7 @@ function OrdersView(_ref11) {
     onAdd = _ref11.onAdd,
     calToken = _ref11.calToken,
     onConnectCal = _ref11.onConnectCal,
+    onCalTokenInvalid = _ref11.onCalTokenInvalid,
     openOrderId = _ref11.openOrderId;
   var _useState21 = useState(""),
     _useState22 = _slicedToArray(_useState21, 2),
@@ -4249,6 +4263,7 @@ function OrdersView(_ref11) {
       onUpdate: onUpdate,
       calToken: calToken,
       onConnectCal: onConnectCal,
+      onCalTokenInvalid: onCalTokenInvalid,
       autoOpenId: openOrderId
     });
   })), showAdd && /*#__PURE__*/React.createElement(AddModal, {
@@ -4878,7 +4893,9 @@ function Stats(_ref12) {
 function SettingsView(_ref13) {
   var user = _ref13.user,
     calToken = _ref13.calToken,
-    onConnectCal = _ref13.onConnectCal;
+    calTokenEmail = _ref13.calTokenEmail,
+    onConnectCal = _ref13.onConnectCal,
+    onCalTokenInvalid = _ref13.onCalTokenInvalid;
   var items = [{
     label: "Google přihlášení",
     desc: "Aktivní – přihlášen přes Google",
@@ -4897,6 +4914,7 @@ function SettingsView(_ref13) {
     ok: false
   }];
   var calConnected = !!calToken;
+  var calEmailMismatch = calConnected && calTokenEmail && user && calTokenEmail.toLowerCase() !== (user.email || '').toLowerCase();
   return /*#__PURE__*/React.createElement("div", {
     style: {
       padding: 18
@@ -5053,7 +5071,34 @@ function SettingsView(_ref13) {
       color: C.textMid,
       lineHeight: 1.6
     }
-  }, "\u2713 Kliknut\xEDm na ikonu ", /*#__PURE__*/React.createElement(CalendarPlus, {
+  }, calTokenEmail && /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12.5,
+      fontWeight: 700,
+      marginBottom: 8,
+      padding: "6px 10px",
+      borderRadius: 6,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      gap: 8,
+      color: calEmailMismatch ? "#B91C1C" : C.greenBright,
+      background: calEmailMismatch ? "#FEE2E2" : C.greenBrightPale
+    }
+  }, calEmailMismatch ? "\u26A0\uFE0F Kalend\xE1\u0159 je p\u0159ipojen k \u00FA\u010Dtu ".concat(calTokenEmail, ", ale v appce jsi p\u0159ihl\xE1\u0161en jako ").concat((user === null || user === void 0 ? void 0 : user.email) || "?", " \u2014 to je nejsp\xED\u0161 p\u0159\xED\u010Dina, pro\u010D nevid\xEDte ud\xE1losti tam, kde \u010Dek\xE1te.") : "\u2713 P\u0159ipojeno k \xFA\u010Dtu: ".concat(calTokenEmail), onCalTokenInvalid && /*#__PURE__*/React.createElement("button", {
+    onClick: onCalTokenInvalid,
+    style: {
+      fontSize: 10.5,
+      fontWeight: 700,
+      color: C.textMid,
+      background: "#fff",
+      border: "1px solid ".concat(C.border),
+      borderRadius: 5,
+      padding: "3px 8px",
+      cursor: "pointer",
+      whiteSpace: "nowrap"
+    }
+  }, "Odpojit")), "\u2713 Kliknut\xEDm na ikonu ", /*#__PURE__*/React.createElement(CalendarPlus, {
     size: 11,
     color: C.greenBright,
     strokeWidth: 2
@@ -5621,11 +5666,24 @@ function App() {
     filter = _useState38[0],
     setFilter = _useState38[1];
   var _useState39 = useState(function () {
-      return sessionStorage.getItem('goorn_cal_tok') || null;
+      return loadStoredCalToken();
     }),
     _useState40 = _slicedToArray(_useState39, 2),
     calToken = _useState40[0],
     setCalToken = _useState40[1];
+  var _useStateCalEmail = useState(function () {
+      return sessionStorage.getItem('goorn_cal_tok_email') || null;
+    }),
+    _useStateCalEmail2 = _slicedToArray(_useStateCalEmail, 2),
+    calTokenEmail = _useStateCalEmail2[0],
+    setCalTokenEmail = _useStateCalEmail2[1];
+  var invalidateCalToken = function invalidateCalToken() {
+    sessionStorage.removeItem('goorn_cal_tok');
+    sessionStorage.removeItem('goorn_cal_tok_ts');
+    sessionStorage.removeItem('goorn_cal_tok_email');
+    setCalToken(null);
+    setCalTokenEmail(null);
+  };
   var _useStateOpenOrder = useState(null),
     _useStateOpenOrder2 = _slicedToArray(_useStateOpenOrder, 2),
     openOrderId = _useStateOpenOrder2[0],
@@ -5684,7 +5742,10 @@ function App() {
             tok = (_result$credential = result.credential) === null || _result$credential === void 0 ? void 0 : _result$credential.accessToken;
             if (tok) {
               sessionStorage.setItem('goorn_cal_tok', tok);
+              sessionStorage.setItem('goorn_cal_tok_ts', String(Date.now()));
+              sessionStorage.setItem('goorn_cal_tok_email', (result.user && result.user.email) || '');
               setCalToken(tok);
+              setCalTokenEmail((result.user && result.user.email) || '');
               // Save token expiry hint to Firestore for UX (not for security)
               try {
                 db.collection('users').doc(user === null || user === void 0 ? void 0 : user.uid).set({
@@ -5803,14 +5864,17 @@ function App() {
     onUpdate: updateOrder,
     onAdd: addOrder,
     calToken: calToken,
-    onConnectCal: connectCalendar
+    onConnectCal: connectCalendar,
+    onCalTokenInvalid: invalidateCalToken
   })), view === "stats" && /*#__PURE__*/React.createElement(Stats, {
     orders: orders,
     year: year
   }), view === "settings" && /*#__PURE__*/React.createElement(SettingsView, {
     user: user,
     calToken: calToken,
-    onConnectCal: connectCalendar
+    calTokenEmail: calTokenEmail,
+    onConnectCal: connectCalendar,
+    onCalTokenInvalid: invalidateCalToken
   })))));
 }
 
