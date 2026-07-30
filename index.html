@@ -124,6 +124,8 @@ var C = {
   amberPale: "#F2EAD6",
   purple: "#7B5EA7",
   purplePale: "#EDE8F8",
+  slate: "#5B7A9D",
+  slatePale: "#DCE6EF",
   text: "#2A2218",
   textMid: "#685E52",
   textLight: "#9C9080"
@@ -638,6 +640,46 @@ var CalendarOff = I([["path", {
   y2: "22"
 }]]);
 
+var Undo2 = I([["path", {
+  key: 0,
+  d: "M9 14 4 9l5-5"
+}], ["path", {
+  key: 1,
+  d: "M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11"
+}]]);
+var Send = I([["path", {
+  key: 0,
+  d: "m22 2-7 20-4-9-9-4Z"
+}], ["path", {
+  key: 1,
+  d: "M22 2 11 13"
+}]]);
+var Eye = I([["path", {
+  key: 0,
+  d: "M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z"
+}], ["circle", {
+  key: 1,
+  cx: "12",
+  cy: "12",
+  r: "3"
+}]]);
+var EyeOff = I([["path", {
+  key: 0,
+  d: "M9.88 9.88a3 3 0 1 0 4.24 4.24"
+}], ["path", {
+  key: 1,
+  d: "M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 11 8 11 8a13.16 13.16 0 0 1-1.67 2.68"
+}], ["path", {
+  key: 2,
+  d: "M6.61 6.61A13.526 13.526 0 0 0 1 12s4 8 11 8a9.74 9.74 0 0 0 5.39-1.61"
+}], ["line", {
+  key: 3,
+  x1: "2",
+  y1: "2",
+  x2: "22",
+  y2: "22"
+}]]);
+
 var AlertCircleRed = function(_ref) { var size = _ref.size === void 0 ? 16 : _ref.size; return React.createElement("svg", {xmlns:"http://www.w3.org/2000/svg",width:size,height:size,viewBox:"0 0 24 24"},React.createElement("circle",{cx:"12",cy:"12",r:"10",fill:"#DC2626"}),React.createElement("line",{x1:"12",y1:"8",x2:"12",y2:"13",stroke:"white",strokeWidth:"2",strokeLinecap:"round"}),React.createElement("circle",{cx:"12",cy:"17",r:"1",fill:"white"})); };
 // ─── STATUS CONFIG ────────────────────────────────────────────────────────────
 var PROC = [{
@@ -671,17 +713,23 @@ var PROC = [{
   color: C.greenBright,
   pale: C.greenBrightPale
 }, {
-  id: "done",
-  label: "Ukončeno",
-  icon: UserX,
-  color: C.purple,
-  pale: C.purplePale
+  id: "withdrawn",
+  label: "Odstoupeno",
+  icon: Undo2,
+  color: C.slate,
+  pale: C.slatePale
 }, {
-  id: "cancelled",
+  id: "done",
   label: "Zrušeno",
   icon: XCircle,
   color: C.danger,
   pale: C.dangerPale
+}, {
+  id: "cancelled",
+  label: "Ukončeno",
+  icon: UserX,
+  color: C.purple,
+  pale: C.purplePale
 }, {
   id: "cancelledR",
   label: "Zrušená realizace",
@@ -724,6 +772,26 @@ var DEVICE_COUNTS = [0, 1, 2, 3, 4, 5];
 var fmtKc = function fmtKc(n) {
   return n.toLocaleString('cs-CZ') + " Kč";
 };
+var HIDE_FIN_KEY = 'goorn_hide_finance';
+function useHideFinance() {
+  var _useState0 = useState(function () {
+      try {
+        return localStorage.getItem(HIDE_FIN_KEY) === '1';
+      } catch (e) {
+        return false;
+      }
+    }),
+    _useState02 = _slicedToArray(_useState0, 2),
+    hide = _useState02[0],
+    setHideRaw = _useState02[1];
+  var setHide = function setHide(v) {
+    try {
+      localStorage.setItem(HIDE_FIN_KEY, v ? '1' : '0');
+    } catch (e) {}
+    setHideRaw(v);
+  };
+  return [hide, setHide];
+}
 var FIN = [{
   id: null,
   label: "—",
@@ -732,27 +800,46 @@ var FIN = [{
   pale: C.surfaceAlt,
   value: 0
 }, {
-  id: "comm1",
-  label: "1. část provize",
-  icon: Banknote,
+  id: "due1",
+  label: "Čeká na fakturaci 1. část",
+  icon: Send,
   color: C.orange,
   pale: C.orangePale,
   value: 3190
 }, {
-  id: "comm2",
-  label: "2. část provize",
-  icon: DollarSign,
-  color: C.brown,
-  pale: C.brownPale,
-  value: 2530
-}, {
-  id: "paid",
-  label: "Kompletně zaplaceno",
-  icon: BadgeCheck,
+  id: "paid1",
+  label: "1. část provize zaplacena",
+  icon: Banknote,
   color: C.green,
   pale: C.greenPale,
+  value: 3190
+}, {
+  id: "due2",
+  label: "Čeká na fakturaci 2. část",
+  icon: Send,
+  color: C.orange,
+  pale: C.orangePale,
+  value: 3190
+}, {
+  id: "paidAll",
+  label: "Kompletně zaplaceno",
+  icon: BadgeCheck,
+  color: C.greenBright,
+  pale: C.greenBrightPale,
   value: 5720
 }];
+// Kompatibilní mapování starých ID (comm1/comm2/paid) na nové 5stavové schéma —
+// stará data se nemusí migrovat, appka je při čtení sama převede.
+var LEGACY_FIN_MAP = {
+  comm1: "paid1",
+  comm2: "paidAll",
+  paid: "paidAll"
+};
+var finIdOf = function finIdOf(order) {
+  var v = order.finStatus;
+  if (v == null) return null;
+  return LEGACY_FIN_MAP[v] || v;
+};
 var procById = Object.fromEntries(PROC.map(function (s) {
   return [s.id, s];
 }));
@@ -2313,7 +2400,7 @@ function exportPDF(orders, year) {
   });
   var rows = yo.map(function (o) {
     var p = procById[o.processStatus] || PROC[0];
-    var f = finById[o.finStatus];
+    var f = finById[finIdOf(o)];
     var r = REAL.find(function (x) {
       return x.id === o.realStatus;
     });
@@ -2477,6 +2564,11 @@ function CycleBtn(_ref3) {
     _useState6 = _slicedToArray(_useState5, 2),
     tip = _useState6[0],
     setTip = _useState6[1];
+  var _useStateTipPos = useState(null),
+    _useStateTipPos2 = _slicedToArray(_useStateTipPos, 2),
+    tipPos = _useStateTipPos2[0],
+    setTipPos = _useStateTipPos2[1];
+  var btnRef = useRef(null);
   var idx = statuses.findIndex(function (s) {
     return s.id === value;
   });
@@ -2485,10 +2577,17 @@ function CycleBtn(_ref3) {
   var click = function click(e) {
     e.stopPropagation();
     onChange(statuses[(idx + 1) % statuses.length].id);
+    if (btnRef.current) {
+      var r = btnRef.current.getBoundingClientRect();
+      setTipPos({
+        top: r.top,
+        left: r.left + r.width / 2
+      });
+    }
     setTip(true);
     setTimeout(function () {
       return setTip(false);
-    }, 1400);
+    }, 1600);
   };
   return /*#__PURE__*/React.createElement("div", {
     style: {
@@ -2496,6 +2595,7 @@ function CycleBtn(_ref3) {
       flexShrink: 0
     }
   }, /*#__PURE__*/React.createElement("button", {
+    ref: btnRef,
     onClick: click,
     title: cur.label,
     style: {
@@ -2526,23 +2626,24 @@ function CycleBtn(_ref3) {
       fontSize: 9,
       fontWeight: 700
     }
-  }, "\u2014")), tip && /*#__PURE__*/React.createElement("div", {
+  }, "\u2014")), tip && tipPos && ReactDOM.createPortal(/*#__PURE__*/React.createElement("div", {
     style: {
-      position: "absolute",
-      bottom: "115%",
-      left: "50%",
-      transform: "translateX(-50%)",
+      position: "fixed",
+      top: tipPos.top - 8,
+      left: tipPos.left,
+      transform: "translate(-50%, -100%)",
       background: C.text,
       color: "#fff",
       borderRadius: 6,
-      padding: "3px 8px",
-      fontSize: 10,
+      padding: "4px 9px",
+      fontSize: 11,
       fontWeight: 600,
       whiteSpace: "nowrap",
-      zIndex: 500,
-      pointerEvents: "none"
+      zIndex: 9999,
+      pointerEvents: "none",
+      boxShadow: "0 4px 12px rgba(0,0,0,.28)"
     }
-  }, cur.label));
+  }, cur.label), document.body));
 }
 
 // ─── STATUS TILE ─────────────────────────────────────────────────────────────
@@ -2551,7 +2652,8 @@ function Tile(_ref4) {
     count = _ref4.count,
     active = _ref4.active,
     onClick = _ref4.onClick,
-    kc = _ref4.kc;
+    kc = _ref4.kc,
+    hideValue = _ref4.hideValue;
   var Icon = status.icon;
   return /*#__PURE__*/React.createElement("button", {
     onClick: onClick,
@@ -2609,7 +2711,7 @@ function Tile(_ref4) {
       marginTop: 1,
       letterSpacing: "-0.3px"
     }
-  }, fmtKc(kc)));
+  }, hideValue ? "•••" : fmtKc(kc)));
 }
 
 // ─── ORDER ROW ────────────────────────────────────────────────────────────────
@@ -3044,7 +3146,7 @@ function OrderRow(_ref5) {
     }
   }), /*#__PURE__*/React.createElement(CycleBtn, {
     statuses: FIN,
-    value: order.finStatus,
+    value: finIdOf(order),
     onChange: function onChange(v) {
       return onUpdate(_objectSpread(_objectSpread({}, order), {}, {
         finStatus: v
@@ -3959,6 +4061,10 @@ function Dashboard(_ref1) {
     year = _ref1.year,
     filter = _ref1.filter,
     onFilter = _ref1.onFilter;
+  var _useHideFinance = useHideFinance(),
+    _useHideFinance2 = _slicedToArray(_useHideFinance, 2),
+    hideFinance = _useHideFinance2[0],
+    setHideFinance = _useHideFinance2[1];
   var yo = orders.filter(function (o) {
     return o.year === year;
   });
@@ -3967,10 +4073,10 @@ function Dashboard(_ref1) {
     return o.processStatus === "real";
   }).length;
   var actv = yo.filter(function (o) {
-    return !["done", "cancelled", "cancelledR"].includes(o.processStatus);
+    return !["done", "cancelled", "cancelledR", "withdrawn"].includes(o.processStatus);
   }).length;
   var finished = yo.filter(function (o) {
-    return ["real", "cancelled", "cancelledR"].includes(o.processStatus);
+    return ["real", "cancelled", "cancelledR", "withdrawn"].includes(o.processStatus);
   }).length;
   var totalDevices = yo.filter(function (o) {
     return o.processStatus === "real";
@@ -3987,7 +4093,7 @@ function Dashboard(_ref1) {
   // Finance: počet přístrojů × hodnota provize
   var finDevices = Object.fromEntries(FIN.slice(1).map(function (s) {
     return [s.id, orders.filter(function (o) {
-      return o.finStatus === s.id;
+      return finIdOf(o) === s.id;
     }).reduce(function (sum, o) {
       return sum + (o.deviceCount != null ? o.deviceCount : 1);
     }, 0)];
@@ -4110,18 +4216,49 @@ function Dashboard(_ref1) {
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      marginBottom: 10
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
       fontSize: 9,
       fontWeight: 700,
       color: C.textLight,
       textTransform: "uppercase",
-      letterSpacing: ".6px",
-      marginBottom: 10
+      letterSpacing: ".6px"
     }
   }, "Finan\u010Dn\xED p\u0159ehled \xB7 ", /*#__PURE__*/React.createElement("span", {
     style: {
       color: C.orange
     }
-  }, "v\u0161echny roky")), /*#__PURE__*/React.createElement("div", {
+  }, "v\u0161echny roky")), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return setHideFinance(!hideFinance);
+    },
+    title: hideFinance ? "Zobrazit částky" : "Skrýt částky",
+    style: {
+      width: 26,
+      height: 26,
+      borderRadius: 6,
+      border: "1px solid ".concat(C.border),
+      background: hideFinance ? C.surfaceAlt : "transparent",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      cursor: "pointer",
+      flexShrink: 0
+    }
+  }, hideFinance ? /*#__PURE__*/React.createElement(EyeOff, {
+    size: 14,
+    color: C.textMid,
+    strokeWidth: 2
+  }) : /*#__PURE__*/React.createElement(Eye, {
+    size: 14,
+    color: C.textMid,
+    strokeWidth: 2
+  }))), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       gap: 5
@@ -4135,7 +4272,8 @@ function Dashboard(_ref1) {
       onClick: function onClick() {
         return onFilter(filter === "fin-".concat(s.id) ? null : "fin-".concat(s.id));
       },
-      kc: (finDevices[s.id] || 0) * s.value
+      kc: (finDevices[s.id] || 0) * s.value,
+      hideValue: hideFinance
     });
   }))));
 }
@@ -4167,7 +4305,7 @@ function OrdersView(_ref11) {
     return o.processStatus === filter;
   });
   if (filter && filter.startsWith("fin-")) list = list.filter(function (o) {
-    return o.finStatus === filter.replace("fin-", "");
+    return finIdOf(o) === filter.replace("fin-", "");
   });
   if (search.trim()) {
     var q = search.toLowerCase();
@@ -4326,6 +4464,9 @@ function OrdersView(_ref11) {
 function Stats(_ref12) {
   var orders = _ref12.orders,
     year = _ref12.year;
+  var _useHideFinanceS = useHideFinance(),
+    _useHideFinanceS2 = _slicedToArray(_useHideFinanceS, 2),
+    hideFinance = _useHideFinanceS2[0];
   var _useStateSummary = useState(false),
     _useStateSummary2 = _slicedToArray(_useStateSummary, 2),
     copiedSummary = _useStateSummary2[0],
@@ -4346,7 +4487,7 @@ function Stats(_ref12) {
     return o.processStatus === "real";
   }).length;
   var cancelled = yo.filter(function (o) {
-    return o.processStatus === "cancelled" || o.processStatus === "cancelledR";
+    return o.processStatus === "cancelled" || o.processStatus === "cancelledR" || o.processStatus === "withdrawn";
   }).length;
   var finished = real + cancelled;
   var convRate = finished > 0 ? Math.round(real / finished * 100) : 0;
@@ -4889,7 +5030,7 @@ function Stats(_ref12) {
   }, FIN.slice(1).map(function (s) {
     var Icon = s.icon;
     var cnt = orders.filter(function (o) {
-      return o.finStatus === s.id;
+      return finIdOf(o) === s.id;
     }).reduce(function (sum, o) {
       return sum + (o.deviceCount != null ? o.deviceCount : 1);
     }, 0);
@@ -4929,7 +5070,7 @@ function Stats(_ref12) {
         opacity: 0.75,
         marginTop: 2
       }
-    }, fmtKc(s.value)));
+    }, hideFinance ? "•••" : fmtKc(s.value)));
   }))));
 }
 
