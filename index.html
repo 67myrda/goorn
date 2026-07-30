@@ -817,8 +817,8 @@ var FIN = [{
   id: "due2",
   label: "Čeká na fakturaci 2. část",
   icon: Send,
-  color: C.orange,
-  pale: C.orangePale,
+  color: C.brown,
+  pale: C.brownPale,
   value: 3190
 }, {
   id: "paidAll",
@@ -4070,7 +4070,7 @@ function Dashboard(_ref1) {
   });
   var total = yo.length;
   var real = yo.filter(function (o) {
-    return o.processStatus === "real";
+    return o.processStatus === "real" || o.processStatus === "withdrawn";
   }).length;
   var actv = yo.filter(function (o) {
     return !["done", "cancelled", "cancelledR", "withdrawn"].includes(o.processStatus);
@@ -4079,7 +4079,7 @@ function Dashboard(_ref1) {
     return ["real", "cancelled", "cancelledR", "withdrawn"].includes(o.processStatus);
   }).length;
   var totalDevices = yo.filter(function (o) {
-    return o.processStatus === "real";
+    return o.processStatus === "real" || o.processStatus === "withdrawn";
   }).reduce(function (s, o) {
     return s + (o.deviceCount != null ? o.deviceCount : 1);
   }, 0);
@@ -4484,15 +4484,15 @@ function Stats(_ref12) {
     }
   }, "Rok ", year, " nem\xE1 \u017E\xE1dn\xE1 data.");
   var real = yo.filter(function (o) {
-    return o.processStatus === "real";
+    return o.processStatus === "real" || o.processStatus === "withdrawn";
   }).length;
   var cancelled = yo.filter(function (o) {
-    return o.processStatus === "cancelled" || o.processStatus === "cancelledR" || o.processStatus === "withdrawn";
+    return o.processStatus === "cancelled" || o.processStatus === "cancelledR";
   }).length;
   var finished = real + cancelled;
   var convRate = finished > 0 ? Math.round(real / finished * 100) : 0;
   var totalDevices = yo.filter(function (o) {
-    return o.processStatus === "real";
+    return o.processStatus === "real" || o.processStatus === "withdrawn";
   }).reduce(function (s, o) {
     return s + (o.deviceCount != null ? o.deviceCount : 1);
   }, 0);
