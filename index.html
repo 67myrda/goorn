@@ -940,6 +940,63 @@ var makeReviewCalEvent = function makeReviewCalEvent(order) {
     }
   };
 };
+var followupSummary = function followupSummary(order) {
+  var obec = ((order.city || '').split(',')[0] || '').trim();
+  var surname = (order.name || '').trim().split(/\s+/)[0] || '';
+  return "\uD83D\uDD04 ".concat(surname, " ").concat(obec);
+};
+var makeFollowup1CalEvent = function makeFollowup1CalEvent(order) {
+  return {
+    summary: followupSummary(order),
+    description: "Follow-up 1 (GOORN) \u2014 ".concat(order.name, " ").concat(order.city),
+    start: {
+      date: order.followup1Date
+    },
+    end: {
+      date: order.followup1Date
+    },
+    colorId: '8',
+    reminders: {
+      useDefault: false,
+      overrides: [{
+        method: 'popup',
+        minutes: 1440
+      }, {
+        method: 'popup',
+        minutes: 120
+      }, {
+        method: 'popup',
+        minutes: 30
+      }]
+    }
+  };
+};
+var makeFollowup2CalEvent = function makeFollowup2CalEvent(order) {
+  return {
+    summary: followupSummary(order),
+    description: "Follow-up 2 (GOORN) \u2014 ".concat(order.name, " ").concat(order.city),
+    start: {
+      date: order.followup2Date
+    },
+    end: {
+      date: order.followup2Date
+    },
+    colorId: '6',
+    reminders: {
+      useDefault: false,
+      overrides: [{
+        method: 'popup',
+        minutes: 1440
+      }, {
+        method: 'popup',
+        minutes: 120
+      }, {
+        method: 'popup',
+        minutes: 30
+      }]
+    }
+  };
+};
 async function calCreateEvent(eventBody, token) {
   var r = await fetch(CAL_BASE, {
     method: 'POST',
@@ -2602,8 +2659,8 @@ function CycleBtn(_ref3) {
       width: size,
       height: size,
       borderRadius: 6,
-      background: cur.pale,
-      border: "1.5px solid ".concat(cur.color, "55"),
+      background: fullBg ? (cur.id ? cur.color : C.surfaceAlt) : cur.pale,
+      border: fullBg ? (cur.id ? "1.5px solid ".concat(cur.color) : "1.5px solid ".concat(C.border)) : "1.5px solid ".concat(cur.color, "55"),
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
@@ -2618,7 +2675,7 @@ function CycleBtn(_ref3) {
     }
   }, Icon ? /*#__PURE__*/React.createElement(Icon, {
     size: size * .43,
-    color: cur.color,
+    color: fullBg && cur.id ? "#fff" : cur.color,
     strokeWidth: 2
   }) : /*#__PURE__*/React.createElement("span", {
     style: {
@@ -2794,8 +2851,10 @@ function OrderRow(_ref5) {
       email: order.email || "",
       visitDate: order.visitDate || "",
       visitTime: order.visitTime || "",
+      followup1Date: order.followup1Date || "",
       installDate: order.installDate || "",
-      reviewDate: order.reviewDate || ""
+      reviewDate: order.reviewDate || "",
+      followup2Date: order.followup2Date || ""
     });
     setEditMode(true);
     setOpen(true);
@@ -2866,6 +2925,72 @@ function OrderRow(_ref5) {
         }
       }
       updated.reviewCalendarEventId = null;
+    }
+
+    // --- Follow-up 1 → celodenní připomínka prvního domluveného volání ---
+    if (draft.followup1Date) {
+      if (!calToken) {
+        msgs.push("follow-up 1 bez kalendáře (nepřipojen)");
+      } else {
+        try {
+          var f1Body = makeFollowup1CalEvent(updated);
+          var f1res = order.followup1CalendarEventId ? await calUpdateEvent(order.followup1CalendarEventId, f1Body, calToken) : await calCreateEvent(f1Body, calToken);
+          if (f1res && f1res.error === 'notfound') f1res = await calCreateEvent(f1Body, calToken);
+          if (f1res && f1res.error === 'auth') {
+            tokenExpired = true;
+          } else if (f1res && f1res.id) {
+            updated.followup1CalendarEventId = f1res.id;
+            msgs.push("follow-up 1 uložen");
+          } else {
+            msgs.push("follow-up 1 se do kalendáře neuložil");
+          }
+        } catch (err) {
+          console.error("Kalendářová událost pro Follow-up 1 selhala:", err);
+          msgs.push("follow-up 1 se do kalendáře neuložil");
+        }
+      }
+    } else if (order.followup1CalendarEventId) {
+      if (calToken) {
+        try {
+          await calApi.del(order.followup1CalendarEventId, calToken);
+        } catch (err) {
+          console.error("Odstranění kalendářové události (follow-up 1) selhalo:", err);
+        }
+      }
+      updated.followup1CalendarEventId = null;
+    }
+
+    // --- Follow-up 2 → celodenní připomínka druhého domluveného volání ---
+    if (draft.followup2Date) {
+      if (!calToken) {
+        msgs.push("follow-up 2 bez kalendáře (nepřipojen)");
+      } else {
+        try {
+          var f2Body = makeFollowup2CalEvent(updated);
+          var f2res = order.followup2CalendarEventId ? await calUpdateEvent(order.followup2CalendarEventId, f2Body, calToken) : await calCreateEvent(f2Body, calToken);
+          if (f2res && f2res.error === 'notfound') f2res = await calCreateEvent(f2Body, calToken);
+          if (f2res && f2res.error === 'auth') {
+            tokenExpired = true;
+          } else if (f2res && f2res.id) {
+            updated.followup2CalendarEventId = f2res.id;
+            msgs.push("follow-up 2 uložen");
+          } else {
+            msgs.push("follow-up 2 se do kalendáře neuložil");
+          }
+        } catch (err) {
+          console.error("Kalendářová událost pro Follow-up 2 selhala:", err);
+          msgs.push("follow-up 2 se do kalendáře neuložil");
+        }
+      }
+    } else if (order.followup2CalendarEventId) {
+      if (calToken) {
+        try {
+          await calApi.del(order.followup2CalendarEventId, calToken);
+        } catch (err) {
+          console.error("Odstranění kalendářové události (follow-up 2) selhalo:", err);
+        }
+      }
+      updated.followup2CalendarEventId = null;
     }
 
     if (tokenExpired) {
@@ -3147,6 +3272,7 @@ function OrderRow(_ref5) {
   }), /*#__PURE__*/React.createElement(CycleBtn, {
     statuses: FIN,
     value: finIdOf(order),
+    fullBg: true,
     onChange: function onChange(v) {
       return onUpdate(_objectSpread(_objectSpread({}, order), {}, {
         finStatus: v
@@ -3437,8 +3563,39 @@ function OrderRow(_ref5) {
     }
   }))), /*#__PURE__*/React.createElement("div", {
     style: {
+      fontSize: 9,
+      color: C.textLight,
+      fontWeight: 700,
+      textTransform: "uppercase",
+      letterSpacing: ".5px",
+      marginBottom: 3
+    }
+  }, "Follow-up 1 \uD83D\uDD04"), /*#__PURE__*/React.createElement("input", {
+    type: "date",
+    value: draft.followup1Date || "",
+    onChange: function onChange(e) {
+      return setDraft(function (d) {
+        return _objectSpread(_objectSpread({}, d), {}, {
+          followup1Date: e.target.value
+        });
+      });
+    },
+    style: inp,
+    onClick: function onClick(e) {
+      return e.stopPropagation();
+    }
+  }), (draft.followup1Date || order.followup1CalendarEventId) && /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      marginTop: 3,
+      color: order.followup1CalendarEventId ? C.greenBright : C.brown,
+      fontWeight: 600
+    }
+  }, order.followup1CalendarEventId ? "\uD83D\uDD04 v kalend\xE1\u0159i" : draft.followup1Date ? "\u26A0\uFE0F ulo\u017E\xED se do kalend\xE1\u0159e a\u017E po klik. na Ulo\u017Eit zm\u011Bny" : null), /*#__PURE__*/React.createElement("div", {
+    style: {
       display: "flex",
-      gap: 8
+      gap: 8,
+      marginTop: 8
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -3502,6 +3659,37 @@ function OrderRow(_ref5) {
       fontWeight: 600
     }
   }, order.reviewCalendarEventId ? "\uD83D\uDD14 v kalend\xE1\u0159i" : draft.reviewDate ? "\u26A0\uFE0F ulo\u017E\xED se do kalend\xE1\u0159e a\u017E po klik. na Ulo\u017Eit zm\u011Bny" : null))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      color: C.textLight,
+      fontWeight: 700,
+      textTransform: "uppercase",
+      letterSpacing: ".5px",
+      marginBottom: 3,
+      marginTop: 8
+    }
+  }, "Follow-up 2 \uD83D\uDD04"), /*#__PURE__*/React.createElement("input", {
+    type: "date",
+    value: draft.followup2Date || "",
+    onChange: function onChange(e) {
+      return setDraft(function (d) {
+        return _objectSpread(_objectSpread({}, d), {}, {
+          followup2Date: e.target.value
+        });
+      });
+    },
+    style: inp,
+    onClick: function onClick(e) {
+      return e.stopPropagation();
+    }
+  }), (draft.followup2Date || order.followup2CalendarEventId) && /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      marginTop: 3,
+      color: order.followup2CalendarEventId ? C.greenBright : C.orange,
+      fontWeight: 600
+    }
+  }, order.followup2CalendarEventId ? "\uD83D\uDD04 v kalend\xE1\u0159i" : draft.followup2Date ? "\u26A0\uFE0F ulo\u017E\xED se do kalend\xE1\u0159e a\u017E po klik. na Ulo\u017Eit zm\u011Bny" : null), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       gap: 8,
