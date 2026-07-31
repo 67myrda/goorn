@@ -803,8 +803,9 @@ var FIN = [{
   id: "due1",
   label: "Čeká na fakturaci 1. část",
   icon: Send,
-  color: C.orange,
-  pale: C.orangePale,
+  color: C.brown,
+  pale: C.brownPale,
+  noFullBg: true,
   value: 3190
 }, {
   id: "paid1",
@@ -860,12 +861,12 @@ var MONTHS = ["Led", "Úno", "Bře", "Dub", "Kvě", "Čvn", "Čvc", "Srp", "Zá�
 var CAL_SCOPE = 'https://www.googleapis.com/auth/calendar.events';
 var CAL_TOKEN_TTL_MS = 50 * 60 * 1000; // bezpečná rezerva, Google token žije ~60 min
 function loadStoredCalToken() {
-  var tok = sessionStorage.getItem('goorn_cal_tok');
-  var ts = Number(sessionStorage.getItem('goorn_cal_tok_ts') || 0);
+  var tok = localStorage.getItem('goorn_cal_tok');
+  var ts = Number(localStorage.getItem('goorn_cal_tok_ts') || 0);
   if (tok && Date.now() - ts < CAL_TOKEN_TTL_MS) return tok;
-  sessionStorage.removeItem('goorn_cal_tok');
-  sessionStorage.removeItem('goorn_cal_tok_ts');
-  sessionStorage.removeItem('goorn_cal_tok_email');
+  localStorage.removeItem('goorn_cal_tok');
+  localStorage.removeItem('goorn_cal_tok_ts');
+  localStorage.removeItem('goorn_cal_tok_email');
   return null;
 }
 var CAL_BASE = 'https://www.googleapis.com/calendar/v3/calendars/primary/events';
@@ -955,7 +956,7 @@ var makeFollowup1CalEvent = function makeFollowup1CalEvent(order) {
     end: {
       date: order.followup1Date
     },
-    colorId: '8',
+    colorId: '5',
     reminders: {
       useDefault: false,
       overrides: [{
@@ -981,7 +982,7 @@ var makeFollowup2CalEvent = function makeFollowup2CalEvent(order) {
     end: {
       date: order.followup2Date
     },
-    colorId: '6',
+    colorId: '5',
     reminders: {
       useDefault: false,
       overrides: [{
@@ -2661,8 +2662,8 @@ function CycleBtn(_ref3) {
       width: size,
       height: size,
       borderRadius: 6,
-      background: fullBg ? (cur.id ? cur.color : C.surfaceAlt) : cur.pale,
-      border: fullBg ? (cur.id ? "1.5px solid ".concat(cur.color) : "1.5px solid ".concat(C.border)) : "1.5px solid ".concat(cur.color, "55"),
+      background: fullBg && !cur.noFullBg ? (cur.id ? cur.color : C.surfaceAlt) : cur.pale,
+      border: fullBg && !cur.noFullBg ? (cur.id ? "1.5px solid ".concat(cur.color) : "1.5px solid ".concat(C.border)) : "1.5px solid ".concat(cur.color, "55"),
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
@@ -2677,7 +2678,7 @@ function CycleBtn(_ref3) {
     }
   }, Icon ? /*#__PURE__*/React.createElement(Icon, {
     size: size * .43,
-    color: fullBg && cur.id ? "#fff" : cur.color,
+    color: fullBg && cur.id && !cur.noFullBg ? "#fff" : cur.color,
     strokeWidth: 2
   }) : /*#__PURE__*/React.createElement("span", {
     style: {
@@ -3565,6 +3566,16 @@ function OrderRow(_ref5) {
     }
   }))), /*#__PURE__*/React.createElement("div", {
     style: {
+      display: "flex",
+      gap: 8,
+      marginTop: 8
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
       fontSize: 9,
       color: C.textLight,
       fontWeight: 700,
@@ -3572,7 +3583,7 @@ function OrderRow(_ref5) {
       letterSpacing: ".5px",
       marginBottom: 3
     }
-  }, "Follow-up 1 \uD83D\uDD04"), /*#__PURE__*/React.createElement("input", {
+  }, "Follow-up 1"), /*#__PURE__*/React.createElement("input", {
     type: "date",
     value: draft.followup1Date || "",
     onChange: function onChange(e) {
@@ -3593,7 +3604,41 @@ function OrderRow(_ref5) {
       color: order.followup1CalendarEventId ? C.greenBright : C.brown,
       fontWeight: 600
     }
-  }, order.followup1CalendarEventId ? "\uD83D\uDD04 v kalend\xE1\u0159i" : draft.followup1Date ? "\u26A0\uFE0F ulo\u017E\xED se do kalend\xE1\u0159e a\u017E po klik. na Ulo\u017Eit zm\u011Bny" : null), /*#__PURE__*/React.createElement("div", {
+  }, order.followup1CalendarEventId ? "\uD83D\uDD04 v kalend\xE1\u0159i" : draft.followup1Date ? "\u26A0\uFE0F ulo\u017E\xED se do kalend\xE1\u0159e a\u017E po klik. na Ulo\u017Eit zm\u011Bny" : null)), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      color: C.textLight,
+      fontWeight: 700,
+      textTransform: "uppercase",
+      letterSpacing: ".5px",
+      marginBottom: 3
+    }
+  }, "Follow-up 2"), /*#__PURE__*/React.createElement("input", {
+    type: "date",
+    value: draft.followup2Date || "",
+    onChange: function onChange(e) {
+      return setDraft(function (d) {
+        return _objectSpread(_objectSpread({}, d), {}, {
+          followup2Date: e.target.value
+        });
+      });
+    },
+    style: inp,
+    onClick: function onClick(e) {
+      return e.stopPropagation();
+    }
+  }), (draft.followup2Date || order.followup2CalendarEventId) && /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      marginTop: 3,
+      color: order.followup2CalendarEventId ? C.greenBright : C.brown,
+      fontWeight: 600
+    }
+  }, order.followup2CalendarEventId ? "\uD83D\uDD04 v kalend\xE1\u0159i" : draft.followup2Date ? "\u26A0\uFE0F ulo\u017E\xED se do kalend\xE1\u0159e a\u017E po klik. na Ulo\u017Eit zm\u011Bny" : null))), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       gap: 8,
@@ -3661,37 +3706,6 @@ function OrderRow(_ref5) {
       fontWeight: 600
     }
   }, order.reviewCalendarEventId ? "\uD83D\uDD14 v kalend\xE1\u0159i" : draft.reviewDate ? "\u26A0\uFE0F ulo\u017E\xED se do kalend\xE1\u0159e a\u017E po klik. na Ulo\u017Eit zm\u011Bny" : null))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 9,
-      color: C.textLight,
-      fontWeight: 700,
-      textTransform: "uppercase",
-      letterSpacing: ".5px",
-      marginBottom: 3,
-      marginTop: 8
-    }
-  }, "Follow-up 2 \uD83D\uDD04"), /*#__PURE__*/React.createElement("input", {
-    type: "date",
-    value: draft.followup2Date || "",
-    onChange: function onChange(e) {
-      return setDraft(function (d) {
-        return _objectSpread(_objectSpread({}, d), {}, {
-          followup2Date: e.target.value
-        });
-      });
-    },
-    style: inp,
-    onClick: function onClick(e) {
-      return e.stopPropagation();
-    }
-  }), (draft.followup2Date || order.followup2CalendarEventId) && /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 9,
-      marginTop: 3,
-      color: order.followup2CalendarEventId ? C.greenBright : C.orange,
-      fontWeight: 600
-    }
-  }, order.followup2CalendarEventId ? "\uD83D\uDD04 v kalend\xE1\u0159i" : draft.followup2Date ? "\u26A0\uFE0F ulo\u017E\xED se do kalend\xE1\u0159e a\u017E po klik. na Ulo\u017Eit zm\u011Bny" : null), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       gap: 8,
@@ -5473,7 +5487,7 @@ function SettingsView(_ref13) {
       cursor: "pointer",
       whiteSpace: "nowrap"
     }
-  }, "Odpojit")), "\u2713 Datum n\xE1v\u0161t\u011Bvy i Datum kontroly se do kalend\xE1\u0159e zapisuj\xED automaticky p\u0159i kliknut\xED na \u201EUlo\u017Eit zm\u011Bny\u201C v editaci zak\xE1zky (pokud je kalend\xE1\u0159 p\u0159ipojen) \u2014 \u017E\xE1dn\xE1 ikona nen\xED pot\u0159eba.", /*#__PURE__*/React.createElement("br", null), "\u2713 Nov\xE1 zak\xE1zka s vypln\u011Bn\xFDm Datem n\xE1v\u0161t\u011Bvy se do kalend\xE1\u0159e zap\xED\u0161e hned p\u0159i vytvo\u0159en\xED.", /*#__PURE__*/React.createElement("br", null), "\u2713 Automatick\xE9 p\u0159ipom\xEDnky: 1 den, 2 hodiny a 30 minut p\u0159ed term\xEDnem.", /*#__PURE__*/React.createElement("br", null), "\u2713 Barva ud\xE1lost\xED: Datum n\xE1v\u0161t\u011Bvy \u0161alv\u011Bjov\xE1 zelen\xE1, Datum kontroly oran\u017Eov\xE1.", /*#__PURE__*/React.createElement("br", null), "\u2713 V\xFDsledek ulo\u017Een\xED uvid\xED\u0161 jako hl\xE1\u0161ku pod pozn\xE1mkami zak\xE1zky.")));
+  }, "Odpojit")), "\u2713 Datum n\xE1v\u0161t\u011Bvy, Datum kontroly a obě Follow-up p\u0159ipom\xEDnky se do kalend\xE1\u0159e zapisuj\xED automaticky p\u0159i kliknut\xED na \u201EUlo\u017Eit zm\u011Bny\u201C v editaci zak\xE1zky (pokud je kalend\xE1\u0159 p\u0159ipojen) \u2014 \u017E\xE1dn\xE1 ikona nen\xED pot\u0159eba.", /*#__PURE__*/React.createElement("br", null), "\u2713 Nov\xE1 zak\xE1zka s vypln\u011Bn\xFDm Datem n\xE1v\u0161t\u011Bvy se do kalend\xE1\u0159e zap\xED\u0161e hned p\u0159i vytvo\u0159en\xED.", /*#__PURE__*/React.createElement("br", null), "\u2713 Automatick\xE9 p\u0159ipom\xEDnky: 1 den, 2 hodiny a 30 minut p\u0159ed term\xEDnem.", /*#__PURE__*/React.createElement("br", null), "\u2713 Barva ud\xE1lost\xED: Datum n\xE1v\u0161t\u011Bvy \u0161alv\u011Bjov\xE1 zelen\xE1, Datum kontroly oran\u017Eov\xE1, Follow-up 1 a Follow-up 2 \u017Elut\xE1.", /*#__PURE__*/React.createElement("br", null), "\u2713 P\u0159ipojen\xED z\u016Fst\xE1v\xE1 ulo\u017Een\xE9 na tomto za\u0159\xEDzen\xED (ne jen po dobu otev\u0159en\xE9 z\xE1lo\u017Eky) \u2014 vy\u017Eaduje nov\xE9 p\u0159ipojen\xED jen po cca 50 minut\xE1ch nebo po odhl\xE1\u0161en\xED.", /*#__PURE__*/React.createElement("br", null), "\u2713 V\xFDsledek ulo\u017Een\xED uvid\xED\u0161 jako hl\xE1\u0161ku pod pozn\xE1mkami zak\xE1zky.")));
 }
 
 // ─── HEADER ──────────────────────────────────────────────────────────────────
@@ -6043,15 +6057,15 @@ function App() {
     calToken = _useState40[0],
     setCalToken = _useState40[1];
   var _useStateCalEmail = useState(function () {
-      return sessionStorage.getItem('goorn_cal_tok_email') || null;
+      return localStorage.getItem('goorn_cal_tok_email') || null;
     }),
     _useStateCalEmail2 = _slicedToArray(_useStateCalEmail, 2),
     calTokenEmail = _useStateCalEmail2[0],
     setCalTokenEmail = _useStateCalEmail2[1];
   var invalidateCalToken = function invalidateCalToken() {
-    sessionStorage.removeItem('goorn_cal_tok');
-    sessionStorage.removeItem('goorn_cal_tok_ts');
-    sessionStorage.removeItem('goorn_cal_tok_email');
+    localStorage.removeItem('goorn_cal_tok');
+    localStorage.removeItem('goorn_cal_tok_ts');
+    localStorage.removeItem('goorn_cal_tok_email');
     setCalToken(null);
     setCalTokenEmail(null);
   };
@@ -6112,9 +6126,9 @@ function App() {
             result = _context7.v;
             tok = (_result$credential = result.credential) === null || _result$credential === void 0 ? void 0 : _result$credential.accessToken;
             if (tok) {
-              sessionStorage.setItem('goorn_cal_tok', tok);
-              sessionStorage.setItem('goorn_cal_tok_ts', String(Date.now()));
-              sessionStorage.setItem('goorn_cal_tok_email', (result.user && result.user.email) || '');
+              localStorage.setItem('goorn_cal_tok', tok);
+              localStorage.setItem('goorn_cal_tok_ts', String(Date.now()));
+              localStorage.setItem('goorn_cal_tok_email', (result.user && result.user.email) || '');
               setCalToken(tok);
               setCalTokenEmail((result.user && result.user.email) || '');
               // Save token expiry hint to Firestore for UX (not for security)
