@@ -3814,17 +3814,30 @@ function OrderRow(_ref5) {
     },
     title: calToken ? "Kalendář připojen" : "Kalendář není připojen — klikni pro připojení",
     style: {
-      width: 10,
-      height: 10,
-      borderRadius: "50%",
+      display: "flex",
+      alignItems: "center",
+      gap: 4,
+      padding: "3px 8px",
+      borderRadius: 10,
       border: "none",
-      padding: 0,
       flexShrink: 0,
-      background: calToken ? C.green : C.danger,
+      background: calToken ? C.greenPale : C.dangerPale,
+      color: calToken ? C.green : C.danger,
+      fontSize: 10,
+      fontWeight: 700,
       cursor: calToken ? "default" : "pointer",
-      alignSelf: "center"
+      alignSelf: "center",
+      whiteSpace: "nowrap"
     }
-  }), /*#__PURE__*/React.createElement("button", {
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      width: 7,
+      height: 7,
+      borderRadius: "50%",
+      background: calToken ? C.green : C.danger,
+      flexShrink: 0
+    }
+  }), calToken ? "Kalendář připojen" : "Kalendář odpojen"), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick(e) {
       return startEdit(e);
     },
