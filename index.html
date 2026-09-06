@@ -5605,6 +5605,42 @@ function Header(_ref14) {
   var doSync = function doSync() {
     return alert("Data jsou synchronizována automaticky přes Firebase Firestore v reálném čase.");
   };
+  var doBackup = async function doBackup() {
+    try {
+      var uid = user && user.uid;
+      if (!uid) {
+        alert("Nejsi přihlášen.");
+        return;
+      }
+      var userDocSnap = await db.collection("users").doc(uid).get();
+      var userDoc = userDocSnap.exists ? userDocSnap.data() : null;
+      var payload = {
+        app: "goorn-zak",
+        exportedAt: new Date().toISOString(),
+        user: {
+          uid: uid,
+          email: user.email || null
+        },
+        userDoc: userDoc,
+        orders: orders
+      };
+      var json = JSON.stringify(payload, null, 2);
+      var blob = new Blob([json], {
+        type: "application/json"
+      });
+      var url = URL.createObjectURL(blob);
+      var dateStr = new Date().toISOString().slice(0, 10);
+      var a = document.createElement("a");
+      a.href = url;
+      a.download = "goorn-zak-zaloha-" + dateStr + ".json";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (e) {
+      alert("Záloha se nepodařila: " + e.message);
+    }
+  };
   var doSignOut = function doSignOut() {
     return auth.signOut();
   };
@@ -5734,6 +5770,13 @@ function Header(_ref14) {
   }, /*#__PURE__*/React.createElement(Cloud, {
     size: 13,
     color: C.greenBright
+  })), /*#__PURE__*/React.createElement("button", {
+    title: "Stáhnout zálohu (JSON)",
+    style: hBtn,
+    onClick: doBackup
+  }, /*#__PURE__*/React.createElement(Save, {
+    size: 13,
+    color: C.textMid
   })), !isMobile && /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
