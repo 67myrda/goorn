@@ -820,7 +820,7 @@ var FIN = [{
   icon: Send,
   color: C.brown,
   pale: C.brownPale,
-  value: 3190
+  value: 2530
 }, {
   id: "paidAll",
   label: "Kompletně zaplaceno",
@@ -856,6 +856,49 @@ var fmtDate = function fmtDate(d, t) {
   return "".concat(dt.getDate(), ".").concat(dt.getMonth() + 1, ".").concat(t ? " " + t : "");
 };
 var MONTHS = ["Led", "Úno", "Bře", "Dub", "Kvě", "Čvn", "Čvc", "Srp", "Zář", "Říj", "Lis", "Pro"];
+var DUE2_THRESHOLD_KEY = 'goorn_due2_threshold_months';
+function useDue2Threshold() {
+  var _useState0 = useState(function () {
+      try {
+        var v = parseInt(localStorage.getItem(DUE2_THRESHOLD_KEY), 10);
+        return isNaN(v) ? 10 : v;
+      } catch (e) {
+        return 10;
+      }
+    }),
+    _useState02 = _slicedToArray(_useState0, 2),
+    threshold = _useState02[0],
+    setThresholdRaw = _useState02[1];
+  var setThreshold = function setThreshold(v) {
+    try {
+      localStorage.setItem(DUE2_THRESHOLD_KEY, String(v));
+    } catch (e) {}
+    setThresholdRaw(v);
+  };
+  return [threshold, setThreshold];
+}
+function monthsSinceDate(dateStr) {
+  if (!dateStr) return null;
+  var d = new Date(dateStr + "T00:00:00");
+  if (isNaN(d.getTime())) return null;
+  var now = new Date();
+  var months = (now.getFullYear() - d.getFullYear()) * 12 + (now.getMonth() - d.getMonth());
+  if (now.getDate() < d.getDate()) months -= 1;
+  return months;
+}
+function isDue2Eligible(o, threshold) {
+  if (finIdOf(o) !== 'paid1') return false;
+  if (!o.installDate) return false;
+  var m = monthsSinceDate(o.installDate);
+  return m !== null && m >= threshold;
+}
+var DUE2_ELIGIBLE_STATUS = {
+  id: 'due2eligible',
+  label: "Nárok na 2. část",
+  icon: AlertTriangle,
+  color: C.amber,
+  pale: C.amberPale
+};
 
 // ─── GOOGLE CALENDAR API ──────────────────────────────────────────────────────
 var CAL_SCOPE = 'https://www.googleapis.com/auth/calendar.events';
@@ -4269,6 +4312,10 @@ function Dashboard(_ref1) {
     _useHideFinance2 = _slicedToArray(_useHideFinance, 2),
     hideFinance = _useHideFinance2[0],
     setHideFinance = _useHideFinance2[1];
+  var _useDue2Threshold = useDue2Threshold(),
+    _useDue2Threshold2 = _slicedToArray(_useDue2Threshold, 2),
+    due2Threshold = _useDue2Threshold2[0],
+    setDue2Threshold = _useDue2Threshold2[1];
   var yo = orders.filter(function (o) {
     return o.year === year;
   });
@@ -4302,6 +4349,9 @@ function Dashboard(_ref1) {
       return sum + (o.deviceCount != null ? o.deviceCount : 1);
     }, 0)];
   }));
+  var due2EligibleCount = orders.filter(function (o) {
+    return isDue2Eligible(o, due2Threshold);
+  }).length;
   return /*#__PURE__*/React.createElement("div", {
     style: {
       padding: 18,
@@ -4479,7 +4529,43 @@ function Dashboard(_ref1) {
       kc: (finDevices[s.id] || 0) * s.value,
       hideValue: hideFinance
     });
-  }))));
+  }), /*#__PURE__*/React.createElement(Tile, {
+    key: "due2eligible",
+    status: DUE2_ELIGIBLE_STATUS,
+    count: due2EligibleCount,
+    active: filter === "due2eligible",
+    onClick: function onClick() {
+      return onFilter(filter === "due2eligible" ? null : "due2eligible");
+    }
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 5,
+      marginTop: 6,
+      fontSize: 10,
+      color: C.textLight
+    }
+  }, "\u2265", /*#__PURE__*/React.createElement("input", {
+    type: "number",
+    min: 1,
+    max: 36,
+    value: due2Threshold,
+    onChange: function onChange(e) {
+      var v = parseInt(e.target.value, 10);
+      if (!isNaN(v) && v > 0) setDue2Threshold(v);
+    },
+    style: {
+      width: 36,
+      padding: "2px 4px",
+      border: "1px solid ".concat(C.border),
+      borderRadius: 5,
+      fontSize: 10,
+      textAlign: "center",
+      background: C.surface,
+      color: C.text
+    }
+  }), "m\u011bs\xEDc\u016f od instalace \u2192 n\xE1rok na 2. \u010d\xE1st"));
 }
 
 // ─── ORDERS VIEW ─────────────────────────────────────────────────────────────
@@ -4502,15 +4588,25 @@ function OrdersView(_ref11) {
     _useState24 = _slicedToArray(_useState23, 2),
     showAdd = _useState24[0],
     setShowAdd = _useState24[1];
-  var list = orders.filter(function (o) {
+  var _useDue2ThresholdOV = useDue2Threshold(),
+    _useDue2ThresholdOV2 = _slicedToArray(_useDue2ThresholdOV, 2),
+    due2Threshold = _useDue2ThresholdOV2[0];
+  var list = filter === "due2eligible" ? orders.slice() : orders.filter(function (o) {
     return o.year === year;
   });
-  if (filter && !filter.startsWith("fin-")) list = list.filter(function (o) {
-    return o.processStatus === filter;
-  });
-  if (filter && filter.startsWith("fin-")) list = list.filter(function (o) {
-    return finIdOf(o) === filter.replace("fin-", "");
-  });
+  if (filter === "due2eligible") {
+    list = list.filter(function (o) {
+      return isDue2Eligible(o, due2Threshold);
+    });
+  } else if (filter && !filter.startsWith("fin-")) {
+    list = list.filter(function (o) {
+      return o.processStatus === filter;
+    });
+  } else if (filter && filter.startsWith("fin-")) {
+    list = list.filter(function (o) {
+      return finIdOf(o) === filter.replace("fin-", "");
+    });
+  }
   if (search.trim()) {
     var q = search.toLowerCase();
     list = list.filter(function (o) {
@@ -4526,7 +4622,7 @@ function OrdersView(_ref11) {
   }).map(function (o) {
     return o.num;
   }))));
-  var activeFilter = filter && !filter.startsWith("fin-") ? procById[filter] : filter !== null && filter !== void 0 && filter.startsWith("fin-") ? finById[filter.replace("fin-", "")] : null;
+  var activeFilter = filter === "due2eligible" ? DUE2_ELIGIBLE_STATUS : filter && !filter.startsWith("fin-") ? procById[filter] : filter !== null && filter !== void 0 && filter.startsWith("fin-") ? finById[filter.replace("fin-", "")] : null;
   return /*#__PURE__*/React.createElement("div", {
     id: "print-area",
     style: {
