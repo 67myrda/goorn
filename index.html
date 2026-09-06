@@ -3809,6 +3809,23 @@ function OrderRow(_ref5) {
     s: procSt
   })), /*#__PURE__*/React.createElement("button", {
     onClick: function onClick(e) {
+      e.stopPropagation();
+      if (!calToken && onConnectCal) onConnectCal();
+    },
+    title: calToken ? "Kalendář připojen" : "Kalendář není připojen — klikni pro připojení",
+    style: {
+      width: 10,
+      height: 10,
+      borderRadius: "50%",
+      border: "none",
+      padding: 0,
+      flexShrink: 0,
+      background: calToken ? C.green : C.danger,
+      cursor: calToken ? "default" : "pointer",
+      alignSelf: "center"
+    }
+  }), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick(e) {
       return startEdit(e);
     },
     style: {
